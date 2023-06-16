@@ -95,7 +95,7 @@
 
         <repository>
             <id>carm-repo</id>
-            <url>https://repo.carm.cc/repository/maven-private/</url>
+            <url>https://repo.carm.cc/repository/maven-public/</url>
         </repository>
 
     </repositories>

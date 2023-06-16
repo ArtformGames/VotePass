@@ -16,5 +16,22 @@
     </properties>
     <artifactId>votepass-core</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>easysql-beecp</artifactId>
+            <version>${deps.easysql.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>easyplugin-main</artifactId>
+            <version>${deps.easyplugin.version}</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
