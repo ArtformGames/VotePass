@@ -1,1 +1,1 @@
-# VotePass~~~~
+# VotePass
