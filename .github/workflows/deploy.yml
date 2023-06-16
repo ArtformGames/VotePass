@@ -19,7 +19,7 @@ jobs:
       - name: "Set up JDK"
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: '18'
           distribution: 'adopt'
           cache: maven
           server-id: github
@@ -27,7 +27,7 @@ jobs:
           server-password: MAVEN_TOKEN
 
       - name: "Maven Deploy"
-        run: mvn -B -Pgithub deploy -DskipTests -Dmaven.javadoc.skip=true
+        run: mvn -B deploy -DskipTests -Dmaven.javadoc.skip=true
         env:
           MAVEN_USERNAME: ${{ github.repository_owner }}
           MAVEN_TOKEN: ${{secrets.GITHUB_TOKEN}}
