@@ -11,7 +11,7 @@ README LANGUAGES [ [**English**](README.md) | [中文](README.md)  ]
 ![CodeSize](https://img.shields.io/github/languages/code-size/ArtformGames/VotePass)
 [![Download](https://img.shields.io/github/downloads/ArtformGames/VotePass/total)](https://github.com/ArtformGames/VotePass/releases)
 [![Java CI with Maven](https://github.com/ArtformGames/VotePass/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/ArtformGames/VotePass/actions/workflows/maven.yml)
-![Support](https://img.shields.io/badge/Minecraft-Java%201.8--Latest-green)~~~~
+![Support](https://img.shields.io/badge/Minecraft-Java%201.8--Latest-green)
 
 # **VotePass** _(WIP)_
 
@@ -128,3 +128,12 @@ You can edit the storage path of the server configuration file in the plugin con
 ## Open Source Licence
 
 The source code of this project adopts the [GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0).
+
+## Supports
+
+This project is mainly developed by the [Artfrom Games](https://github.com/ArtformGames/) .
+
+
+Many thanks to Jetbrains for kindly providing a license for us to work on this and other open-source projects.  
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/ArtformGames/VotePass)
+
