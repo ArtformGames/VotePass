@@ -13,22 +13,72 @@
         <maven.compiler.target>${project.jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <artifactId>votepass-core</artifactId>
 
     <dependencies>
 
         <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>votepass-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>cc.carm.lib</groupId>
             <artifactId>easysql-beecp</artifactId>
             <version>${deps.easysql.version}</version>
+            <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>mineconfiguration-bukkit</artifactId>
+            <version>${deps.mineconfig.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>githubreleases4j</artifactId>
+            <version>1.3.2</version>
+            <scope>compile</scope>
+        </dependency>
 
         <dependency>
             <groupId>cc.carm.lib</groupId>
             <artifactId>easyplugin-main</artifactId>
             <version>${deps.easyplugin.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>easyplugin-command</artifactId>
+            <version>${deps.easyplugin.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>easyplugin-gui</artifactId>
+            <version>${deps.easyplugin.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xyz.upperlevel.spigot.book</groupId>
+            <artifactId>spigot-book-api</artifactId>
+            <version>${deps.book-api.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.themoep</groupId>
+            <artifactId>minedown</artifactId>
+            <version>1.7.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

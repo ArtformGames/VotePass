@@ -1,0 +1,32 @@
+main: com.artformgames.plugin.votepass.server.Main
+name: ${project.name}
+
+version: ${project.version}
+description: ${project.description}
+website: ${project.url}
+
+authors:
+  - CarmJos
+
+api-version: 1.16
+
+depend:
+  - ProtocolLib
+softdepend:
+  - PlaceholderAPI
+  - MineRedis
+  - LuckPerms
+
+
+permissions:
+  "VotePass.admin":
+    default: op
+    description: "The permission that allow user to handle requests directly."
+  "VotePass.abstain":
+    default: op
+    description: "The permission that allow user to toggle auto abstain."
+
+commands:
+  "VotePass":
+    usage: "/VotePass help"
+    description: "The main command of VotePass plugin."

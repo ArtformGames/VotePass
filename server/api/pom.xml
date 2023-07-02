@@ -17,5 +17,14 @@
     </properties>
     <artifactId>votepass-server-api</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>votepass-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

@@ -1,0 +1,39 @@
+# Target server id
+# !!! MUST BE SAME AS THE SERVER ID IN THE SERVER'S CONFIG.YML !!!
+id: survival
+
+# Server name
+name: "Lovely Survival Server"
+
+# Server Rule
+# Applicants must first agree to the server regulations
+# before they can answer the following questions.
+rules:
+  title: "Survival rules"
+  author: "Server Owner"
+  pages: # Pages, key as index used for sorting pages.
+    1:
+      - "&d&lServer Rule"
+      - "&7&l 1. Obey our rules!"
+      - "&f foobar foo bar"
+    2:
+      - "&7&l2. &d&lLovely rules"
+      - " "
+      - "&<#cc577b> ~LOVELY~ &<#cc28b9>"
+
+# Server question
+# After clicking the corresponding question, a book will give to user.
+# Then, user can open it to enter the application content.
+questions:
+  1: # Index of question, the smaller the front
+    title: "&fWhy this server?"  # The title of the question, will be displayed to voters too.
+    description: # The description of the question, will only be displayed to the applicant.
+      - "&7Say your reason!"
+  2:
+    title: "&cAre you lovely？"
+    description:
+      - "&fSay your reason!"
+  4:
+    name: "&eDo yo love cats？"
+    lore:
+      - "&fSay your reason!"

@@ -1,0 +1,27 @@
+main: com.artformgames.plugin.votepass.lobby.Main
+name: ${project.name}
+
+version: ${project.version}
+description: ${project.description}
+website: ${project.url}
+
+authors:
+  - CarmJos
+
+api-version: 1.16
+
+depend:
+  - ProtocolLib
+softdepend:
+  - PlaceholderAPI
+libraries:
+  - cc.carm.lib:easysql-beecp:${deps.easysql.version}
+
+
+permissions:
+  "VotePass.admin":
+    default: op
+
+commands:
+  "VotePass":
+    usage: "/VotePass help"
