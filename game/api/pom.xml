@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
     </properties>
-    <artifactId>votepass-server-api</artifactId>
+    <artifactId>votepass-game-api</artifactId>
 
     <dependencies>
 

@@ -17,16 +17,16 @@
 
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
-    <artifactId>votepass-server-plugin</artifactId>
+    <artifactId>votepass-game-plugin</artifactId>
     <packaging>jar</packaging>
 
-    <name>VotePass-Server</name>
+    <name>VotePass-Game</name>
 
     <dependencies>
 
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
-            <artifactId>votepass-server-api</artifactId>
+            <artifactId>votepass-game-api</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

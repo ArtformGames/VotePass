@@ -25,11 +25,11 @@
     <modules>
         <module>api</module>
         <module>lobby/api</module>
-        <module>server/api</module>
+        <module>game/api</module>
 
         <module>core</module>
         <module>lobby/plugin</module>
-        <module>server/plugin</module>
+        <module>game/plugin</module>
     </modules>
 
 
