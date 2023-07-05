@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.api.data.user;
 
-import com.artformgames.plugin.votepass.lobby.api.data.server.ServerApplication;
+import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,16 +10,16 @@ import java.util.TreeMap;
 
 public class PendingRequest {
 
-    protected final @NotNull ServerApplication application;
+    protected final @NotNull ServerSettings application;
 
     protected final @NotNull SortedMap<Integer, List<String>> answers = new TreeMap<>();
     @Nullable Integer editingQuestion;
 
-    public PendingRequest(@NotNull ServerApplication application) {
+    public PendingRequest(@NotNull ServerSettings application) {
         this.application = application;
     }
 
-    public @NotNull ServerApplication getApplication() {
+    public @NotNull ServerSettings getSettings() {
         return application;
     }
 

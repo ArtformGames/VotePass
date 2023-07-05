@@ -6,7 +6,6 @@ import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import org.bukkit.Material;
 
@@ -19,12 +18,6 @@ public class PluginConfig extends ConfigurationRoot {
         public static final ConfiguredValue<String> FOLDER_NAME = ConfiguredValue.of(String.class, "servers");
 
         public static final ConfiguredList<String> DISABLED = ConfiguredList.of(String.class);
-
-    }
-
-    public static final class SOUNDS extends ConfigurationRoot {
-
-        public static final ConfiguredSound FEEDBACK = ConfiguredSound.of("ENTITY_CHICKEN_EGG");
 
     }
 
@@ -47,6 +40,12 @@ public class PluginConfig extends ConfigurationRoot {
 
 
     public static final class ANSWERING extends ConfigurationRoot {
+
+        public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
+                .defaults("&a&lRequest &8| &f%(server)")
+                .params("server")
+                .build();
+
 
         public static final class BOOK_ITEM extends ConfigurationRoot {
 
@@ -77,6 +76,28 @@ public class PluginConfig extends ConfigurationRoot {
 
         public static final class ITEMS extends ConfigurationRoot {
 
+            public static final ConfiguredItem REQUIRED = ConfiguredItem.create()
+                    .defaultType(Material.WRITABLE_BOOK)
+                    .defaultName("&8Q: &f%(title)")
+                    .defaultLore(
+                            " ",
+                            "#description#",
+                            " ",
+                            "&e&l● &eClick and answer!"
+                    ).params("title", "description").build();
+
+            public static final ConfiguredItem FINISHED = ConfiguredItem.create()
+                    .defaultType(Material.WRITABLE_BOOK)
+                    .defaultName("&8Q: &f%(title)")
+                    .defaultLore(
+                            " ",
+                            "#description#",
+                            " ",
+                            "&a&l✔ &aAnswer finished.",
+                            "&7&oClick to edit your answer."
+                    ).params("title").build();
+
+
             public static final ConfiguredItem CONFIRM = ConfiguredItem.create()
                     .defaultType(Material.EMERALD)
                     .defaultName("&a&lConfirm and submit the request")
@@ -100,6 +121,28 @@ public class PluginConfig extends ConfigurationRoot {
 
         }
 
+
+    }
+
+    public static final class PAGE_ITEMS extends ConfigurationRoot {
+
+        public static final ConfiguredItem PREVIOUS_PAGE = ConfiguredItem.create()
+                .defaults(Material.ARROW, "&fPrevious page")
+                .defaultLore(
+                        " ",
+                        "&f  Left click to view the previous page.",
+                        "&f  Right click to view the first page.",
+                        " ")
+                .build();
+
+        public static final ConfiguredItem NEXT_PAGE = ConfiguredItem.create()
+                .defaults(Material.ARROW, "&fNext page")
+                .defaultLore(
+                        " ",
+                        "&f  Left click to view the next page.",
+                        "&f  Right click to view the last page.",
+                        " "
+                ).build();
 
     }
 

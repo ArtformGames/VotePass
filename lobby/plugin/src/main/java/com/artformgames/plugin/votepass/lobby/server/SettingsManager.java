@@ -3,10 +3,10 @@ package com.artformgames.plugin.votepass.lobby.server;
 import cc.carm.lib.easyplugin.utils.JarResourceUtils;
 import com.artformgames.plugin.votepass.core.utils.ConfigReadUtils;
 import com.artformgames.plugin.votepass.lobby.Main;
-import com.artformgames.plugin.votepass.lobby.api.data.server.ServerApplication;
+import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerQuestion;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerRules;
-import com.artformgames.plugin.votepass.lobby.api.server.LobbyServersManager;
+import com.artformgames.plugin.votepass.lobby.api.server.ServerSettingsManager;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,24 +19,23 @@ import org.jetbrains.annotations.Unmodifiable;
 import java.io.File;
 import java.util.*;
 
-public class ServersManager implements LobbyServersManager {
+public class SettingsManager implements ServerSettingsManager {
 
     private final JavaPlugin plugin;
 
     @Unmodifiable
-    private @NotNull Map<String, ServerApplication> servers = Map.of();
+    private @NotNull Map<String, ServerSettings> servers = Map.of();
 
-    public ServersManager(JavaPlugin plugin) {
+    public SettingsManager(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     @Unmodifiable
-    public Map<String, ServerApplication> getServers() {
+    public Map<String, ServerSettings> getServers() {
         return servers;
     }
 
-
-    public @Nullable ServerApplication getApplication(@NotNull String serverID) {
+    public @Nullable ServerSettings getSettings(@NotNull String serverID) {
         return servers.get(serverID);
     }
 
@@ -70,7 +69,7 @@ public class ServersManager implements LobbyServersManager {
     }
 
     @Override
-    public void reloadApplications() {
+    public void reloadSettings() {
         File dataFolder = getStorageFolder();
         if (!dataFolder.isDirectory() || !dataFolder.exists()) {
             try {
@@ -92,13 +91,13 @@ public class ServersManager implements LobbyServersManager {
         List<File> files = Arrays.stream(filesList).map(s -> new File(dataFolder, s)).filter(File::isFile).toList();
         if (files.isEmpty()) return;
 
-        HashMap<String, ServerApplication> dataConfigurations = new HashMap<>();
+        HashMap<String, ServerSettings> dataConfigurations = new HashMap<>();
 
         for (File file : files) {
             String fileName = file.getName();
             if (fileName.startsWith(".")) continue;
             try {
-                ServerApplication config = parseApplication(file);
+                ServerSettings config = parseApplication(file);
                 Main.debugging(" Loaded server [#" + config.id() + "] " + config.name() + " (" + fileName + ")");
                 dataConfigurations.put(config.id(), config);
             } catch (Exception ex) {
@@ -112,18 +111,18 @@ public class ServersManager implements LobbyServersManager {
 
     @Override
     @Unmodifiable
-    public @NotNull Set<ServerApplication> listApplications() {
+    public @NotNull Set<ServerSettings> list() {
         return Set.copyOf(getServers().values());
     }
 
-    public static @NotNull ServerApplication parseApplication(@NotNull File file) throws Exception {
+    public static @NotNull ServerSettings parseApplication(@NotNull File file) throws Exception {
         return parseApplication(YamlConfiguration.loadConfiguration(file));
     }
 
-    public static @NotNull ServerApplication parseApplication(@NotNull FileConfiguration config) throws Exception {
+    public static @NotNull ServerSettings parseApplication(@NotNull FileConfiguration config) throws Exception {
         String identifier = config.getString("id");
         if (identifier == null) throw new Exception("identifier not provided.");
-        return new ServerApplication(
+        return new ServerSettings(
                 identifier, config.getString("name", identifier),
                 parseRules(config.getConfigurationSection("rules")),
                 parseQuestions(config.getConfigurationSection("questions"))
@@ -146,7 +145,7 @@ public class ServersManager implements LobbyServersManager {
 
     public static @NotNull SortedMap<Integer, ServerQuestion> parseQuestions(@Nullable ConfigurationSection section) {
         if (section == null) return new TreeMap<>();
-        return ConfigReadUtils.readSortedSection(section, ServersManager::parseQuestion);
+        return ConfigReadUtils.readSortedSection(section, SettingsManager::parseQuestion);
     }
 
 

@@ -12,6 +12,10 @@ public record VoteContent(
         @Nullable String comment, @NotNull LocalDateTime time
 ) {
 
+    public boolean hasComments() {
+        return comment != null && !comment.isBlank();
+    }
+
     public boolean isApproved() {
         return decision == VoteDecision.APPROVE;
     }

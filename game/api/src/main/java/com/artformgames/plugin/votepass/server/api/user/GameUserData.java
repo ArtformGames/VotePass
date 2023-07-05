@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
 
-public interface ServerUserData extends UserData {
+public interface GameUserData extends UserData {
 
     @Nullable Integer getLinkedRequest();
 

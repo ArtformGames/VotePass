@@ -3,6 +3,7 @@ package com.artformgames.plugin.votepass.core;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
+import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
 import com.artformgames.plugin.votepass.core.utils.GHUpdateChecker;
 import org.bstats.bukkit.Metrics;
 
@@ -11,6 +12,8 @@ public abstract class VotePassPlugin extends EasyPlugin {
     protected VotePassPlugin() {
         super(EasyPluginMessageProvider.EN_US);
     }
+
+    public abstract AbstractUserManager<?> getUserManager();
 
     public void loadMetrics() {
         if (CommonConfig.METRICS.getNotNull()) {

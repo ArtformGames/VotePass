@@ -1,20 +1,20 @@
 package com.artformgames.plugin.votepass.lobby.api.server;
 
-import com.artformgames.plugin.votepass.lobby.api.data.server.ServerApplication;
+import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Set;
 
-public interface LobbyServersManager {
+public interface ServerSettingsManager {
 
-    void reloadApplications();
+    void reloadSettings();
 
     @Unmodifiable
-    @NotNull Set<ServerApplication> listApplications();
+    @NotNull Set<ServerSettings> list();
 
-    @Nullable ServerApplication getApplication(@NotNull String serverID);
+    @Nullable ServerSettings getSettings(@NotNull String serverID);
 
     boolean isDisabled(@NotNull String serverID);
 

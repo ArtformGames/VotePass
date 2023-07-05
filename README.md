@@ -6,7 +6,7 @@
 |___/\____/\__/\___/_/    \__,_/____/____/      
 ```
 
-README LANGUAGES [ [**English**](README.md) | [中文](README.md)  ]
+README LANGUAGES [ [**English**](README.md) | [中文](README_CN.md)  ]
 
 ![CodeSize](https://img.shields.io/github/languages/code-size/ArtformGames/VotePass)
 [![Download](https://img.shields.io/github/downloads/ArtformGames/VotePass/total)](https://github.com/ArtformGames/VotePass/releases)

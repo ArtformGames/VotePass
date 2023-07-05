@@ -14,8 +14,6 @@ depend:
   - ProtocolLib
 softdepend:
   - PlaceholderAPI
-libraries:
-  - cc.carm.lib:easysql-beecp:${deps.easysql.version}
 
 
 permissions:

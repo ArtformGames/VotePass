@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public interface ServerUserManager extends UserDataManager<ServerUserData> {
+public interface GameUsersManager extends UserDataManager<GameUserData> {
 
     /**
      * Import users and operators to database from other sources like 'whitelist.json'.

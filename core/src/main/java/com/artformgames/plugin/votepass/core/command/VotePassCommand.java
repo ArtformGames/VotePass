@@ -14,6 +14,10 @@ public abstract class VotePassCommand extends CommandHandler {
         super(plugin);
     }
 
+    public Void onlyPlayer(CommandSender sender){
+        return sendMessage(sender, CommonMessages.ONLY_PLAYER);
+    }
+
     @Override
     public Void noPermission(CommandSender sender) {
         return sendMessage(sender, CommonMessages.NO_PERMISSION);

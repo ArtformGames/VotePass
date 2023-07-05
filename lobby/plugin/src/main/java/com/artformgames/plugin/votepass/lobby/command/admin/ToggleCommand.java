@@ -6,9 +6,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class StatusCommand extends SubCommand<MainCommand> {
+public class ToggleCommand extends SubCommand<MainCommand> {
 
-    public StatusCommand(@NotNull MainCommand parent, String identifier, String... aliases) {
+    public ToggleCommand(@NotNull MainCommand parent, String identifier, String... aliases) {
         super(parent, identifier, aliases);
     }
 

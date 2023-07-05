@@ -41,7 +41,7 @@ public interface UserKeyManager {
      */
     @NotNull UserKey upsertKey(@NotNull UUID uuid, @Nullable String username) throws Exception;
 
-    default @Nullable UserKey getKey(int id) {
+    default @Nullable UserKey getKey(long id) {
         return getKey(KeyType.ID, id);
     }
 
@@ -62,7 +62,7 @@ public interface UserKeyManager {
     }
 
 
-    default @Nullable String getUsername(int id) {
+    default @Nullable String getUsername(long id) {
         return Optional.ofNullable(getKey(id)).map(UserKey::name).orElse(null);
     }
 
@@ -70,7 +70,7 @@ public interface UserKeyManager {
         return Optional.ofNullable(getKey(userUUID)).map(UserKey::name).orElse(null);
     }
 
-    default @Nullable UUID getUUID(int id) {
+    default @Nullable UUID getUUID(long id) {
         return Optional.ofNullable(getKey(id)).map(UserKey::uuid).orElse(null);
     }
 

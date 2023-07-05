@@ -10,4 +10,12 @@ public record RequestAnswer(@NotNull String question, @NotNull List<String> answ
         return answers.stream().mapToInt(String::length).sum();
     }
 
+    @Override
+    public String toString() {
+        return "RequestAnswer{" +
+                "question='" + question + '\'' +
+                ", answers=" + answers +
+                '}';
+    }
+
 }

@@ -9,8 +9,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public interface UserDataManager<U extends UserData> extends UserKeyManager {
 
@@ -46,9 +44,5 @@ public interface UserDataManager<U extends UserData> extends UserKeyManager {
     }
 
     @NotNull CompletableFuture<Boolean> unload(@NotNull UUID uuid, boolean save);
-
-    @NotNull CompletableFuture<Boolean> modify(@NotNull UUID uuid, @NotNull Consumer<U> consumer);
-
-    <V> @NotNull CompletableFuture<V> peek(@NotNull UUID uuid, @NotNull Function<U, V> function);
 
 }

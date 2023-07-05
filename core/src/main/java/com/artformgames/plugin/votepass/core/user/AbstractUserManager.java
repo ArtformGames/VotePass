@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -145,6 +144,7 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
         });
     }
 
+    @Override
     public @NotNull CompletableFuture<Boolean> save(@NotNull U user) {
         return CompletableFuture.supplyAsync(() -> {
             UserKey key = user.getKey();
@@ -159,10 +159,10 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
                 ex.printStackTrace();
                 return false;
             }
-
         }, executor);
     }
 
+    @Override
     public @NotNull CompletableFuture<Boolean> unload(@NotNull UUID key, boolean save) {
         U data = getNullable(key);
         if (data == null) return CompletableFuture.completedFuture(false);
@@ -177,30 +177,6 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
             return CompletableFuture.completedFuture(true);
         }
 
-    }
-
-    public @NotNull CompletableFuture<Boolean> modify(@NotNull UUID key, @NotNull Consumer<U> consumer) {
-        U cached = getNullable(key);
-        if (cached != null) {
-            return CompletableFuture.supplyAsync(() -> {
-                consumer.accept(cached);
-                return true;
-            }, executor);
-        } else {
-            return load(key, false).thenApply((data) -> {
-                consumer.accept(data);
-                return data;
-            }).thenCompose(this::save);
-        }
-    }
-
-    public <V> @NotNull CompletableFuture<V> peek(@NotNull UUID key, @NotNull Function<U, V> function) {
-        U cached = getNullable(key);
-        if (cached != null) {
-            return CompletableFuture.supplyAsync(() -> function.apply(cached), executor);
-        } else {
-            return load(key, false).thenApply(function);
-        }
     }
 
     public @NotNull CompletableFuture<Map<UUID, U>> loadOnline(@NotNull Function<Player, UUID> function) {
