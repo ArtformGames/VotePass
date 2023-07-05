@@ -2,6 +2,7 @@ package com.artformgames.plugin.votepass.lobby.command;
 
 import com.artformgames.plugin.votepass.core.command.VotePassCommand;
 import com.artformgames.plugin.votepass.lobby.command.admin.ReloadCommand;
+import com.artformgames.plugin.votepass.lobby.command.admin.ToggleCommand;
 import com.artformgames.plugin.votepass.lobby.command.user.RequestCommand;
 import com.artformgames.plugin.votepass.lobby.command.user.RuleAcceptCommand;
 import com.artformgames.plugin.votepass.lobby.command.user.RuleDenyCommand;
@@ -19,6 +20,7 @@ public class MainCommand extends VotePassCommand {
         registerSubCommand(new RuleDenyCommand(this, "deny"));
 
         registerSubCommand(new ReloadCommand(this, "reload"));
+        registerSubCommand(new ToggleCommand(this, "toggle"));
     }
 
     @Override

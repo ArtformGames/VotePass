@@ -7,8 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import java.time.LocalDateTime;
 
 public record VoteContent(
-        int id, int requestID,
-        @NotNull UserKey voter, @NotNull VoteDecision decision,
+        int requestID, @NotNull UserKey voter, @NotNull VoteDecision decision,
         @Nullable String comment, @NotNull LocalDateTime time
 ) {
 

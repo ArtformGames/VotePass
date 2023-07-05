@@ -4,6 +4,7 @@ import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.api.builder.TableQueryBuilder;
+import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
 import com.artformgames.plugin.votepass.api.data.vote.VoteContent;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
@@ -81,6 +83,38 @@ public class DataManager {
         });
     }
 
+    public Map<Integer, RequestInfo> getServerActiveRequests(@NotNull String serverID, long startLimit, long endLimit) throws SQLException {
+        return getServerActiveRequests(serverID, -1, startLimit, endLimit);
+    }
+
+    public Map<Integer, RequestInfo> getServerActiveRequests(@NotNull String serverID, int startID,
+                                                             long startLimit, long endLimit) throws SQLException {
+        return queryRequests(builder -> {
+            if (startID > 0) builder.addCondition("id", ">", startID);
+            builder.addCondition("server", serverID);
+            builder.addCondition("result", 0);
+            builder.addTimeCondition("create_time", startLimit, endLimit);
+        });
+    }
+
+
+    public int createRequest(@NotNull String server, long uid,
+                             @NotNull Map<Integer, RequestAnswer> answers) throws SQLException {
+        return DataTables.REQUESTS.createInsert()
+                .setColumnNames("server", "user", "contents", "create_time")
+                .setParams(server, uid, DataSerializer.serializeAnswers(answers), LocalDateTime.now())
+                .returnGeneratedKey().execute();
+    }
+
+    public boolean commitVote(VoteContent vote) throws SQLException {
+        return DataTables.VOTES.createReplace()
+                .setColumnNames("request", "voter", "decision", "comment", "time")
+                .setParams(
+                        vote.requestID(), vote.voter().id(),
+                        vote.decision().getID(), vote.comment(), LocalDateTime.now()
+                ).returnGeneratedKey().executeFunction((i) -> i > 0, false);
+    }
+
     public Set<String> getUserPassedServers(long uid) throws SQLException {
         return DataTables.LIST.createQuery()
                 .selectColumns("server")
@@ -93,6 +127,16 @@ public class DataManager {
                     }
                     return servers;
                 }, new HashSet<>());
+    }
+
+    public void updateRequest(@NotNull RequestInfo request) throws SQLException {
+        DataTables.REQUESTS.createUpdate().setColumnValues(
+                new String[]{"assignee", "result", "feedback", "closed_time"},
+                new Object[]{
+                        request.getAssignee() == null ? null : request.getAssignee().id(),
+                        request.getResult().getID(), request.isFeedback() ? 1 : 0, request.getCloseTime()
+                }
+        ).addCondition("id", request.getID()).build().execute();
     }
 
 
@@ -148,8 +192,8 @@ public class DataManager {
         if (user == null) throw new SQLException("User not found: #" + rs.getLong("voter"));
 
         return new VoteContent(
-                rs.getInt("id"), rs.getInt("request"),
-                user, VoteDecision.parse(rs.getInt("decision")),
+                rs.getInt("request"), user,
+                VoteDecision.parse(rs.getInt("decision")),
                 rs.getString("comments"),
                 rs.getTimestamp("time").toLocalDateTime()
         );

@@ -53,6 +53,10 @@ public enum DataTables implements SQLTable {
         table.addColumn("comment", "TEXT");
         table.addColumn("time", "DATETIME NOT NULL");
 
+        table.setIndex(IndexType.UNIQUE_KEY, "uk_votepass_vote", "request", "voter");
+        table.setIndex(IndexType.INDEX, "uk_votepass_request", "request");
+        table.setIndex(IndexType.INDEX, "uk_votepass_voter", "voter");
+
         table.addForeignKey(
                 "voter", "fk_votepass_vote_user",
                 DataTables.USERS.getTableName(), "id",

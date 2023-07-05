@@ -11,6 +11,6 @@ public interface UserRequestManager {
 
     @NotNull CompletableFuture<RequestInfo> commit(@NotNull UserKey user, @NotNull PendingRequest request);
 
-    @NotNull CompletableFuture<Integer> update(@NotNull RequestInfo content);
+    @NotNull CompletableFuture<Void> update(@NotNull RequestInfo content);
 
 }

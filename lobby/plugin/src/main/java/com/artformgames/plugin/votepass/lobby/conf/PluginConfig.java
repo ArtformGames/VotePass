@@ -61,19 +61,6 @@ public class PluginConfig extends ConfigurationRoot {
 
         }
 
-        public static final class QUESTION_LORE extends ConfigurationRoot {
-
-            public static final ConfiguredMessageList<String> REQUIRED = ConfiguredMessageList.asStrings()
-                    .defaults("&e&l● &eClick and answer!")
-                    .build();
-
-
-            public static final ConfiguredMessageList<String> FINISHED = ConfiguredMessageList.asStrings()
-                    .defaults("&a&l✔ &aAnswer finished.", " &7&oClick to edit your answer.")
-                    .build();
-
-        }
-
         public static final class ITEMS extends ConfigurationRoot {
 
             public static final ConfiguredItem REQUIRED = ConfiguredItem.create()

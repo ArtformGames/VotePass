@@ -85,4 +85,18 @@ public class PluginMessages extends TextMessages {
 
     }
 
+    public static class TOGGLE extends ConfigurationRoot {
+
+        public static final ConfiguredMessageList<BaseComponent[]> DISABLED = list()
+                .defaults(
+                        "&fThe application for &6%(name) &fserver whitelist now has successfully &c&ldisabled&f!"
+                ).params("name").build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> ENABLED = list()
+                .defaults(
+                        "&fThe application for &6%(name) &fserver whitelist now has successfully &a&lenabled &f!"
+                ).params("name").build();
+
+    }
+
 }

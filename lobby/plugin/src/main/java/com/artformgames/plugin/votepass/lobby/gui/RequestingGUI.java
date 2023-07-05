@@ -100,13 +100,13 @@ public class RequestingGUI extends AutoPagedGUI {
                 PluginMessages.WRITING.send(player, slot, question.title());
                 request.setEditingQuestion(id);
                 player.getInventory().setHeldItemSlot(slot);
-                player.getInventory().setItem(slot, generateAnswerBook(getPendingRequest().getAnswers().get(id)));
+                player.getInventory().setItem(slot, generateAnswerBook(getPendingRequest().getAnswers().get(id).answers()));
             }
         };
     }
 
     protected GUIItem createConfirmItem() {
-        return new GUIItem(PluginConfig.ANSWERING.ITEMS.CANCEL.get(player)) {
+        return new GUIItem(PluginConfig.ANSWERING.ITEMS.CONFIRM.get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {
                 player.closeInventory();

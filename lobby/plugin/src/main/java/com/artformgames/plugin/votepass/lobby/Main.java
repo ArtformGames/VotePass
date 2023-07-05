@@ -51,14 +51,14 @@ public class Main extends VotePassPlugin implements VotePassLobby {
             setEnabled(false);
         }
 
-
         log("Initialize users manager...");
         this.usersManager = new UsersManager(this);
-
 
         log("Initialize requests manager...");
         this.requestManager = new RequestManager();
 
+        log("Initialize APIs...");
+        VotePassLobbyAPI.instance = this;
     }
 
     @Override

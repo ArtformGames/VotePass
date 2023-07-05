@@ -88,7 +88,7 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
         UserKey exists = getKey(KeyType.UUID, uuid);
         if (exists != null) return exists;
 
-        long uid = DataTables.USERS.createInsert()
+        long uid = DataTables.USERS.createReplace()
                 .setColumnNames(KeyType.UUID.getColumnName(), KeyType.NAME.getColumnName())
                 .setParams(uuid.toString(), username)
                 .returnGeneratedKey(Long.class)

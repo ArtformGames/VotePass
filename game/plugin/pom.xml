@@ -54,7 +54,7 @@
                 </executions>
                 <configuration>
                     <finalName>${project.name}-${project.parent.version}</finalName>
-                    <outputDirectory>${project.parent.parent.basedir}/.asset/</outputDirectory>
+                    <outputDirectory>${project.parent.basedir}/.asset/</outputDirectory>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <filters>
                         <filter>

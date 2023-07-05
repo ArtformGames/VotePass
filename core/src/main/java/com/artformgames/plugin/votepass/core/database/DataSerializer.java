@@ -10,7 +10,10 @@ import java.util.Map;
 
 public class DataSerializer {
 
-    public static Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
+    private DataSerializer() {
+    }
+
+    public static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
 
     public static String serializeAnswers(Map<Integer, RequestAnswer> answers) {
         return GSON.toJson(answers);

@@ -1,5 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.listener;
 
+import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
@@ -18,7 +19,12 @@ public class UserListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPreLogin(AsyncPlayerPreLoginEvent event) {
         if (event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED) return;
-        VotePassLobbyAPI.getUserManager().load(event.getUniqueId());
+        try {
+            UserKey key = VotePassLobbyAPI.getUserManager().upsertKey(event.getUniqueId(), event.getName());
+            VotePassLobbyAPI.getUserManager().load(key, () -> true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

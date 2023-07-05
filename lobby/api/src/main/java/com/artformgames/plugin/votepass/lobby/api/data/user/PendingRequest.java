@@ -1,5 +1,7 @@
 package com.artformgames.plugin.votepass.lobby.api.data.user;
 
+import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
+import com.artformgames.plugin.votepass.lobby.api.data.server.ServerQuestion;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +14,7 @@ public class PendingRequest {
 
     protected final @NotNull ServerSettings application;
 
-    protected final @NotNull SortedMap<Integer, List<String>> answers = new TreeMap<>();
+    protected final @NotNull SortedMap<Integer, RequestAnswer> answers = new TreeMap<>();
     @Nullable Integer editingQuestion;
 
     public PendingRequest(@NotNull ServerSettings application) {
@@ -31,7 +33,7 @@ public class PendingRequest {
         this.editingQuestion = editingQuestion;
     }
 
-    public @NotNull SortedMap<Integer, List<String>> getAnswers() {
+    public @NotNull SortedMap<Integer, RequestAnswer> getAnswers() {
         return answers;
     }
 
@@ -43,8 +45,10 @@ public class PendingRequest {
     }
 
     public void applyAnswer(Integer id, @NotNull List<String> contents) {
-        this.answers.put(id, contents);
+        ServerQuestion question = getSettings().questions().get(id);
+        this.answers.put(id, new RequestAnswer(question.title(), contents));
     }
+
 
     public boolean isAnswered(int id) {
         return this.answers.containsKey(id);

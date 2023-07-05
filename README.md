@@ -53,11 +53,6 @@ The main command is `/VotePass` or `/vp`.
 @ Admin command
 - Enable/Disable the vote application for the corresponding server.
 
-# status <server>
-@ Admin command
-- Check the status of the corresponding server.
-- Including the number of pending applications, the number of passed applications, and the number of failed applications, etc.
-
 ```
 
 ### Game side
