@@ -1,18 +1,23 @@
 package com.artformgames.plugin.votepass.lobby.user;
 
 import cc.carm.lib.easyplugin.EasyPlugin;
+import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
 import com.artformgames.plugin.votepass.api.user.UserKey;
+import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
+import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class UsersManager extends AbstractUserManager<LobbyUser> implements LobbyUserManager<LobbyUser> {
 
-    protected UsersManager(@NotNull EasyPlugin plugin) {
+    public UsersManager(@NotNull EasyPlugin plugin) {
         super(plugin);
     }
 
@@ -23,14 +28,17 @@ public class UsersManager extends AbstractUserManager<LobbyUser> implements Lobb
 
     @Override
     protected @Nullable LobbyUser loadData(@NotNull UserKey key) throws Exception {
+        DataManager db = Main.getInstance().getDataManager();
 
+        Set<String> passed = db.getUserPassedServers(key.id());
+        Map<Integer, RequestInfo> requests = db.getUserRequests(key.id());
 
-        return null;
+        return new LobbyUser(key, requests, passed);
     }
 
     @Override
-    protected void saveData(@NotNull LobbyUser data) throws Exception {
-
+    protected void saveData(@NotNull LobbyUser data) {
+        // Lobby data is not saved to the database
     }
 
 }

@@ -74,6 +74,28 @@ public class DataManager {
         return plugin.getUserManager();
     }
 
+    public Map<Integer, RequestInfo> getUserRequests(long id) throws SQLException {
+        return queryRequests(builder -> {
+            builder.addCondition("user", id);
+            builder.addCondition("feedback", 0);
+        });
+    }
+
+    public Set<String> getUserPassedServers(long uid) throws SQLException {
+        return DataTables.LIST.createQuery()
+                .selectColumns("server")
+                .addCondition("user", uid)
+                .build().executeFunction(query -> {
+                    Set<String> servers = new HashSet<>();
+                    ResultSet resultSet = query.getResultSet();
+                    while (resultSet.next()) {
+                        servers.add(resultSet.getString("server"));
+                    }
+                    return servers;
+                }, new HashSet<>());
+    }
+
+
     public @NotNull Map<Integer, RequestInfo> queryRequests(@Nullable Consumer<@NotNull TableQueryBuilder> conditions) throws SQLException {
         TableQueryBuilder builder = DataTables.REQUESTS.createQuery();
         if (conditions != null) conditions.accept(builder);

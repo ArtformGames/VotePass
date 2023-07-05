@@ -12,7 +12,9 @@ public class RequestManager implements UserRequestManager {
 
     @Override
     public @NotNull CompletableFuture<RequestInfo> commit(@NotNull UserKey user, @NotNull PendingRequest request) {
-        return null;
+        return CompletableFuture.supplyAsync(() -> {
+            return null;
+        });
     }
 
     @Override
