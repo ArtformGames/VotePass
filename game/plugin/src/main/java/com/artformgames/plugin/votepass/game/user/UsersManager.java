@@ -6,7 +6,8 @@ import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
 import com.artformgames.plugin.votepass.game.api.user.GameUserManager;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistModifier;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
-import com.artformgames.plugin.votepass.game.migrator.WhitelistModifierImpl;
+import com.artformgames.plugin.votepass.game.whitelist.WhitelistModifierImpl;
+import com.artformgames.plugin.votepass.game.whitelist.WhitelistUser;
 import com.google.common.collect.ImmutableSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class UsersManager extends AbstractUserManager<GameUser> implements GameU
 
     protected final Map<UUID, WhitelistUser> whitelistMap = new HashMap<>();
 
-    protected UsersManager(@NotNull EasyPlugin plugin) {
+    public UsersManager(@NotNull EasyPlugin plugin) {
         super(plugin);
     }
 
@@ -51,7 +52,8 @@ public class UsersManager extends AbstractUserManager<GameUser> implements GameU
 
     @Override
     public int countUser(Predicate<WhitelistedUserData> filter) {
-        return Math.toIntExact(this.whitelistMap.values().stream().filter(filter).count());
+        if (filter == null) return this.whitelistMap.size();
+        else return Math.toIntExact(this.whitelistMap.values().stream().filter(filter).count());
     }
 
     @Override

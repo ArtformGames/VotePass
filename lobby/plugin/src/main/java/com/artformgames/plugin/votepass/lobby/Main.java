@@ -3,6 +3,7 @@ package com.artformgames.plugin.votepass.lobby;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
+import com.artformgames.plugin.votepass.core.listener.UserListener;
 import com.artformgames.plugin.votepass.lobby.api.request.UserRequestManager;
 import com.artformgames.plugin.votepass.lobby.api.server.ServerSettingsManager;
 import com.artformgames.plugin.votepass.lobby.command.MainCommand;
@@ -10,7 +11,6 @@ import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
 import com.artformgames.plugin.votepass.lobby.listener.BookListener;
 import com.artformgames.plugin.votepass.lobby.listener.FeedbackListener;
-import com.artformgames.plugin.votepass.lobby.listener.UserListener;
 import com.artformgames.plugin.votepass.lobby.request.RequestManager;
 import com.artformgames.plugin.votepass.lobby.server.SettingsManager;
 import com.artformgames.plugin.votepass.lobby.user.UsersManager;
@@ -62,7 +62,7 @@ public class Main extends VotePassPlugin implements VotePassLobby {
     protected boolean initialize() {
 
         log("Register listeners...");
-        registerListener(new UserListener());
+        registerListener(new UserListener<>(getUserManager()));
         registerListener(new BookListener());
         registerListener(new FeedbackListener());
 

@@ -2,9 +2,9 @@ package com.artformgames.plugin.votepass.game.conf;
 
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
-import cc.carm.lib.configuration.core.value.type.ConfiguredList;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
@@ -42,8 +42,7 @@ public class PluginConfig extends ConfigurationRoot {
         @HeaderComment({
                 "The kick message when the player is not in the whitelist."
         })
-        public static final ConfiguredList<String> KICK_MESSAGE = ConfiguredList.builderOf(String.class)
-                .fromString()
+        public static final ConfiguredMessageList<String> KICK_MESSAGE = ConfiguredMessageList.asStrings()
                 .defaults("You are not in the whitelist, please request to join the whitelist.")
                 .build();
 

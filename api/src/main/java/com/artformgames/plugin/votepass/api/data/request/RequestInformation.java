@@ -146,7 +146,7 @@ public class RequestInformation {
         return LocalDateTime.now().isAfter(finalTime);
     }
 
-    public boolean needAdminHandle(@Nullable Duration interventionTime) {
+    public boolean needIntervention(@Nullable Duration interventionTime) {
         if (interventionTime == null) return false;
         LocalDateTime handleTime = LocalDateTime.now().plus(interventionTime);
         return LocalDateTime.now().isAfter(handleTime);

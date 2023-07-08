@@ -1,8 +1,7 @@
-package com.artformgames.plugin.votepass.game.migrator;
+package com.artformgames.plugin.votepass.game.whitelist;
 
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistUserModifier;
-import com.artformgames.plugin.votepass.game.user.WhitelistUser;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

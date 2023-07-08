@@ -1,4 +1,4 @@
-package com.artformgames.plugin.votepass.game.user;
+package com.artformgames.plugin.votepass.game.whitelist;
 
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.user.AbstractUserData;

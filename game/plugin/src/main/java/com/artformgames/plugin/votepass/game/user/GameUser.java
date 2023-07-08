@@ -32,7 +32,7 @@ public class GameUser extends AbstractUserData implements GameUserData {
     }
 
     @Override
-    public int countUnhandledRequest() {
+    public int countUnvotedRequest() {
         return (int) VotePassServerAPI.getVoteManager().getRequests().values()
                 .stream().filter(value -> !value.isVoted(key)).count();
     }

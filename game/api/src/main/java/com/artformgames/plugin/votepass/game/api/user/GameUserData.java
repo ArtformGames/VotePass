@@ -31,7 +31,7 @@ public interface GameUserData extends UserData {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, TreeMap::new));
     }
 
-    int countUnhandledRequest();
+    int countUnvotedRequest();
 
     boolean isVoted(int requestID);
 

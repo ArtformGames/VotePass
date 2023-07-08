@@ -3,11 +3,14 @@ package com.artformgames.plugin.votepass.game;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
+import com.artformgames.plugin.votepass.core.listener.UserListener;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
 import com.artformgames.plugin.votepass.game.vote.VoteManagerImpl;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.ExecutionException;
 
 public class Main extends VotePassPlugin implements VotePassServer {
     private static Main instance;
@@ -20,6 +23,8 @@ public class Main extends VotePassPlugin implements VotePassServer {
     protected MineConfiguration configuration;
 
     protected DataManager dataManager;
+    protected UsersManager usersManager;
+    protected VoteManagerImpl voteManager;
 
     @Override
     protected void load() {
@@ -38,14 +43,17 @@ public class Main extends VotePassPlugin implements VotePassServer {
         }
 
         log("Initialize users manager...");
+        this.usersManager = new UsersManager(this);
 
-        log("Initialize requests manager...");
+        log("Initialize vote manager...");
+        this.voteManager = new VoteManagerImpl();
     }
 
     @Override
     protected boolean initialize() {
 
         log("Register listeners...");
+        registerListener(new UserListener<>(getUserManager()));
 
         log("Register commands...");
 
@@ -58,7 +66,12 @@ public class Main extends VotePassPlugin implements VotePassServer {
     protected void shutdown() {
 
         log("Shutting down UserManager...");
-
+        try {
+            this.usersManager.saveAll().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        this.usersManager.shutdown();
 
         log("Shutting down DataManager...");
         this.dataManager.shutdown();
@@ -93,16 +106,15 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
     @Override
     public @NotNull UsersManager getUserManager() {
-        return null;
+        return this.usersManager;
     }
-
 
     @Override
     public @NotNull VoteManagerImpl getVoteManager() {
-        return null;
+        return this.voteManager;
     }
 
     public @NotNull DataManager getDataManager() {
-        return null;
+        return this.dataManager;
     }
 }

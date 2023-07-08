@@ -16,11 +16,11 @@ import com.artformgames.plugin.votepass.game.user.UsersManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 public class VoteManagerImpl implements VoteManager {
 
@@ -67,6 +67,17 @@ public class VoteManagerImpl implements VoteManager {
     @Override
     public @Nullable RequestInformation getRequest(int requestID) {
         return this.requests.get(requestID);
+    }
+
+    @Override
+    public int countRequest(@Nullable Predicate<RequestInformation> predicate) {
+        if (predicate == null) return requests.size();
+        else return (int) this.requests.values().stream().filter(predicate).count();
+    }
+
+    @Override
+    public int countAdminRequests() {
+        return countRequest(r -> r.needIntervention(CommonConfig.TIME.ADMIN_INTERVENTION.get()));
     }
 
     @Override
@@ -122,7 +133,7 @@ public class VoteManagerImpl implements VoteManager {
             }
         }
 
-        double base = countable + missed - abs; // Base num means All countable
+        double base = (double) countable + missed - abs;
         double ratio = getAutoPassRatio();
 
         double autoApprove = base * ratio;
@@ -161,16 +172,6 @@ public class VoteManagerImpl implements VoteManager {
 
     public int getLastKey() {
         return requests.isEmpty() ? 0 : requests.lastKey();
-    }
-
-    public Map<Integer, RequestInformation> getServerActiveRequests(@NotNull String serverID, int startID,
-                                                                    long startLimit, long endLimit) throws SQLException {
-        return Main.getInstance().getDataManager().queryRequests(builder -> {
-            if (startID > 0) builder.addCondition("id", ">", startID);
-            builder.addCondition("server", serverID);
-            builder.addCondition("result", 0);
-            builder.addTimeCondition("create_time", startLimit, endLimit);
-        });
     }
 
 }

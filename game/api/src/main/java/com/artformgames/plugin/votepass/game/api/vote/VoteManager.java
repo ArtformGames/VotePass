@@ -10,9 +10,9 @@ import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.SortedMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 public interface VoteManager {
-
 
     int sync();
 
@@ -22,6 +22,10 @@ public interface VoteManager {
     @NotNull SortedMap<Integer, RequestInformation> getRequests();
 
     @Nullable RequestInformation getRequest(int requestID);
+
+    int countRequest(@Nullable Predicate<RequestInformation> predicate);
+
+    int countAdminRequests();
 
     @NotNull VoteInformation submitVote(GameUserData voter, PendingVote pendingVote);
 
