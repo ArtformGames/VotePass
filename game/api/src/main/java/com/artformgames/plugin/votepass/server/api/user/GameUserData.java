@@ -12,6 +12,8 @@ public interface GameUserData extends UserData {
 
     boolean isAbstained();
 
+    void setAbstained(boolean abstained);
+
     boolean isVoteCountable();
 
     @Nullable LocalDateTime getLastOnline();

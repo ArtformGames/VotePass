@@ -56,9 +56,6 @@ public class Main extends VotePassPlugin implements VotePassLobby {
 
         log("Initialize requests manager...");
         this.requestManager = new RequestManager();
-
-        log("Initialize APIs...");
-        VotePassLobbyAPI.instance = this;
     }
 
     @Override

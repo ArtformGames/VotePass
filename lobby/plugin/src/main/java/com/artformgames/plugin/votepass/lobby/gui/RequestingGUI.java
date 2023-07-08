@@ -5,7 +5,7 @@ import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.easyplugin.utils.ItemStackFactory;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerQuestion;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
@@ -111,7 +111,7 @@ public class RequestingGUI extends AutoPagedGUI {
             public void onClick(Player clicker, ClickType type) {
                 player.closeInventory();
 
-                RequestInfo existRequest = getData().getServerRequest(getSettings().id());
+                RequestInformation existRequest = getData().getServerRequest(getSettings().id());
                 if (existRequest != null) {
                     PluginMessages.PENDING.send(player, existRequest.getID(), getSettings().name());
                     return;

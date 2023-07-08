@@ -1,7 +1,7 @@
 package com.artformgames.plugin.votepass.lobby.command.user;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
@@ -55,7 +55,7 @@ public class RequestCommand extends SubCommand<MainCommand> {
     }
 
     protected static boolean cannotCreate(Player player, LobbyUserData requestData, ServerSettings settings) {
-        RequestInfo request = requestData.getServerRequest(settings.id());
+        RequestInformation request = requestData.getServerRequest(settings.id());
         if (request != null) {
             PluginMessages.PENDING.send(player, request, settings.name());
             return true;

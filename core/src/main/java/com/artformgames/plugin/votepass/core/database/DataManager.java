@@ -5,9 +5,9 @@ import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.api.builder.TableQueryBuilder;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
-import com.artformgames.plugin.votepass.api.data.vote.VoteContent;
+import com.artformgames.plugin.votepass.api.data.vote.VoteInfomation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
@@ -76,19 +76,19 @@ public class DataManager {
         return plugin.getUserManager();
     }
 
-    public Map<Integer, RequestInfo> getUserRequests(long id) throws SQLException {
+    public Map<Integer, RequestInformation> getUserRequests(long id) throws SQLException {
         return queryRequests(builder -> {
             builder.addCondition("user", id);
             builder.addCondition("feedback", 0);
         });
     }
 
-    public Map<Integer, RequestInfo> getServerActiveRequests(@NotNull String serverID, long startLimit, long endLimit) throws SQLException {
+    public Map<Integer, RequestInformation> getServerActiveRequests(@NotNull String serverID, long startLimit, long endLimit) throws SQLException {
         return getServerActiveRequests(serverID, -1, startLimit, endLimit);
     }
 
-    public Map<Integer, RequestInfo> getServerActiveRequests(@NotNull String serverID, int startID,
-                                                             long startLimit, long endLimit) throws SQLException {
+    public Map<Integer, RequestInformation> getServerActiveRequests(@NotNull String serverID, int startID,
+                                                                    long startLimit, long endLimit) throws SQLException {
         return queryRequests(builder -> {
             if (startID > 0) builder.addCondition("id", ">", startID);
             builder.addCondition("server", serverID);
@@ -106,7 +106,7 @@ public class DataManager {
                 .returnGeneratedKey().execute();
     }
 
-    public boolean commitVote(VoteContent vote) throws SQLException {
+    public boolean commitVote(VoteInfomation vote) throws SQLException {
         return DataTables.VOTES.createReplace()
                 .setColumnNames("request", "voter", "decision", "comment", "time")
                 .setParams(
@@ -129,7 +129,7 @@ public class DataManager {
                 }, new HashSet<>());
     }
 
-    public void updateRequest(@NotNull RequestInfo request) throws SQLException {
+    public void updateRequest(@NotNull RequestInformation request) throws SQLException {
         DataTables.REQUESTS.createUpdate().setColumnValues(
                 new String[]{"assignee", "result", "feedback", "closed_time"},
                 new Object[]{
@@ -140,16 +140,16 @@ public class DataManager {
     }
 
 
-    public @NotNull Map<Integer, RequestInfo> queryRequests(@Nullable Consumer<@NotNull TableQueryBuilder> conditions) throws SQLException {
+    public @NotNull Map<Integer, RequestInformation> queryRequests(@Nullable Consumer<@NotNull TableQueryBuilder> conditions) throws SQLException {
         TableQueryBuilder builder = DataTables.REQUESTS.createQuery();
         if (conditions != null) conditions.accept(builder);
         return builder.build().executeFunction(query -> readRequests(query.getResultSet()), new HashMap<>());
     }
 
-    private @NotNull RequestInfo readRequest(ResultSet rs) throws SQLException {
+    private @NotNull RequestInformation readRequest(ResultSet rs) throws SQLException {
         UserKey user = getUserManager().getKey(rs.getLong("user"));
         if (user == null) throw new SQLException("User not found: #" + rs.getLong("user"));
-        return new RequestInfo(
+        return new RequestInformation(
                 rs.getInt("id"), rs.getString("server"), user,
                 DataSerializer.deserializeAnswers(rs.getString("contents")),
                 loadRequestVotes(rs.getInt("id")),
@@ -161,8 +161,8 @@ public class DataManager {
         );
     }
 
-    private @NotNull Map<Integer, RequestInfo> readRequests(ResultSet resultSet) throws SQLException {
-        Map<Integer, RequestInfo> requests = new HashMap<>();
+    private @NotNull Map<Integer, RequestInformation> readRequests(ResultSet resultSet) throws SQLException {
+        Map<Integer, RequestInformation> requests = new HashMap<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("id");
             try {
@@ -175,11 +175,11 @@ public class DataManager {
     }
 
 
-    public @NotNull Set<VoteContent> loadRequestVotes(int id) throws SQLException {
+    public @NotNull Set<VoteInfomation> loadRequestVotes(int id) throws SQLException {
         return DataTables.VOTES.createQuery()
                 .addCondition("request", id)
                 .build().executeFunction(query -> {
-                    Set<VoteContent> votes = new HashSet<>();
+                    Set<VoteInfomation> votes = new HashSet<>();
                     while (query.getResultSet().next()) {
                         votes.add(readVote(query.getResultSet()));
                     }
@@ -187,11 +187,11 @@ public class DataManager {
                 }, new HashSet<>());
     }
 
-    private @NotNull VoteContent readVote(ResultSet rs) throws SQLException {
+    private @NotNull VoteInfomation readVote(ResultSet rs) throws SQLException {
         UserKey user = getUserManager().getKey(rs.getLong("voter"));
         if (user == null) throw new SQLException("User not found: #" + rs.getLong("voter"));
 
-        return new VoteContent(
+        return new VoteInfomation(
                 rs.getInt("request"), user,
                 VoteDecision.parse(rs.getInt("decision")),
                 rs.getString("comments"),

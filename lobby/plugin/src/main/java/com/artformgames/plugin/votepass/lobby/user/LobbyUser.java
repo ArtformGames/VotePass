@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.user;
 
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.user.AbstractUserData;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
@@ -16,13 +16,13 @@ import java.util.Set;
 
 public class LobbyUser extends AbstractUserData implements LobbyUserData {
 
-    private final @NotNull Map<Integer, RequestInfo> requests;
+    private final @NotNull Map<Integer, RequestInformation> requests;
     private final @NotNull Set<String> passedServers;
 
     private @Nullable PendingRequest pendingRequest;
 
     protected LobbyUser(@NotNull UserKey key,
-                        @NotNull Map<Integer, RequestInfo> requests,
+                        @NotNull Map<Integer, RequestInformation> requests,
                         @NotNull Set<String> passedServers) {
         super(key);
         this.requests = requests;
@@ -30,7 +30,7 @@ public class LobbyUser extends AbstractUserData implements LobbyUserData {
     }
 
     @Override
-    public @Unmodifiable @NotNull Map<Integer, RequestInfo> listRequests() {
+    public @Unmodifiable @NotNull Map<Integer, RequestInformation> listRequests() {
         return Collections.unmodifiableMap(this.requests);
     }
 
@@ -54,7 +54,7 @@ public class LobbyUser extends AbstractUserData implements LobbyUserData {
         return pendingRequest = new PendingRequest(settings);
     }
 
-    public void addRequest(@NotNull RequestInfo request) {
+    public void addRequest(@NotNull RequestInformation request) {
         this.requests.put(request.getID(), request);
     }
 
@@ -63,12 +63,12 @@ public class LobbyUser extends AbstractUserData implements LobbyUserData {
     }
 
     @Override
-    public @Nullable RequestInfo getRequest(int requestID) {
+    public @Nullable RequestInformation getRequest(int requestID) {
         return this.requests.get(requestID);
     }
 
     @Override
-    public @Nullable RequestInfo getServerRequest(String serverID) {
+    public @Nullable RequestInformation getServerRequest(String serverID) {
         return this.requests.values().stream().filter(request -> request.getServer().equals(serverID)).findFirst().orElse(null);
     }
 

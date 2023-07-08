@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.listener;
 
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.lobby.Main;
@@ -26,13 +26,13 @@ public class FeedbackListener implements Listener {
             LobbyUserData data = VotePassLobbyAPI.getUserManager().get(player.getUniqueId());
             data.listRequests().values().stream()
                     .filter(value -> handleRequest(player, value))
-                    .map(RequestInfo::getID)
+                    .map(RequestInformation::getID)
                     .forEach(data::removeRequest);
         });
 
     }
 
-    private boolean handleRequest(Player player, RequestInfo request) {
+    private boolean handleRequest(Player player, RequestInformation request) {
         ServerSettings configuration = VotePassLobbyAPI.getServersManager().getSettings(request.getServer());
         switch (request.getResult()) {
             case REJECTED -> {
@@ -56,7 +56,7 @@ public class FeedbackListener implements Listener {
         }
     }
 
-    private void handleDeniedRequest(Player player, ServerSettings configuration, RequestInfo request) {
+    private void handleDeniedRequest(Player player, ServerSettings configuration, RequestInformation request) {
         Main.debugging("Handling denied #" + request.getID());
         if (configuration != null) {
             PluginMessages.FEEDBACK.REJECTED.send(player, request.getID(), configuration.name());
@@ -67,7 +67,7 @@ public class FeedbackListener implements Listener {
         VotePassLobbyAPI.getRequestManager().update(request);
     }
 
-    private void handleApprovedRequest(Player player, ServerSettings configuration, RequestInfo request) {
+    private void handleApprovedRequest(Player player, ServerSettings configuration, RequestInformation request) {
         Main.debugging("Handling approved #" + request.getID());
         if (configuration != null) {
             PluginMessages.FEEDBACK.APPROVED.send(player, request.getID(), configuration.name());

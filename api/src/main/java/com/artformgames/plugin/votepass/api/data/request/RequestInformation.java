@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.api.data.request;
 
-import com.artformgames.plugin.votepass.api.data.vote.VoteContent;
+import com.artformgames.plugin.votepass.api.data.vote.VoteInfomation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class RequestInfo {
+public class RequestInformation {
 
     private final int id;
 
@@ -21,7 +21,7 @@ public class RequestInfo {
 
     protected final @NotNull Map<Integer, RequestAnswer> contents;
 
-    protected Set<VoteContent> votes;
+    protected Set<VoteInfomation> votes;
     protected @Nullable UserKey assignee;
 
     protected @NotNull RequestResult result;
@@ -30,11 +30,11 @@ public class RequestInfo {
     protected final @NotNull LocalDateTime createTime;
     protected @Nullable LocalDateTime closedTime;
 
-    public RequestInfo(int id, @NotNull String server, @NotNull UserKey user,
-                       @NotNull Map<Integer, RequestAnswer> contents,
-                       Set<VoteContent> votes, @Nullable UserKey assignee,
-                       @NotNull RequestResult result, boolean feedback,
-                       @NotNull LocalDateTime createTime, @Nullable LocalDateTime closedTime) {
+    public RequestInformation(int id, @NotNull String server, @NotNull UserKey user,
+                              @NotNull Map<Integer, RequestAnswer> contents,
+                              Set<VoteInfomation> votes, @Nullable UserKey assignee,
+                              @NotNull RequestResult result, boolean feedback,
+                              @NotNull LocalDateTime createTime, @Nullable LocalDateTime closedTime) {
         this.id = id;
         this.server = server;
         this.user = user;
@@ -71,12 +71,12 @@ public class RequestInfo {
         return contents;
     }
 
-    public @NotNull Set<VoteContent> getVotes() {
+    public @NotNull Set<VoteInfomation> getVotes() {
         return votes;
     }
 
     public int countCommentedVotes() {
-        return Math.toIntExact(getVotes().stream().filter(VoteContent::hasComments).count());
+        return Math.toIntExact(getVotes().stream().filter(VoteInfomation::hasComments).count());
     }
 
     public @Nullable UserKey getAssignee() {
@@ -115,7 +115,7 @@ public class RequestInfo {
     }
 
     public int countPros() {
-        return Math.toIntExact(votes.stream().filter(VoteContent::isApproved).count());
+        return Math.toIntExact(votes.stream().filter(VoteInfomation::isApproved).count());
     }
 
     public int countCons() {
@@ -150,7 +150,7 @@ public class RequestInfo {
         return LocalDateTime.now().isAfter(handleTime);
     }
 
-    public @Nullable VoteContent getVote(UUID uuid) {
+    public @Nullable VoteInfomation getVote(UUID uuid) {
         return getVotes().stream().filter(vote -> vote.voter().uuid().equals(uuid)).findFirst().orElse(null);
     }
 

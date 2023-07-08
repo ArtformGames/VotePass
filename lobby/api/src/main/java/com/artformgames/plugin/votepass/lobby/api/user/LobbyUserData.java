@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.api.user;
 
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.user.UserData;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
@@ -14,7 +14,7 @@ import java.util.Set;
 public interface LobbyUserData extends UserData {
 
     @Unmodifiable
-    @NotNull Map<Integer, RequestInfo> listRequests();
+    @NotNull Map<Integer, RequestInformation> listRequests();
 
     @Unmodifiable
     @NotNull Set<String> listPassedServers();
@@ -29,13 +29,13 @@ public interface LobbyUserData extends UserData {
 
     @NotNull PendingRequest createPendingRequest(@NotNull ServerSettings settings);
 
-    void addRequest(@NotNull RequestInfo content);
+    void addRequest(@NotNull RequestInformation content);
 
     void removeRequest(int id);
 
-    @Nullable RequestInfo getRequest(int requestID);
+    @Nullable RequestInformation getRequest(int requestID);
 
-    @Nullable RequestInfo getServerRequest(String serverID);
+    @Nullable RequestInformation getServerRequest(String serverID);
 
     default boolean hasRequested(@NotNull String serverID) {
         return listRequests().values().stream().anyMatch(requestContent -> requestContent.getServer().equals(serverID));

@@ -37,7 +37,7 @@ public class RuleAcceptCommand extends SubCommand<MainCommand> {
 
         PendingRequest pendingRequest = data.getPendingRequest();
         if (pendingRequest != null && pendingRequest.getSettings().equals(settings)) {
-            // 正在回答对应的问题，让玩家继续回答
+            // Answering the corresponding question, let the player continue to answer
             RequestingGUI.open(player, data, pendingRequest);
         } else {
             PluginMessages.ACCEPTED.send(player, settings.name());

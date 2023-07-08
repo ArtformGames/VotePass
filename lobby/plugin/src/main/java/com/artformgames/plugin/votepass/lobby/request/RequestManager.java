@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.request;
 
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.lobby.Main;
@@ -16,13 +16,13 @@ import java.util.concurrent.CompletableFuture;
 public class RequestManager implements UserRequestManager {
 
     @Override
-    public @NotNull CompletableFuture<RequestInfo> commit(@NotNull UserKey user, @NotNull PendingRequest request) {
+    public @NotNull CompletableFuture<RequestInformation> commit(@NotNull UserKey user, @NotNull PendingRequest request) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 int id = Main.getInstance().getDataManager().createRequest(
                         request.getSettings().id(), user.id(), request.getAnswers()
                 );
-                return new RequestInfo(
+                return new RequestInformation(
                         id, request.getSettings().id(), user,
                         request.getAnswers(), new HashSet<>(),
                         null, RequestResult.PENDING, false,
@@ -37,7 +37,7 @@ public class RequestManager implements UserRequestManager {
     }
 
     @Override
-    public @NotNull CompletableFuture<Void> update(@NotNull RequestInfo content) {
+    public @NotNull CompletableFuture<Void> update(@NotNull RequestInformation content) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 Main.getInstance().getDataManager().updateRequest(content);

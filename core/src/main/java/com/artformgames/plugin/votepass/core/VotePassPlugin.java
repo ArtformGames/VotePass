@@ -35,4 +35,6 @@ public abstract class VotePassPlugin extends EasyPlugin {
     public boolean isDebugging() {
         return CommonConfig.DEBUG.getNotNull();
     }
+
+
 }

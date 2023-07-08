@@ -1,7 +1,7 @@
 package com.artformgames.plugin.votepass.lobby.user;
 
 import cc.carm.lib.easyplugin.EasyPlugin;
-import com.artformgames.plugin.votepass.api.data.request.RequestInfo;
+import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
@@ -31,7 +31,7 @@ public class UsersManager extends AbstractUserManager<LobbyUser> implements Lobb
         DataManager db = Main.getInstance().getDataManager();
 
         Set<String> passed = db.getUserPassedServers(key.id());
-        Map<Integer, RequestInfo> requests = db.getUserRequests(key.id());
+        Map<Integer, RequestInformation> requests = db.getUserRequests(key.id());
 
         return new LobbyUser(key, requests, passed);
     }

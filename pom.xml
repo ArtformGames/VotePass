@@ -89,6 +89,11 @@
         </repository>
 
         <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+        <repository>
             <id>codecrafter47-repo</id>
             <url>https://nexus.codecrafter47.de/content/repositories/public/</url>
         </repository>
