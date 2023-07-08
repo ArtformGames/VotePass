@@ -1,13 +1,12 @@
-package com.artformgames.plugin.votepass.server;
+package com.artformgames.plugin.votepass.game;
 
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
-import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
-import com.artformgames.plugin.votepass.server.api.user.GameUsersManager;
-import com.artformgames.plugin.votepass.server.api.vote.VoteManager;
-import com.artformgames.plugin.votepass.server.conf.PluginConfig;
-import com.artformgames.plugin.votepass.server.conf.PluginMessages;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
+import com.artformgames.plugin.votepass.game.conf.PluginMessages;
+import com.artformgames.plugin.votepass.game.user.UsersManager;
+import com.artformgames.plugin.votepass.game.vote.VoteManagerImpl;
 import org.jetbrains.annotations.NotNull;
 
 public class Main extends VotePassPlugin implements VotePassServer {
@@ -16,11 +15,6 @@ public class Main extends VotePassPlugin implements VotePassServer {
     public Main() {
         Main.instance = this;
         VotePassServerAPI.instance = this;
-    }
-
-    @Override
-    public AbstractUserManager<?> getUserManager() {
-        return null;
     }
 
     protected MineConfiguration configuration;
@@ -64,6 +58,8 @@ public class Main extends VotePassPlugin implements VotePassServer {
     protected void shutdown() {
 
         log("Shutting down UserManager...");
+
+
         log("Shutting down DataManager...");
         this.dataManager.shutdown();
 
@@ -89,13 +85,24 @@ public class Main extends VotePassPlugin implements VotePassServer {
         return configuration;
     }
 
+
     @Override
-    public @NotNull GameUsersManager getUsersManager() {
-        return null;
+    public @NotNull String getServerID() {
+        return PluginConfig.SERVER.ID.getNotNull();
     }
 
     @Override
-    public @NotNull VoteManager getVoteManager() {
+    public @NotNull UsersManager getUserManager() {
+        return null;
+    }
+
+
+    @Override
+    public @NotNull VoteManagerImpl getVoteManager() {
+        return null;
+    }
+
+    public @NotNull DataManager getDataManager() {
         return null;
     }
 }

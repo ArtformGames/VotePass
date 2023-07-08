@@ -1,6 +1,7 @@
 package com.artformgames.plugin.votepass.api.data.request;
 
-import com.artformgames.plugin.votepass.api.data.vote.VoteInfomation;
+import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
+import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +22,7 @@ public class RequestInformation {
 
     protected final @NotNull Map<Integer, RequestAnswer> contents;
 
-    protected Set<VoteInfomation> votes;
+    protected Set<VoteInformation> votes;
     protected @Nullable UserKey assignee;
 
     protected @NotNull RequestResult result;
@@ -32,7 +33,7 @@ public class RequestInformation {
 
     public RequestInformation(int id, @NotNull String server, @NotNull UserKey user,
                               @NotNull Map<Integer, RequestAnswer> contents,
-                              Set<VoteInfomation> votes, @Nullable UserKey assignee,
+                              Set<VoteInformation> votes, @Nullable UserKey assignee,
                               @NotNull RequestResult result, boolean feedback,
                               @NotNull LocalDateTime createTime, @Nullable LocalDateTime closedTime) {
         this.id = id;
@@ -51,11 +52,11 @@ public class RequestInformation {
         return id;
     }
 
-    public String getServer() {
+    public @NotNull String getServer() {
         return server;
     }
 
-    public UserKey getUser() {
+    public @NotNull UserKey getUser() {
         return user;
     }
 
@@ -71,12 +72,16 @@ public class RequestInformation {
         return contents;
     }
 
-    public @NotNull Set<VoteInfomation> getVotes() {
+    public @NotNull Set<VoteInformation> getVotes() {
         return votes;
     }
 
     public int countCommentedVotes() {
-        return Math.toIntExact(getVotes().stream().filter(VoteInfomation::hasComments).count());
+        return Math.toIntExact(getVotes().stream().filter(VoteInformation::hasComments).count());
+    }
+
+    public void addVote(@NotNull VoteInformation vote) {
+        this.votes.add(vote);
     }
 
     public @Nullable UserKey getAssignee() {
@@ -114,12 +119,9 @@ public class RequestInformation {
         this.feedback = feedback;
     }
 
-    public int countPros() {
-        return Math.toIntExact(votes.stream().filter(VoteInfomation::isApproved).count());
-    }
-
-    public int countCons() {
-        return votes.size() - countPros();
+    public int count(@Nullable VoteDecision decision) {
+        if (decision == null) return getVotes().size();
+        else return Math.toIntExact(votes.stream().filter(vote -> vote.decision() == decision).count());
     }
 
     public int countAnswerWords() {
@@ -150,7 +152,11 @@ public class RequestInformation {
         return LocalDateTime.now().isAfter(handleTime);
     }
 
-    public @Nullable VoteInfomation getVote(UUID uuid) {
+    public @Nullable VoteInformation getVote(UserKey key) {
+        return getVotes().stream().filter(vote -> vote.voter().equals(key)).findFirst().orElse(null);
+    }
+
+    public @Nullable VoteInformation getVote(UUID uuid) {
         return getVotes().stream().filter(vote -> vote.voter().uuid().equals(uuid)).findFirst().orElse(null);
     }
 
@@ -160,6 +166,10 @@ public class RequestInformation {
 
     public boolean isVoted(UUID uuid) {
         return getVotes().stream().anyMatch(vote -> vote.voter().uuid().equals(uuid));
+    }
+
+    public boolean isVoted(UserKey key) {
+        return getVotes().stream().anyMatch(vote -> vote.voter().equals(key));
     }
 
 }

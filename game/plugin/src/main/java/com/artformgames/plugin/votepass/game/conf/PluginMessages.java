@@ -1,4 +1,4 @@
-package com.artformgames.plugin.votepass.server.conf;
+package com.artformgames.plugin.votepass.game.conf;
 
 import com.artformgames.plugin.votepass.core.conf.TextMessages;
 

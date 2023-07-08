@@ -1,10 +1,11 @@
-package com.artformgames.plugin.votepass.server.api.user;
+package com.artformgames.plugin.votepass.game.api.user;
 
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
-import com.artformgames.plugin.votepass.api.data.vote.VoteInfomation;
+import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.api.user.UserData;
-import com.artformgames.plugin.votepass.server.VotePassServerAPI;
-import com.artformgames.plugin.votepass.server.api.vote.PendingVote;
+import com.artformgames.plugin.votepass.game.VotePassServerAPI;
+import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
+import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -14,10 +15,14 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public interface VoteUserData extends UserData {
+public interface GameUserData extends UserData {
+
+    default @Nullable WhitelistedUserData getWhitelistData() {
+        return VotePassServerAPI.getUserManager().getWhitelistData(getUserUUID());
+    }
 
     @NotNull
-    @Unmodifiable Map<Integer, VoteInfomation> listVotes();
+    @Unmodifiable Map<Integer, VoteInformation> listVotes();
 
     @NotNull
     default @Unmodifiable SortedMap<Integer, RequestInformation> getUnhandledRequests() {
@@ -27,14 +32,6 @@ public interface VoteUserData extends UserData {
     }
 
     int countUnhandledRequest();
-
-    void addVote(@NotNull VoteInfomation vote);
-
-    void removeVote(int requestID);
-
-    default void removeVote(@NotNull RequestInformation request) {
-        removeVote(request.getID());
-    }
 
     boolean isVoted(int requestID);
 

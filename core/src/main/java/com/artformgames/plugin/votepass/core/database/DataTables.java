@@ -46,14 +46,13 @@ public enum DataTables implements SQLTable {
     }),
 
     VOTES("votes", table -> {
-        table.addAutoIncrementColumn("id");
         table.addColumn("request", "INT UNSIGNED NOT NULL");
         table.addColumn("voter", "INT UNSIGNED NOT NULL");
         table.addColumn("decision", "TINYINT UNSIGNED NOT NULL DEFAULT 0");
         table.addColumn("comment", "TEXT");
         table.addColumn("time", "DATETIME NOT NULL");
 
-        table.setIndex(IndexType.UNIQUE_KEY, "uk_votepass_vote", "request", "voter");
+        table.setIndex(IndexType.PRIMARY_KEY, "pk_votepass_vote", "request", "voter");
         table.setIndex(IndexType.INDEX, "uk_votepass_request", "request");
         table.setIndex(IndexType.INDEX, "uk_votepass_voter", "voter");
 
@@ -78,9 +77,9 @@ public enum DataTables implements SQLTable {
         table.addColumn("abstain", "BIT NOT NULL DEFAULT 0");
 
         // The time when the user was added to the whitelist
-        table.addColumn("passed", "DATETIME NOT NULL");
+        table.addColumn("passed_time", "DATETIME NOT NULL");
         // The time when the user was last online
-        table.addColumn("online", "DATETIME");
+        table.addColumn("online_time", "DATETIME");
 
         table.setIndex(IndexType.PRIMARY_KEY, "pk_votepass_list", "server", "user");
         table.setIndex(IndexType.INDEX, "idx_votepass_list_user", "user");

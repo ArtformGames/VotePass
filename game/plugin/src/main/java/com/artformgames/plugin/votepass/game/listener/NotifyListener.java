@@ -1,4 +1,4 @@
-package com.artformgames.plugin.votepass.server.listener;
+package com.artformgames.plugin.votepass.game.listener;
 
 import org.bukkit.event.Listener;
 

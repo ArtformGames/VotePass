@@ -29,7 +29,7 @@
             <groupId>cc.carm.lib</groupId>
             <artifactId>easysql-beecp</artifactId>
             <version>${deps.easysql.version}</version>
-            <scope>provided</scope>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

@@ -4,11 +4,10 @@ import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.api.builder.TableQueryBuilder;
-import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
-import com.artformgames.plugin.votepass.api.data.vote.VoteInfomation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
+import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
@@ -17,8 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -76,45 +75,6 @@ public class DataManager {
         return plugin.getUserManager();
     }
 
-    public Map<Integer, RequestInformation> getUserRequests(long id) throws SQLException {
-        return queryRequests(builder -> {
-            builder.addCondition("user", id);
-            builder.addCondition("feedback", 0);
-        });
-    }
-
-    public Map<Integer, RequestInformation> getServerActiveRequests(@NotNull String serverID, long startLimit, long endLimit) throws SQLException {
-        return getServerActiveRequests(serverID, -1, startLimit, endLimit);
-    }
-
-    public Map<Integer, RequestInformation> getServerActiveRequests(@NotNull String serverID, int startID,
-                                                                    long startLimit, long endLimit) throws SQLException {
-        return queryRequests(builder -> {
-            if (startID > 0) builder.addCondition("id", ">", startID);
-            builder.addCondition("server", serverID);
-            builder.addCondition("result", 0);
-            builder.addTimeCondition("create_time", startLimit, endLimit);
-        });
-    }
-
-
-    public int createRequest(@NotNull String server, long uid,
-                             @NotNull Map<Integer, RequestAnswer> answers) throws SQLException {
-        return DataTables.REQUESTS.createInsert()
-                .setColumnNames("server", "user", "contents", "create_time")
-                .setParams(server, uid, DataSerializer.serializeAnswers(answers), LocalDateTime.now())
-                .returnGeneratedKey().execute();
-    }
-
-    public boolean commitVote(VoteInfomation vote) throws SQLException {
-        return DataTables.VOTES.createReplace()
-                .setColumnNames("request", "voter", "decision", "comment", "time")
-                .setParams(
-                        vote.requestID(), vote.voter().id(),
-                        vote.decision().getID(), vote.comment(), LocalDateTime.now()
-                ).returnGeneratedKey().executeFunction((i) -> i > 0, false);
-    }
-
     public Set<String> getUserPassedServers(long uid) throws SQLException {
         return DataTables.LIST.createQuery()
                 .selectColumns("server")
@@ -129,16 +89,15 @@ public class DataManager {
                 }, new HashSet<>());
     }
 
-    public void updateRequest(@NotNull RequestInformation request) throws SQLException {
-        DataTables.REQUESTS.createUpdate().setColumnValues(
+    public CompletableFuture<Boolean> updateRequest(@NotNull RequestInformation request) {
+        return DataTables.REQUESTS.createUpdate().setColumnValues(
                 new String[]{"assignee", "result", "feedback", "closed_time"},
                 new Object[]{
                         request.getAssignee() == null ? null : request.getAssignee().id(),
                         request.getResult().getID(), request.isFeedback() ? 1 : 0, request.getCloseTime()
                 }
-        ).addCondition("id", request.getID()).build().execute();
+        ).addCondition("id", request.getID()).build().executeFuture(l -> l > 0);
     }
-
 
     public @NotNull Map<Integer, RequestInformation> queryRequests(@Nullable Consumer<@NotNull TableQueryBuilder> conditions) throws SQLException {
         TableQueryBuilder builder = DataTables.REQUESTS.createQuery();
@@ -175,11 +134,11 @@ public class DataManager {
     }
 
 
-    public @NotNull Set<VoteInfomation> loadRequestVotes(int id) throws SQLException {
+    public @NotNull Set<VoteInformation> loadRequestVotes(int id) throws SQLException {
         return DataTables.VOTES.createQuery()
                 .addCondition("request", id)
                 .build().executeFunction(query -> {
-                    Set<VoteInfomation> votes = new HashSet<>();
+                    Set<VoteInformation> votes = new HashSet<>();
                     while (query.getResultSet().next()) {
                         votes.add(readVote(query.getResultSet()));
                     }
@@ -187,11 +146,11 @@ public class DataManager {
                 }, new HashSet<>());
     }
 
-    private @NotNull VoteInfomation readVote(ResultSet rs) throws SQLException {
+    private @NotNull VoteInformation readVote(ResultSet rs) throws SQLException {
         UserKey user = getUserManager().getKey(rs.getLong("voter"));
         if (user == null) throw new SQLException("User not found: #" + rs.getLong("voter"));
 
-        return new VoteInfomation(
+        return new VoteInformation(
                 rs.getInt("request"), user,
                 VoteDecision.parse(rs.getInt("decision")),
                 rs.getString("comments"),

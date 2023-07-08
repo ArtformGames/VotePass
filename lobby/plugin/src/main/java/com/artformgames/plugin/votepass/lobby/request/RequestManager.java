@@ -3,6 +3,8 @@ package com.artformgames.plugin.votepass.lobby.request;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
 import com.artformgames.plugin.votepass.api.user.UserKey;
+import com.artformgames.plugin.votepass.core.database.DataSerializer;
+import com.artformgames.plugin.votepass.core.database.DataTables;
 import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
 import com.artformgames.plugin.votepass.lobby.api.request.UserRequestManager;
@@ -19,9 +21,13 @@ public class RequestManager implements UserRequestManager {
     public @NotNull CompletableFuture<RequestInformation> commit(@NotNull UserKey user, @NotNull PendingRequest request) {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                int id = Main.getInstance().getDataManager().createRequest(
-                        request.getSettings().id(), user.id(), request.getAnswers()
-                );
+                int id = DataTables.REQUESTS.createInsert()
+                        .setColumnNames("server", "user", "contents", "create_time")
+                        .setParams(
+                                request.getSettings().id(), user.id(),
+                                DataSerializer.serializeAnswers(request.getAnswers()), LocalDateTime.now()
+                        ).returnGeneratedKey().execute();
+
                 return new RequestInformation(
                         id, request.getSettings().id(), user,
                         request.getAnswers(), new HashSet<>(),

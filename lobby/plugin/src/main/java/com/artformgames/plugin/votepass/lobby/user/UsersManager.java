@@ -31,7 +31,10 @@ public class UsersManager extends AbstractUserManager<LobbyUser> implements Lobb
         DataManager db = Main.getInstance().getDataManager();
 
         Set<String> passed = db.getUserPassedServers(key.id());
-        Map<Integer, RequestInformation> requests = db.getUserRequests(key.id());
+        Map<Integer, RequestInformation> requests = db.queryRequests(builder -> {
+            builder.addCondition("user", key.id());
+            builder.addCondition("feedback", 0);
+        });
 
         return new LobbyUser(key, requests, passed);
     }

@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
 
-public record VoteInfomation(
+public record VoteInformation(
         int requestID, @NotNull UserKey voter, @NotNull VoteDecision decision,
         @Nullable String comment, @NotNull LocalDateTime time
 ) {
@@ -19,5 +19,23 @@ public record VoteInfomation(
         return decision == VoteDecision.APPROVE;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VoteInformation that = (VoteInformation) o;
+
+        if (requestID != that.requestID) return false;
+        return voter.equals(that.voter);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = requestID;
+        result = 31 * result + voter.hashCode();
+        return result;
+    }
 
 }

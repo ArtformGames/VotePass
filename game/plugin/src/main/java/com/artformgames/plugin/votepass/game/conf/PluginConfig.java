@@ -1,4 +1,4 @@
-package com.artformgames.plugin.votepass.server.conf;
+package com.artformgames.plugin.votepass.game.conf;
 
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
@@ -36,6 +36,7 @@ public class PluginConfig extends ConfigurationRoot {
                 .builderOf(Duration.class).fromString()
                 .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
                 .serializeValue(TimeStringUtils::serializeDuration)
+                .defaults(Duration.ofDays(7))
                 .build();
 
         @HeaderComment({
