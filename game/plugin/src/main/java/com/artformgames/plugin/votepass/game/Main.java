@@ -6,8 +6,11 @@ import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.listener.UserListener;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
+import com.artformgames.plugin.votepass.game.listener.NotifyListener;
+import com.artformgames.plugin.votepass.game.listener.WhitelistListener;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
 import com.artformgames.plugin.votepass.game.vote.VoteManagerImpl;
+import dev.pns.signapi.SignAPI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ExecutionException;
@@ -25,6 +28,8 @@ public class Main extends VotePassPlugin implements VotePassServer {
     protected DataManager dataManager;
     protected UsersManager usersManager;
     protected VoteManagerImpl voteManager;
+
+    protected SignAPI signAPI;
 
     @Override
     protected void load() {
@@ -52,8 +57,13 @@ public class Main extends VotePassPlugin implements VotePassServer {
     @Override
     protected boolean initialize() {
 
+        log("Initialize sign api...");
+        this.signAPI = new SignAPI(this);
+
         log("Register listeners...");
         registerListener(new UserListener<>(getUserManager()));
+        registerListener(new WhitelistListener());
+        registerListener(new NotifyListener());
 
         log("Register commands...");
 
@@ -116,5 +126,9 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
     public @NotNull DataManager getDataManager() {
         return this.dataManager;
+    }
+
+    public static SignAPI getSignAPI() {
+        return getInstance().signAPI;
     }
 }

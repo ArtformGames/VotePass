@@ -111,27 +111,4 @@ public class PluginConfig extends ConfigurationRoot {
 
     }
 
-    public static final class PAGE_ITEMS extends ConfigurationRoot {
-
-        public static final ConfiguredItem PREVIOUS_PAGE = ConfiguredItem.create()
-                .defaults(Material.ARROW, "&fPrevious page")
-                .defaultLore(
-                        " ",
-                        "&f  Left click to view the previous page.",
-                        "&f  Right click to view the first page.",
-                        " ")
-                .build();
-
-        public static final ConfiguredItem NEXT_PAGE = ConfiguredItem.create()
-                .defaults(Material.ARROW, "&fNext page")
-                .defaultLore(
-                        " ",
-                        "&f  Left click to view the next page.",
-                        "&f  Right click to view the last page.",
-                        " "
-                ).build();
-
-    }
-
-
 }

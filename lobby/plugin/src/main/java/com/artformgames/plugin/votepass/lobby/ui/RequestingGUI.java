@@ -1,4 +1,4 @@
-package com.artformgames.plugin.votepass.lobby.gui;
+package com.artformgames.plugin.votepass.lobby.ui;
 
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
@@ -6,6 +6,7 @@ import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.easyplugin.utils.ItemStackFactory;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
+import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerQuestion;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
@@ -47,8 +48,8 @@ public class RequestingGUI extends AutoPagedGUI {
 
         setPreviousPageSlot(18);
         setNextPageSlot(26);
-        setPreviousPageUI(PluginConfig.PAGE_ITEMS.PREVIOUS_PAGE.get(player));
-        setNextPageUI(PluginConfig.PAGE_ITEMS.NEXT_PAGE.get(player));
+        setPreviousPageUI(CommonConfig.PAGE_ITEMS.PREVIOUS_PAGE.get(player));
+        setNextPageUI(CommonConfig.PAGE_ITEMS.NEXT_PAGE.get(player));
     }
 
 

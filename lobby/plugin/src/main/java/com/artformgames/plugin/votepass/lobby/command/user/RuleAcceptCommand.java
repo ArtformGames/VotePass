@@ -7,7 +7,7 @@ import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
 import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
 import com.artformgames.plugin.votepass.lobby.command.MainCommand;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
-import com.artformgames.plugin.votepass.lobby.gui.RequestingGUI;
+import com.artformgames.plugin.votepass.lobby.ui.RequestingGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;

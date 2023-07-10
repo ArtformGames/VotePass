@@ -72,6 +72,13 @@ public class LobbyUser extends AbstractUserData implements LobbyUserData {
         return this.requests.values().stream().filter(request -> request.getServer().equals(serverID)).findFirst().orElse(null);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -4,7 +4,7 @@ import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
 import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
-import com.artformgames.plugin.votepass.lobby.gui.RequestingGUI;
+import com.artformgames.plugin.votepass.lobby.ui.RequestingGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

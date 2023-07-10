@@ -57,4 +57,14 @@ public class GameUser extends AbstractUserData implements GameUserData {
     public void removePendingVote() {
         this.pendingVote = null;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

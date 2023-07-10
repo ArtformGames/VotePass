@@ -20,8 +20,8 @@ public class WhitelistUser extends AbstractUserData implements WhitelistedUserDa
     protected boolean abstained;
 
     public WhitelistUser(@NotNull UserKey key,
-                            @Nullable Integer request, boolean abstained,
-                            @NotNull LocalDateTime passedTime, @Nullable LocalDateTime lastOnline) {
+                         @Nullable Integer request, boolean abstained,
+                         @NotNull LocalDateTime passedTime, @Nullable LocalDateTime lastOnline) {
         super(key);
         this.request = request;
         this.abstained = abstained;
@@ -71,6 +71,16 @@ public class WhitelistUser extends AbstractUserData implements WhitelistedUserDa
     @Override
     public @NotNull LocalDateTime getPassedTime() {
         return this.passedTime;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,7 @@ public class RequestInformation {
 
     protected final @NotNull Map<Integer, RequestAnswer> contents;
 
-    protected Set<VoteInformation> votes;
+    protected @NotNull Set<VoteInformation> votes;
     protected @Nullable UserKey assignee;
 
     protected @NotNull RequestResult result;
@@ -33,7 +34,7 @@ public class RequestInformation {
 
     public RequestInformation(int id, @NotNull String server, @NotNull UserKey user,
                               @NotNull Map<Integer, RequestAnswer> contents,
-                              Set<VoteInformation> votes, @Nullable UserKey assignee,
+                              @NotNull Set<VoteInformation> votes, @Nullable UserKey assignee,
                               @NotNull RequestResult result, boolean feedback,
                               @NotNull LocalDateTime createTime, @Nullable LocalDateTime closedTime) {
         this.id = id;
@@ -100,13 +101,23 @@ public class RequestInformation {
         return this.createTime;
     }
 
-    public @Nullable LocalDateTime getEndTime(long autoCloseTime) {
-        if (autoCloseTime <= 0) return null;
-        return getCreateTime().plus(autoCloseTime, ChronoUnit.SECONDS);
+    public @NotNull String getCreateTimeString() {
+        return formatTime(getCreateTime());
     }
 
-    public @Nullable Long getRemainMills(long autoCloseTime) {
-        LocalDateTime endTime = getEndTime(autoCloseTime);
+    public @Nullable LocalDateTime getExpireTime(@Nullable Duration expireDuration) {
+        if (expireDuration == null) return null;
+        return getCreateTime().plus(expireDuration);
+    }
+
+    public @NotNull String getExpireTimeString(@Nullable Duration expireDuration) {
+        LocalDateTime end = getExpireTime(expireDuration);
+        if (end == null) return "∞";
+        return formatTime(end);
+    }
+
+    public @Nullable Long getRemainMills(@Nullable Duration expireDuration) {
+        LocalDateTime endTime = getExpireTime(expireDuration);
         if (endTime == null) return null;
         return LocalDateTime.now().until(endTime, ChronoUnit.MILLIS);
     }
@@ -140,10 +151,10 @@ public class RequestInformation {
         this.closedTime = closeTime;
     }
 
-    public boolean isTimeout(@Nullable Duration keepTime) {
-        if (keepTime == null) return false;
-        LocalDateTime finalTime = LocalDateTime.now().plus(keepTime);
-        return LocalDateTime.now().isAfter(finalTime);
+    public boolean isTimeout(@Nullable Duration expireDuration) {
+        LocalDateTime finalTime = getExpireTime(expireDuration);
+        if (finalTime == null) return false;
+        else return LocalDateTime.now().isAfter(finalTime);
     }
 
     public boolean needIntervention(@Nullable Duration interventionTime) {
@@ -170,6 +181,11 @@ public class RequestInformation {
 
     public boolean isVoted(UserKey key) {
         return getVotes().stream().anyMatch(vote -> vote.voter().equals(key));
+    }
+
+
+    protected String formatTime(LocalDateTime time) {
+        return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
 }

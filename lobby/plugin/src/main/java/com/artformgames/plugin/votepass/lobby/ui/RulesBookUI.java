@@ -1,4 +1,4 @@
-package com.artformgames.plugin.votepass.lobby.gui;
+package com.artformgames.plugin.votepass.lobby.ui;
 
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerRules;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
