@@ -4,16 +4,16 @@ import cc.carm.lib.easyplugin.command.SubCommand;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
-import com.artformgames.plugin.votepass.game.command.admin.UsersCommands;
+import com.artformgames.plugin.votepass.game.command.MainCommand;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class UserRemoveCommand extends SubCommand<UsersCommands> {
+public class UserRemoveCommand extends SubCommand<MainCommand> {
 
-    public UserRemoveCommand(@NotNull UsersCommands parent, String identifier, String... aliases) {
+    public UserRemoveCommand(@NotNull MainCommand parent, String identifier, String... aliases) {
         super(parent, identifier, aliases);
     }
 

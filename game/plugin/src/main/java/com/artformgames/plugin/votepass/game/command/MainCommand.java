@@ -1,7 +1,13 @@
 package com.artformgames.plugin.votepass.game.command;
 
 import com.artformgames.plugin.votepass.core.command.VotePassCommand;
-import com.artformgames.plugin.votepass.game.command.admin.*;
+import com.artformgames.plugin.votepass.game.command.admin.ManageCommand;
+import com.artformgames.plugin.votepass.game.command.admin.MigrateCommand;
+import com.artformgames.plugin.votepass.game.command.admin.ReloadCommand;
+import com.artformgames.plugin.votepass.game.command.admin.SyncCommand;
+import com.artformgames.plugin.votepass.game.command.admin.user.UserAddCommand;
+import com.artformgames.plugin.votepass.game.command.admin.user.UserListCommand;
+import com.artformgames.plugin.votepass.game.command.admin.user.UserRemoveCommand;
 import com.artformgames.plugin.votepass.game.command.user.AbstainCommand;
 import com.artformgames.plugin.votepass.game.command.user.HandleCommand;
 import com.artformgames.plugin.votepass.game.command.user.RequestsCommand;
@@ -22,7 +28,11 @@ public class MainCommand extends VotePassCommand {
         registerSubCommand(new MigrateCommand(this, "migrate"));
         registerSubCommand(new SyncCommand(this, "sync"));
         registerSubCommand(new ReloadCommand(this, "reload"));
-        registerHandler(new UsersCommands(plugin, this, "user", "users"));
+
+        registerSubCommand(new UserListCommand(this, "list"));
+        registerSubCommand(new UserAddCommand(this, "add"));
+        registerSubCommand(new UserRemoveCommand(this, "remove"));
+
     }
 
     @Override

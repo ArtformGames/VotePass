@@ -2,15 +2,15 @@ package com.artformgames.plugin.votepass.game.command.admin.user;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
 import com.artformgames.plugin.votepass.game.Main;
-import com.artformgames.plugin.votepass.game.command.admin.UsersCommands;
+import com.artformgames.plugin.votepass.game.command.MainCommand;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-public class UserListCommand extends SubCommand<UsersCommands> {
+public class UserListCommand extends SubCommand<MainCommand> {
 
-    public UserListCommand(@NotNull UsersCommands parent, String identifier, String... aliases) {
+    public UserListCommand(@NotNull MainCommand parent, String identifier, String... aliases) {
         super(parent, identifier, aliases);
     }
 
