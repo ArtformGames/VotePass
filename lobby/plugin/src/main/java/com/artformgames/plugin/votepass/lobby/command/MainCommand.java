@@ -6,6 +6,7 @@ import com.artformgames.plugin.votepass.lobby.command.admin.ToggleCommand;
 import com.artformgames.plugin.votepass.lobby.command.user.RequestCommand;
 import com.artformgames.plugin.votepass.lobby.command.user.RuleAcceptCommand;
 import com.artformgames.plugin.votepass.lobby.command.user.RuleDenyCommand;
+import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +24,15 @@ public class MainCommand extends VotePassCommand {
         registerSubCommand(new ToggleCommand(this, "toggle"));
     }
 
+
     @Override
     public Void noArgs(CommandSender sender) {
+        PluginMessages.COMMAND.USER.send(sender);
+        if (sender.hasPermission("votepass.admin")) {
+            PluginMessages.COMMAND.ADMIN.send(sender);
+        }
         return null;
     }
+
 
 }
