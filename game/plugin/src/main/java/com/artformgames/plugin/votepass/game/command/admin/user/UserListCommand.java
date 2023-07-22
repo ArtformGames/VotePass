@@ -21,4 +21,10 @@ public class UserListCommand extends SubCommand<MainCommand> {
         list.forEach(user -> PluginMessages.USERS.USER.send(sender, user.getKey().getDisplayName(), user.getKey().uuid(), user.getPassedTimeString()));
         return null;
     }
+
+    @Override
+    public boolean hasPermission(@NotNull CommandSender sender) {
+        return sender.hasPermission("votepass.admin");
+    }
+
 }

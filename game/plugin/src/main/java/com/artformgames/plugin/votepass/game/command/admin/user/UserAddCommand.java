@@ -53,4 +53,9 @@ public class UserAddCommand extends SubCommand<MainCommand> {
         return null;
     }
 
+    @Override
+    public boolean hasPermission(@NotNull CommandSender sender) {
+        return sender.hasPermission("votepass.admin");
+    }
+
 }
