@@ -46,6 +46,26 @@ public class PluginConfig extends ConfigurationRoot {
                 .build();
 
         @HeaderComment({
+                "Periods that sync the new requests",
+                "This value should not be lower than 10 seconds.",
+                "If periods value ≤0 , the new requests will only be synced by execute 'votepass sync' command"
+        })
+        public static final ConfiguredValue<Duration> SYNC_PERIOD = ConfiguredValue
+                .builderOf(Duration.class).fromString()
+                .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
+                .serializeValue(TimeStringUtils::serializeDuration)
+                .defaults(Duration.ofMinutes(3))
+                .build();
+
+        @HeaderComment({"Periods that notify players to handle requests"})
+        public static final ConfiguredValue<Duration> NOTIFY_PERIOD = ConfiguredValue
+                .builderOf(Duration.class).fromString()
+                .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
+                .serializeValue(TimeStringUtils::serializeDuration)
+                .defaults(Duration.ofMinutes(15))
+                .build();
+
+        @HeaderComment({
                 "The kick message when the player is not in the whitelist."
         })
         public static final ConfiguredMessageList<String> KICK_MESSAGE = ConfiguredMessageList.asStrings()
@@ -69,7 +89,7 @@ public class PluginConfig extends ConfigurationRoot {
     public static final class GUIS extends ConfigurationRoot {
 
         public static final Class<?> ABSTAIN_TOGGLE = AbstainToggleGUI.CONFIG.class;
-        
+
         public static final Class<?> REQUEST_LIST = RequestListGUI.CONFIG.class;
         public static final Class<?> REQUEST_COMMENTS = RequestCommentsGUI.CONFIG.class;
 

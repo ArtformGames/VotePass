@@ -16,29 +16,33 @@ public class NotifyListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        UsersManager userManager = Main.getInstance().getUserManager();
-        VoteManagerImpl voteManager = Main.getInstance().getVoteManager();
 
         Main.getInstance().getScheduler().runLater(60L, () -> {
             if (!player.isOnline()) return;
-
-            GameUser user = userManager.getNullable(player.getUniqueId());
-            if (user != null) {
-                int requests = user.countUnvotedRequest();
-                if (requests > 0) {
-                    PluginMessages.VOTE.NOT_VOTED.send(player, requests);
-                    PluginConfig.SOUNDS.NOTIFY.playTo(player);
-                }
-            }
-
-            if (userManager.isAdmin(player)) {
-                int requireIntervention = voteManager.countAdminRequests();
-                if (requireIntervention > 0) {
-                    PluginMessages.ADMIN.INTERVENTION.send(player, requireIntervention);
-                    PluginMessages.ADMIN.SOUND.playTo(player);
-                }
-            }
+            notify(player);
         });
+    }
+
+    public static void notify(Player player) {
+        UsersManager userManager = Main.getInstance().getUserManager();
+        VoteManagerImpl voteManager = Main.getInstance().getVoteManager();
+
+        GameUser user = userManager.getNullable(player.getUniqueId());
+        if (user != null) {
+            int requests = user.countUnvotedRequest();
+            if (requests > 0) {
+                PluginMessages.VOTE.NOT_VOTED.send(player, requests);
+                PluginConfig.SOUNDS.NOTIFY.playTo(player);
+            }
+        }
+
+        if (userManager.isAdmin(player)) {
+            int requireIntervention = voteManager.countAdminRequests();
+            if (requireIntervention > 0) {
+                PluginMessages.ADMIN.INTERVENTION.send(player, requireIntervention);
+                PluginMessages.ADMIN.SOUND.playTo(player);
+            }
+        }
     }
 
 }

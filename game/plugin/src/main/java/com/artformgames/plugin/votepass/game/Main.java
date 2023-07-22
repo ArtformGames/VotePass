@@ -9,6 +9,8 @@ import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.listener.NotifyListener;
 import com.artformgames.plugin.votepass.game.listener.WhitelistListener;
+import com.artformgames.plugin.votepass.game.runnable.NotifyRunnable;
+import com.artformgames.plugin.votepass.game.runnable.SyncRunnable;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
 import com.artformgames.plugin.votepass.game.vote.VoteManagerImpl;
 import dev.pns.signapi.SignAPI;
@@ -71,11 +73,20 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
         loadMetrics();
         checkVersion();
+
+        log("Start runners...");
+        NotifyRunnable.start();
+        SyncRunnable.start();
+
         return true;
     }
 
     @Override
     protected void shutdown() {
+
+        log("Shutdown runners...");
+        NotifyRunnable.shutdown();
+        SyncRunnable.shutdown();
 
         log("Shutting down UserManager...");
         try {
@@ -87,6 +98,7 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
         log("Shutting down DataManager...");
         this.dataManager.shutdown();
+
 
     }
 
