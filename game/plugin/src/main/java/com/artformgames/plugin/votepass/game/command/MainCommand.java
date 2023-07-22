@@ -11,6 +11,7 @@ import com.artformgames.plugin.votepass.game.command.admin.user.UserRemoveComman
 import com.artformgames.plugin.votepass.game.command.user.AbstainCommand;
 import com.artformgames.plugin.votepass.game.command.user.HandleCommand;
 import com.artformgames.plugin.votepass.game.command.user.RequestsCommand;
+import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,10 @@ public class MainCommand extends VotePassCommand {
 
     @Override
     public Void noArgs(CommandSender sender) {
+        PluginMessages.COMMAND.USER.send(sender);
+        if (sender.hasPermission("votepass.admin")) {
+            PluginMessages.COMMAND.ADMIN.send(sender);
+        }
         return null;
     }
 

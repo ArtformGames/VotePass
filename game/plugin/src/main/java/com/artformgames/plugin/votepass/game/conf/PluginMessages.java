@@ -10,8 +10,39 @@ import org.bukkit.Sound;
 
 public class PluginMessages extends TextMessages {
 
-
     public static final Class<?> COMMON = CommonMessages.class;
+
+    public static final class COMMAND extends ConfigurationRoot {
+
+        public static final ConfiguredMessageList<BaseComponent[]> USER = list()
+                .defaults(
+                        "&e&lVotePass &fCommands &7(/votepass)",
+                        "&8#&f requests",
+                        "&8-&7 View all whitelist requests that have not been participated in.",
+                        "&8#&f handle &e<requestID>",
+                        "&8-&7 (Continue to) process the specified whitelist request.",
+                        "&8#&f abstain",
+                        "&8-&7 Enable/Disable the auto abstain function."
+                ).build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> ADMIN = list()
+                .defaults(
+                        "&8#&f manage",
+                        "&8-&7 Open the admin manage GUI.",
+                        "&8#&f sync",
+                        "&8-&7 Synchronize requests from database.",
+                        "&8#&f migrate",
+                        "&8-&7 Migrate the whitelist of the server",
+                        "&8#&f list",
+                        "&8-&7 List all players in whitelist.",
+                        "&8#&f add <username>",
+                        "&8-&7 Add a player to the whitelist.",
+                        "&8#&f remove <username>",
+                        "&8-&7 Remove a player from the whitelist.",
+                        "&8#&f reload",
+                        "&8-&7 Reload the configuration file."
+                ).build();
+    }
 
     public static class USERS extends ConfigurationRoot {
         public static final ConfiguredMessageList<BaseComponent[]> NEVER_JOINED = list()

@@ -91,11 +91,12 @@ The main command is `/VotePass` or `/vp`.
 @ Admin command
 - List all players in whitelist.
 
-# add <uuid> [username]
+# add <username>
 @ Admin command
 - Add a player to the whitelist.
+- Player should joined the server(e.g lobby) at least once.
 
-# remove <username/uuid>
+# remove <username>
 @ Admin command
 - Remove a player from the whitelist.
 

@@ -11,6 +11,24 @@ public class PluginMessages extends TextMessages {
 
     public static final Class<?> COMMON = CommonMessages.class;
 
+    public static final class COMMAND extends ConfigurationRoot {
+
+        public static final ConfiguredMessageList<BaseComponent[]> USER = list()
+                .defaults(
+                        "&e&lVotePass &fCommands &7(/votepass)",
+                        "&8#&f request &e<serverID>",
+                        "&8-&7 Submit a whitelist request for a specific server."
+                ).build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> ADMIN = list()
+                .defaults(
+                        "&8#&f toggle <server>",
+                        "&8-&7 Enable/Disable the vote application for the corresponding server.",
+                        "&8#&f reload",
+                        "&8-&7 Reload the configuration file."
+                ).build();
+    }
+
     public static final ConfiguredMessageList<BaseComponent[]> NOT_EXISTS = list()
             .defaults(
                     "&fThere is no server configuration with ID &e%(server) &f, please check."

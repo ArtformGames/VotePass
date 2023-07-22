@@ -69,7 +69,7 @@ public class Main extends VotePassPlugin implements VotePassServer {
         registerListener(new NotifyListener());
 
         log("Register commands...");
-        registerCommand(getName(), new MainCommand(this));
+        registerCommand("votepass", new MainCommand(this));
 
         loadMetrics();
         checkVersion();

@@ -67,7 +67,7 @@ public class Main extends VotePassPlugin implements VotePassLobby {
         registerListener(new FeedbackListener());
 
         log("Register commands...");
-        registerCommand(getName(), new MainCommand(this));
+        registerCommand("votepass", new MainCommand(this));
 
         loadMetrics();
         checkVersion();
