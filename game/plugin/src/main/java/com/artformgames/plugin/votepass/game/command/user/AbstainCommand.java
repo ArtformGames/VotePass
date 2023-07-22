@@ -47,4 +47,10 @@ public class AbstainCommand extends SubCommand<MainCommand> {
         }
 
     }
+
+    @Override
+    public boolean hasPermission(@NotNull CommandSender sender) {
+        return sender.hasPermission("votepass.abstain");
+    }
+
 }
