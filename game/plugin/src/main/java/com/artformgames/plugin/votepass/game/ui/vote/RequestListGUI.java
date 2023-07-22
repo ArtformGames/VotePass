@@ -1,22 +1,23 @@
 package com.artformgames.plugin.votepass.game.ui.vote;
 
+import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
-import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.game.Main;
-import com.artformgames.plugin.votepass.game.conf.PluginConfig;
+import com.artformgames.plugin.votepass.game.ui.GUIUtils;
+import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.user.GameUser;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 
-import java.text.NumberFormat;
-import java.util.Optional;
-
 public class RequestListGUI extends AutoPagedGUI {
+
 
     public static void open(Player player) {
         new RequestListGUI(player).openGUI(player);
@@ -26,15 +27,11 @@ public class RequestListGUI extends AutoPagedGUI {
     private final GameUser user;
 
     public RequestListGUI(Player player) {
-        super(GUIType.SIX_BY_NINE, PluginConfig.GUIS.LIST.TITLE.parse(player), 10, 34);
+        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parse(player), 10, 34);
         this.player = player;
         this.user = Main.getInstance().getUserManager().get(player.getUniqueId());
 
-        setPreviousPageSlot(18);
-        setNextPageSlot(26);
-        setNextPageUI(CommonConfig.PAGE_ITEMS.NEXT_PAGE.get(player));
-        setPreviousPageUI(CommonConfig.PAGE_ITEMS.PREVIOUS_PAGE.get(player));
-
+        GUIUtils.loadPageIcon(this, player, 18, 26);
         initItems();
     }
 
@@ -50,36 +47,28 @@ public class RequestListGUI extends AutoPagedGUI {
     public void initItems() {
         Main.getInstance().getVoteManager().getRequests().values().stream()
                 .filter(value -> !value.isVoted(getUser().getKey()))
-                .forEach(value -> addItem(createIcon(value)));
+                .forEachOrdered(value -> addItem(createIcon(value)));
     }
 
-    protected GUIItem createIcon(@NotNull RequestInformation info) {
+    protected GUIItem createIcon(@NotNull RequestInformation request) {
+        RequestIconInfo iconInfo = RequestIconInfo.of(request);
 
-        int total = info.count(null);
-        int pros = info.count(VoteDecision.APPROVE);
-        int abs = info.count(VoteDecision.ABSTAIN);
-        int cons = total - pros - abs;
-
-        int words = info.countAnswerWords();
-
-        return new GUIItem(PluginConfig.GUIS.LIST.ITEMS.INFO.get(player,
-                Optional.ofNullable(info.getUser().name()).orElse("?"), info.getUser().uuid(),
-                info.getID(), info.countAnswerWords(),
-                info.getCreateTimeString(),
-                info.getExpireTimeString(CommonConfig.TIME.AUTO_CLOSE.getNotNull()),
-                pros, getPercent(pros, total),
-                cons, getPercent(cons, total),
-                abs, getPercent(abs, total),
-                total
+        return new GUIItem(CONFIG.ITEMS.INFO.get(player,
+                iconInfo.displayName(), iconInfo.uuid(), iconInfo.id(), iconInfo.words(),
+                iconInfo.createTime(), iconInfo.expireTime(),
+                iconInfo.pros(), iconInfo.prosPercent(),
+                iconInfo.cons(), iconInfo.consPercent(),
+                iconInfo.abs(), iconInfo.absPercent(),
+                iconInfo.total()
         )) {
             @Override
             public void onClick(Player clicker, ClickType type) {
-                if (type.isLeftClick() || words >= 5000) {
-                    VoteHandleGUI.open(player, info);
+                if (type.isLeftClick() || iconInfo.words() >= 5000) {
+                    VoteHandleGUI.open(player, request, iconInfo);
                 } else if (type.isRightClick()) {
                     player.closeInventory();
-                    if (!QuickReviewGUI.open(player, info)) {
-                        VoteHandleGUI.open(player, info);
+                    if (!QuickReviewGUI.open(player, request)) {
+                        VoteHandleGUI.open(player, request, iconInfo);
                     }
                 } else {
                     player.closeInventory();
@@ -88,15 +77,42 @@ public class RequestListGUI extends AutoPagedGUI {
         };
     }
 
+    public static final class CONFIG extends ConfigurationRoot {
 
-    protected static String getPercent(int x, int y) {
-        if (x == 0 || y == 0) return "0.00";
+        public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
+                .defaults("&a&lAll Requests")
+                .build();
 
-        double d1 = x * 1.0;
-        double d2 = y * 1.0;
-        NumberFormat percentInstance = NumberFormat.getPercentInstance();
-        percentInstance.setMinimumFractionDigits(2);
-        return percentInstance.format(d1 / d2);
+        public static final class ITEMS extends ConfigurationRoot {
+
+            public static final ConfiguredItem INFO = ConfiguredItem.create()
+                    .defaultType(Material.PLAYER_HEAD)
+                    .defaultName("&7#%(request_id) &e&l%(name)")
+                    .defaultLore(
+                            " ",
+                            "&7Request form &e&l%(name)",
+                            "&7UUID: &e%(uuid)",
+                            "&7",
+                            "&7Contain words: &e%(request_words)",
+                            "&7Submit time: &e%(create_time)",
+                            "&7Close time: &e%(close_time)",
+                            " ",
+                            "&f✔ &a&lApproved&7: &a%(pros_amount)&7/%(votes_amount) &8(%(pros_ratio)%)",
+                            "&f✘ &c&lRejected&7: &c%(cons_amount)&7/%(votes_amount) &8(%(cons_ratio)%)",
+                            "&f◮ &e&lAbstained&7: &7%(abstains_amount)&7/%(votes_amount) &8(%(abstains_ratio)%)",
+                            " ",
+                            "&a ▶ Left  click &8|&f view details",
+                            "&a ▶ Right click &8|&f quick review"
+                    ).params("name", "uuid",
+                            "request_id", "request_words",
+                            "create_time", "close_time",
+                            "pros_amount", "pros_ratio",
+                            "cons_amount", "cons_ratio",
+                            "abstains_amount", "abstains_ratio",
+                            "votes_amount"
+                    ).build();
+        }
+
+
     }
-
 }

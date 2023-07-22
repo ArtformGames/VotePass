@@ -4,6 +4,7 @@ import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.listener.UserListener;
+import com.artformgames.plugin.votepass.game.command.MainCommand;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.listener.NotifyListener;
@@ -66,6 +67,7 @@ public class Main extends VotePassPlugin implements VotePassServer {
         registerListener(new NotifyListener());
 
         log("Register commands...");
+        registerCommand(getName(), new MainCommand(this));
 
         loadMetrics();
         checkVersion();

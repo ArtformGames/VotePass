@@ -1,6 +1,7 @@
 package com.artformgames.plugin.votepass.game.api.whiteist;
 
 import com.artformgames.plugin.votepass.api.user.UserData;
+import com.artformgames.plugin.votepass.api.utils.TimeFormatUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,5 +30,9 @@ public interface WhitelistedUserData extends UserData {
     }
 
     @NotNull LocalDateTime getPassedTime();
+
+    default @NotNull String getPassedTimeString() {
+        return TimeFormatUtils.formatTime(getPassedTime());
+    }
 
 }

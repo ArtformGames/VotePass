@@ -6,10 +6,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public record UserKey(long id, @NotNull UUID uuid, @Nullable String name) {
@@ -17,6 +14,10 @@ public record UserKey(long id, @NotNull UUID uuid, @Nullable String name) {
 
     public @Nullable Player getPlayer() {
         return Bukkit.getPlayer(uuid());
+    }
+
+    public @NotNull String getDisplayName() {
+        return Optional.ofNullable(name()).orElse("?");
     }
 
     public String getValue(UserKeyManager.KeyType type) {

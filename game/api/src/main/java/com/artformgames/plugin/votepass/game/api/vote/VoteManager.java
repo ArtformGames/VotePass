@@ -27,7 +27,7 @@ public interface VoteManager {
 
     int countAdminRequests();
 
-    @NotNull VoteInformation submitVote(GameUserData voter, PendingVote pendingVote);
+    @NotNull CompletableFuture<VoteInformation> submitVote(GameUserData voter, PendingVote pendingVote);
 
     @NotNull RequestResult calculateResult(@NotNull RequestInformation request);
 

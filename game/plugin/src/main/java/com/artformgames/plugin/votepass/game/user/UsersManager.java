@@ -67,6 +67,11 @@ public class UsersManager extends AbstractUserManager<GameUser> implements GameU
     }
 
     @Override
+    public @Nullable WhitelistedUserData getWhitelistData(String user) {
+        return this.whitelistMap.values().stream().filter(u -> user.equalsIgnoreCase(u.getKey().name())).findFirst().orElse(null);
+    }
+
+    @Override
     public boolean isWhitelisted(@NotNull UUID uuid) {
         return this.whitelistMap.containsKey(uuid);
     }

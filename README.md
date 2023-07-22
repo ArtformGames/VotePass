@@ -67,7 +67,11 @@ The main command is `/VotePass` or `/vp`.
 @ Player command
 - (Continue to) process the specified whitelist request.
 
-# admin
+# abstain
+@ Player command
+- Enable/Disable the auto abstain function.
+
+# manage
 @ Admin command
 - Open the administrator operation GUI to directly operate the whitelist.
 

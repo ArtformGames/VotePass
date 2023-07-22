@@ -1,6 +1,7 @@
 package com.artformgames.plugin.votepass.game.listener;
 
 import com.artformgames.plugin.votepass.game.Main;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.user.GameUser;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
@@ -26,7 +27,7 @@ public class NotifyListener implements Listener {
                 int requests = user.countUnvotedRequest();
                 if (requests > 0) {
                     PluginMessages.VOTE.NOT_VOTED.send(player, requests);
-                    PluginMessages.VOTE.SOUND.playTo(player);
+                    PluginConfig.SOUNDS.NOTIFY.playTo(player);
                 }
             }
 

@@ -30,9 +30,12 @@ public interface GameUserManager<U extends GameUserData> extends UserDataManager
 
     @Nullable WhitelistedUserData getWhitelistData(UUID user);
 
+    @Nullable WhitelistedUserData getWhitelistData(String user);
+
     default @Nullable WhitelistedUserData getWhitelistData(UserKey user) {
         return getWhitelistData(user.uuid());
     }
+
 
     boolean isWhitelisted(@NotNull UUID uuid);
 

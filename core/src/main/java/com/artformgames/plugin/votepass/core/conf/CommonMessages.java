@@ -24,6 +24,13 @@ public class CommonMessages extends TextMessages {
             .defaults("&c&lSorry! &fBut please input a correct number!")
             .build();
 
+
+    public static final ConfiguredMessageList<BaseComponent[]> NOT_EXISTS = list()
+            .defaults("&c&lSorry! &fThere is currently no pending request with ID &e#%(id) &f!")
+            .params("id")
+            .build();
+
+
     public static final class RELOAD extends TextMessages {
 
         public static final ConfiguredMessageList<BaseComponent[]> START = list()

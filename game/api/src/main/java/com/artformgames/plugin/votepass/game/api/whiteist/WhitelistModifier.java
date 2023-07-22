@@ -13,11 +13,11 @@ public interface WhitelistModifier {
 
     @NotNull CompletableFuture<Integer> execute();
 
-    default WhitelistModifier modify(UserKey user) {
+    WhitelistModifier modify(UserKey user, @Nullable Consumer<WhitelistUserModifier> migrator);
+
+    default WhitelistModifier add(UserKey user) {
         return modify(user, null);
     }
-
-    WhitelistModifier modify(UserKey user, @Nullable Consumer<WhitelistUserModifier> migrator);
 
     default WhitelistModifier update(WhitelistedUserData data) {
         return modify(

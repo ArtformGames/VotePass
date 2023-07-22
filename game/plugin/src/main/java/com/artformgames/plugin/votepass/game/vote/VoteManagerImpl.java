@@ -48,7 +48,7 @@ public class VoteManagerImpl implements VoteManager {
 
             return data.size();
         } catch (Exception exception) {
-            Main.severe("从服务器同步新请求数据失败，请检查数据库连接配置！");
+            Main.severe("Failed to synchronize new request data from the database, please check the database connection configuration!");
             exception.printStackTrace();
             return 0;
         }
@@ -81,7 +81,7 @@ public class VoteManagerImpl implements VoteManager {
     }
 
     @Override
-    public @NotNull VoteInformation submitVote(GameUserData voter, PendingVote pendingVote) {
+    public @NotNull CompletableFuture<VoteInformation> submitVote(GameUserData voter, PendingVote pendingVote) {
         RequestInformation request = pendingVote.getRequest();
 
         VoteInformation vote = new VoteInformation(
@@ -90,24 +90,24 @@ public class VoteManagerImpl implements VoteManager {
                 pendingVote.getComments(), LocalDateTime.now()
         );
 
-        DataTables.VOTES.createReplace()
+        return DataTables.VOTES.createReplace()
                 .setColumnNames("request", "voter", "decision", "comment", "time")
                 .setParams(
                         vote.requestID(), vote.voter().id(),
                         vote.decision().getID(), vote.comment(), LocalDateTime.now()
-                ).returnGeneratedKey().executeAsync();
-
-        request.addVote(vote);
-
-        RequestResult result = calculateResult(request);
-        Main.debugging("Calculated #" + request.getID() + " 's result -> " + result.name());
-        if (result == RequestResult.APPROVED) {
-            approve(request);
-        } else if (result == RequestResult.REJECTED) {
-            reject(request);
-        }
-
-        return vote;
+                ).executeFuture(changes -> {
+                    request.addVote(vote);
+                    return changes;
+                }).thenApply(i -> {
+                    RequestResult result = calculateResult(request);
+                    Main.debugging("Calculated #" + request.getID() + " 's result -> " + result.name());
+                    if (result == RequestResult.APPROVED) {
+                        approve(request);
+                    } else if (result == RequestResult.REJECTED) {
+                        reject(request);
+                    }
+                    return i;
+                }).thenApply(i -> vote);
     }
 
     @Override

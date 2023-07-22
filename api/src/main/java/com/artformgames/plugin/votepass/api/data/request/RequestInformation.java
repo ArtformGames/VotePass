@@ -3,6 +3,7 @@ package com.artformgames.plugin.votepass.api.data.request;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
+import com.artformgames.plugin.votepass.api.utils.TimeFormatUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,6 +70,10 @@ public class RequestInformation {
         return getUser().name();
     }
 
+    public @NotNull String getUserDisplayName() {
+        return getUser().getDisplayName();
+    }
+
     public @NotNull Map<Integer, RequestAnswer> getContents() {
         return contents;
     }
@@ -102,7 +107,7 @@ public class RequestInformation {
     }
 
     public @NotNull String getCreateTimeString() {
-        return formatTime(getCreateTime());
+        return TimeFormatUtils.formatTime(getCreateTime());
     }
 
     public @Nullable LocalDateTime getExpireTime(@Nullable Duration expireDuration) {
@@ -113,7 +118,7 @@ public class RequestInformation {
     public @NotNull String getExpireTimeString(@Nullable Duration expireDuration) {
         LocalDateTime end = getExpireTime(expireDuration);
         if (end == null) return "∞";
-        return formatTime(end);
+        return TimeFormatUtils.formatTime(end);
     }
 
     public @Nullable Long getRemainMills(@Nullable Duration expireDuration) {
@@ -181,11 +186,6 @@ public class RequestInformation {
 
     public boolean isVoted(UserKey key) {
         return getVotes().stream().anyMatch(vote -> vote.voter().equals(key));
-    }
-
-
-    protected String formatTime(LocalDateTime time) {
-        return time.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
 }

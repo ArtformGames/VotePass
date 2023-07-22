@@ -1,10 +1,12 @@
 package com.artformgames.plugin.votepass.api.data.vote;
 
 import com.artformgames.plugin.votepass.api.user.UserKey;
+import com.artformgames.plugin.votepass.api.utils.TimeFormatUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public record VoteInformation(
         int requestID, @NotNull UserKey voter, @NotNull VoteDecision decision,
@@ -19,6 +21,9 @@ public record VoteInformation(
         return decision == VoteDecision.APPROVE;
     }
 
+    public @NotNull String getTimeString() {
+        return TimeFormatUtils.formatTime(time);
+    }
 
     @Override
     public boolean equals(Object o) {

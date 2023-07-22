@@ -2,6 +2,7 @@ package com.artformgames.plugin.votepass.game.ui.vote;
 
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
+import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.user.GameUser;
 import org.bukkit.entity.Player;
 
@@ -12,7 +13,7 @@ public class VoteCommentGUI {
     private VoteCommentGUI() {
     }
 
-    public static void open(Player player) {
+    public static void open(Player player, RequestIconInfo info) {
         player.closeInventory();
         Main.getSignAPI().createGUI(null, (p, lines) -> {
             if (!player.isOnline()) return;
@@ -23,9 +24,8 @@ public class VoteCommentGUI {
 
             vote.setComments(List.of(lines));
 
-            Main.getInstance().getScheduler().runLater(2L, () -> VoteHandleGUI.open(player, vote.getRequest()));
+            Main.getInstance().getScheduler().runLater(2L, () -> VoteHandleGUI.open(player, vote.getRequest(), info));
         }).open(player);
     }
-
 
 }
