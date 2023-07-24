@@ -44,7 +44,7 @@ public class PendingVote {
 
     public void setComments(@Nullable List<String> comments) {
         if (comments == null || comments.isEmpty()) setComments((String) null);
-        else setComments(String.join("\n", comments.stream().filter(s -> s.length() > 0).toList()));
+        else setComments(String.join(", ", comments.stream().filter(s -> s.length() > 0).toList()));
     }
 
 

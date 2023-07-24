@@ -42,7 +42,7 @@ public class UserAddCommand extends SubCommand<MainCommand> {
 
             PluginMessages.USERS.ADD.START.send(sender, key.name());
             try {
-                Main.getInstance().getUserManager().modifyWhitelist().add(key).execute().get();
+                Main.getInstance().getUserManager().modifyWhitelist().add(key).execute();
                 PluginMessages.USERS.ADD.SUCCESS.send(sender, key.name(), System.currentTimeMillis() - s1);
             } catch (Exception e) {
                 PluginMessages.USERS.ADD.FAILED.send(sender, key.name(), System.currentTimeMillis() - s1);

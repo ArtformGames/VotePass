@@ -32,7 +32,7 @@ public class UserListener<U extends AbstractUserData, M extends AbstractUserMana
         if (event.getLoginResult() != AsyncPlayerPreLoginEvent.Result.ALLOWED) return;
         try {
             UserKey key = getUserManager().upsertKey(event.getUniqueId(), event.getName());
-            getUserManager().load(key, () -> true);
+            getUserManager().load(key, () -> true).get();
         } catch (Exception e) {
             e.printStackTrace();
         }

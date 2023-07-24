@@ -3,9 +3,9 @@ package com.artformgames.plugin.votepass.lobby.server;
 import cc.carm.lib.easyplugin.utils.JarResourceUtils;
 import com.artformgames.plugin.votepass.core.utils.ConfigReadUtils;
 import com.artformgames.plugin.votepass.lobby.Main;
-import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerQuestion;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerRules;
+import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.server.ServerSettingsManager;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import org.bukkit.configuration.ConfigurationSection;
@@ -150,8 +150,8 @@ public class SettingsManager implements ServerSettingsManager {
 
 
     public static @Nullable ServerQuestion parseQuestion(@Nullable ConfigurationSection section) {
-        if (section == null) return null;
-        return new ServerQuestion(section.getString("title", " "), section.getStringList("lore"));
+        if (section == null || (!section.contains("title") && !section.contains("description"))) return null;
+        return new ServerQuestion(section.getString("title", " "), section.getStringList("description"));
     }
 
 }

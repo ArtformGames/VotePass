@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.game;
 
-import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
+import cc.carm.lib.easyplugin.gui.GUI;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.listener.UserListener;
@@ -16,8 +16,6 @@ import com.artformgames.plugin.votepass.game.vote.VoteManagerImpl;
 import dev.pns.signapi.SignAPI;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.ExecutionException;
-
 public class Main extends VotePassPlugin implements VotePassServer {
     private static Main instance;
 
@@ -25,8 +23,6 @@ public class Main extends VotePassPlugin implements VotePassServer {
         Main.instance = this;
         VotePassServerAPI.instance = this;
     }
-
-    protected MineConfiguration configuration;
 
     protected DataManager dataManager;
     protected UsersManager usersManager;
@@ -38,7 +34,7 @@ public class Main extends VotePassPlugin implements VotePassServer {
     protected void load() {
 
         log("Loading plugin configurations...");
-        this.configuration = new MineConfiguration(this, PluginConfig.class, PluginMessages.class);
+        initializeConfigs(PluginConfig.class, PluginMessages.class);
 
         log("Loading database...");
         this.dataManager = new DataManager(this);
@@ -52,9 +48,17 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
         log("Initialize users manager...");
         this.usersManager = new UsersManager(this);
+        this.usersManager.loadOnline();
+
+        debug("Load whitelisted users...");
+        int whitelisted = this.usersManager.loadWhitelist();
+        debug("Successfully loaded " + whitelisted + " users.");
 
         log("Initialize vote manager...");
         this.voteManager = new VoteManagerImpl();
+        debug("Load whitelisted requests...");
+        this.voteManager.sync();
+        debug("Successfully loaded " + this.voteManager.getRequests().size() + " requests.");
     }
 
     @Override
@@ -64,6 +68,7 @@ public class Main extends VotePassPlugin implements VotePassServer {
         this.signAPI = new SignAPI(this);
 
         log("Register listeners...");
+        GUI.initialize(this);
         registerListener(new UserListener<>(getUserManager()));
         registerListener(new WhitelistListener());
         registerListener(new NotifyListener());
@@ -90,15 +95,14 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
         log("Shutting down UserManager...");
         try {
-            this.usersManager.saveAll().get();
-        } catch (InterruptedException | ExecutionException e) {
+            this.usersManager.saveAll();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.usersManager.shutdown();
 
         log("Shutting down DataManager...");
         this.dataManager.shutdown();
-
 
     }
 
@@ -116,10 +120,6 @@ public class Main extends VotePassPlugin implements VotePassServer {
 
     public static Main getInstance() {
         return instance;
-    }
-
-    public MineConfiguration getConfiguration() {
-        return configuration;
     }
 
 

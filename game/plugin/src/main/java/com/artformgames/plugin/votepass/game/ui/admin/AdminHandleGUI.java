@@ -15,7 +15,6 @@ import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.ui.request.RequestAnswerGUI;
 import com.artformgames.plugin.votepass.game.ui.request.RequestCommentsGUI;
-import com.artformgames.plugin.votepass.game.ui.vote.VoteCommentGUI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -81,11 +80,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
         setItem(40, new GUIItem(CONFIG.ITEMS.COMMENTED.get(player, request.countCommentedVotes())) {
             @Override
             public void onClick(Player clicker, ClickType type) {
-                if (type == ClickType.LEFT || type == ClickType.SHIFT_LEFT) {
-                    RequestCommentsGUI.open(player, request, iconInfo, AdminHandleGUI.this);
-                } else if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
-                    VoteCommentGUI.open(player, iconInfo);
-                }
+                RequestCommentsGUI.open(player, request, iconInfo, AdminHandleGUI.this);
             }
         });
 

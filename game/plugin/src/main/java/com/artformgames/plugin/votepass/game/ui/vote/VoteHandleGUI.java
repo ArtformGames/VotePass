@@ -55,7 +55,7 @@ public class VoteHandleGUI extends AutoPagedGUI {
 
     public PendingVote getPendingVote() {
         PendingVote vote = getVoteData().getPendingVote();
-        if (vote == null || !vote.getRequest().equals(this.request)) {
+        if (vote == null || vote.getRequest().getID() != this.request.getID()) {
             return getVoteData().createPendingRequest(this.request);
         } else {
             return vote;
@@ -97,7 +97,7 @@ public class VoteHandleGUI extends AutoPagedGUI {
             }
         }, 44);
 
-        ItemStack commentIcon = null;
+        ItemStack commentIcon;
 
         if (getPendingVote().getComments() == null || getPendingVote().getComments().isBlank()) {
             commentIcon = CONFIG.ITEMS.NOT_COMMENTED.get(player, request.countCommentedVotes());
@@ -111,7 +111,7 @@ public class VoteHandleGUI extends AutoPagedGUI {
                 if (type == ClickType.LEFT || type == ClickType.SHIFT_LEFT) {
                     RequestCommentsGUI.open(player, request, iconInfo, VoteHandleGUI.this);
                 } else if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
-                    VoteCommentGUI.open(player, iconInfo);
+                    VoteCommentGUI.open(player, getPendingVote(), iconInfo);
                 }
             }
         });

@@ -26,10 +26,12 @@ public abstract class TextMessages extends ConfigurationRoot {
     }
 
     public static @NotNull BiFunction<CommandSender, String, BaseComponent[]> getParser() {
-        return (sender, message) -> {
-            if (sender instanceof Player player) message = PlaceholderAPI.setPlaceholders(player, message);
-            return MineDown.parse(ColorParser.parse(message));
-        };
+        return TextMessages::parse;
+    }
+
+    public static @NotNull BaseComponent[] parse(@NotNull CommandSender sender, @NotNull String message) {
+        if (sender instanceof Player player) message = PlaceholderAPI.setPlaceholders(player, message);
+        return MineDown.parse(ColorParser.parse(message));
     }
 
 }

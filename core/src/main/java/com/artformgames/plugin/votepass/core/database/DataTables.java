@@ -33,8 +33,8 @@ public enum DataTables implements SQLTable {
         // The operator who handled this request.
         table.addColumn("assignee", "INT UNSIGNED");
 
-        table.addColumn("create_ime", "DATETIME NOT NULL");
-        table.addColumn("closed_ime", "DATETIME");
+        table.addColumn("create_time", "DATETIME NOT NULL");
+        table.addColumn("closed_time", "DATETIME");
 
         table.setIndex(IndexType.INDEX, "idx_votepass_request", "server", "user");
         table.setIndex(IndexType.INDEX, "idx_votepass_request_user", "user");

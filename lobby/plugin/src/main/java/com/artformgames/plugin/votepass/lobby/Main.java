@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby;
 
-import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
+import cc.carm.lib.easyplugin.gui.GUI;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.listener.UserListener;
@@ -14,6 +14,9 @@ import com.artformgames.plugin.votepass.lobby.listener.FeedbackListener;
 import com.artformgames.plugin.votepass.lobby.request.RequestManager;
 import com.artformgames.plugin.votepass.lobby.server.SettingsManager;
 import com.artformgames.plugin.votepass.lobby.user.UsersManager;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class Main extends VotePassPlugin implements VotePassLobby {
@@ -24,8 +27,6 @@ public class Main extends VotePassPlugin implements VotePassLobby {
         VotePassLobbyAPI.instance = this;
     }
 
-    protected MineConfiguration configuration;
-
     protected DataManager dataManager;
     protected SettingsManager settingsManager;
     protected RequestManager requestManager;
@@ -35,7 +36,7 @@ public class Main extends VotePassPlugin implements VotePassLobby {
     protected void load() {
 
         log("Loading plugin configurations...");
-        this.configuration = new MineConfiguration(this, PluginConfig.class, PluginMessages.class);
+        initializeConfigs(PluginConfig.class, PluginMessages.class);
 
         log("Loading servers configurations...");
         this.settingsManager = new SettingsManager(this);
@@ -53,6 +54,7 @@ public class Main extends VotePassPlugin implements VotePassLobby {
 
         log("Initialize users manager...");
         this.usersManager = new UsersManager(this);
+        this.usersManager.loadOnline();
 
         log("Initialize requests manager...");
         this.requestManager = new RequestManager();
@@ -62,6 +64,7 @@ public class Main extends VotePassPlugin implements VotePassLobby {
     protected boolean initialize() {
 
         log("Register listeners...");
+        GUI.initialize(this);
         registerListener(new UserListener<>(getUserManager()));
         registerListener(new BookListener());
         registerListener(new FeedbackListener());
@@ -99,10 +102,6 @@ public class Main extends VotePassPlugin implements VotePassLobby {
 
     public static Main getInstance() {
         return instance;
-    }
-
-    public MineConfiguration getConfiguration() {
-        return configuration;
     }
 
     @Override

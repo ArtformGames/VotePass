@@ -39,9 +39,9 @@ public class MigrateCommand extends SubCommand<MainCommand> {
             }
 
             try {
-                int changes = modifier.execute().get();
+                int changes = modifier.execute();
                 PluginMessages.MIGRATE.SUCCESS.send(sender, changes, System.currentTimeMillis() - s1);
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (Exception e) {
                 PluginMessages.MIGRATE.FAILED.send(sender);
                 e.printStackTrace();
             }

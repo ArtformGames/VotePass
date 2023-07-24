@@ -1,5 +1,6 @@
 package com.artformgames.plugin.votepass.game.command.user;
 
+import cc.carm.lib.easyplugin.command.SimpleCompleter;
 import cc.carm.lib.easyplugin.command.SubCommand;
 import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import com.artformgames.plugin.votepass.game.Main;
@@ -11,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class AbstainCommand extends SubCommand<MainCommand> {
 
@@ -46,6 +49,13 @@ public class AbstainCommand extends SubCommand<MainCommand> {
             }
         }
 
+    }
+
+    @Override
+    public List<String> tabComplete(JavaPlugin plugin, CommandSender sender, String[] args) {
+        if (args.length == 1) {
+            return SimpleCompleter.text(args[0], "enable", "disable");
+        } else return SimpleCompleter.none();
     }
 
     @Override

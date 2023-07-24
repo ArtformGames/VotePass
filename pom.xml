@@ -6,11 +6,13 @@
     <packaging>pom</packaging>
 
     <properties>
-        <project.jdk.version>18</project.jdk.version>
+        <project.jdk.version>17</project.jdk.version>
         <maven.compiler.source>${project.jdk.version}</maven.compiler.source>
         <maven.compiler.target>${project.jdk.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+        <project.package>${project.groupId}.plugin.votepass</project.package>
 
         <deps.easyplugin.version>1.5.6</deps.easyplugin.version>
         <deps.easysql.version>0.4.7</deps.easysql.version>
@@ -151,7 +153,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${project.basedir}/.asset/</directory>
+                            <directory>${project.basedir}/.asset</directory>
                             <useDefaultExcludes>true</useDefaultExcludes>
                             <includes>
                                 <include>**/*</include>

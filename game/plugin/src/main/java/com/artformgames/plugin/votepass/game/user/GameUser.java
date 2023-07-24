@@ -50,7 +50,8 @@ public class GameUser extends AbstractUserData implements GameUserData {
 
     @Override
     public @NotNull PendingVote createPendingRequest(@NotNull RequestInformation request) {
-        return new PendingVote(request);
+        this.pendingVote = new PendingVote(request);
+        return this.pendingVote;
     }
 
     @Override

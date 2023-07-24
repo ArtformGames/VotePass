@@ -1,5 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.ui;
 
+import cc.carm.lib.easyplugin.utils.ColorParser;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerRules;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import de.themoep.minedown.MineDown;
@@ -31,7 +32,7 @@ public class RulesBookUI {
             StringBuilder sb = new StringBuilder();
             Iterator<String> iterator = page.iterator();
             while (iterator.hasNext()) {
-                sb.append(iterator.next());
+                sb.append(ColorParser.parse(iterator.next()));
                 if (iterator.hasNext()) sb.append("\n");
             }
             if (!pageIterator.hasNext()) {

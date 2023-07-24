@@ -1,4 +1,4 @@
-main: com.artformgames.plugin.votepass.server.Main
+main: com.artformgames.plugin.votepass.game.Main
 name: ${project.name}
 
 version: ${project.version}

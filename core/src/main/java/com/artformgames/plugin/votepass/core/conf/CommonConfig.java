@@ -11,7 +11,7 @@ import org.bukkit.Material;
 
 import java.time.Duration;
 
-public class CommonConfig {
+public class CommonConfig extends ConfigurationRoot{
 
     @ConfigPath(root = true)
     public static final ConfiguredValue<Boolean> DEBUG = ConfiguredValue.of(Boolean.class, false);

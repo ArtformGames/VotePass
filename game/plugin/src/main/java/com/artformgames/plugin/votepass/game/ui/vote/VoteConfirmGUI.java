@@ -37,7 +37,7 @@ public class VoteConfirmGUI extends GUI {
     private final @NotNull VoteDecision decision;
 
     public VoteConfirmGUI(@NotNull Player player, @NotNull RequestInformation request, @NotNull VoteDecision decision, @Nullable RequestIconInfo iconInfo) {
-        super(GUIType.FOUR_BY_NINE, CONFIG.TITLE.parse(player));
+        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parse(player, request.getID(), request.getUserDisplayName()));
         this.player = player;
         this.request = request;
         this.iconInfo = Optional.ofNullable(iconInfo).orElse(RequestIconInfo.of(request));
@@ -80,9 +80,9 @@ public class VoteConfirmGUI extends GUI {
         }
 
         if (getPendingVote().getComments() == null || getPendingVote().getComments().isBlank()) {
-            setItem(40, new GUIItem(CONFIG.ITEMS.NOT_COMMENTED.get(player, request.countCommentedVotes())));
+            setItem(40, new GUIItem(CONFIG.ITEMS.NOT_COMMENTED.get(player)));
         } else {
-            setItem(40, new GUIItem(CONFIG.ITEMS.COMMENTED.get(player, request.countCommentedVotes(), getPendingVote().getComments())));
+            setItem(40, new GUIItem(CONFIG.ITEMS.COMMENTED.get(player, getPendingVote().getComments())));
         }
 
     }
@@ -129,7 +129,7 @@ public class VoteConfirmGUI extends GUI {
     public static final class CONFIG extends ConfigurationRoot {
 
         public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
-                .defaults("&a&lConfirm to vote for Request &7#%(id)")
+                .defaults("&a&lConfirm Vote | &7#%(id)")
                 .params("id", "username")
                 .build();
 

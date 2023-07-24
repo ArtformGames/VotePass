@@ -3,13 +3,10 @@ package com.artformgames.plugin.votepass.lobby.conf;
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
-import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import net.md_5.bungee.api.chat.BaseComponent;
 
 public class PluginMessages extends TextMessages {
-
-    public static final Class<?> COMMON = CommonMessages.class;
 
     public static final class COMMAND extends ConfigurationRoot {
 

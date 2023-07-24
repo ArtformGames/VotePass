@@ -32,7 +32,7 @@ public record UserKey(long id, @NotNull UUID uuid, @Nullable String name) {
         return switch (type) {
             case ID -> param instanceof Long uid && id == uid;
             case UUID -> param instanceof UUID userUUID && uuid.equals(userUUID);
-            case NAME -> param instanceof String name && name.equalsIgnoreCase(name);
+            case NAME -> param instanceof String n && n.equalsIgnoreCase(name);
         };
     }
 

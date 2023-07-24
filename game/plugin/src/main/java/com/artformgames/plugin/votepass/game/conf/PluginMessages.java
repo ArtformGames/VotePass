@@ -3,14 +3,11 @@ package com.artformgames.plugin.votepass.game.conf;
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
-import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Sound;
 
 public class PluginMessages extends TextMessages {
-
-    public static final Class<?> COMMON = CommonMessages.class;
 
     public static final class COMMAND extends ConfigurationRoot {
 
@@ -80,12 +77,12 @@ public class PluginMessages extends TextMessages {
 
             public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                     .defaults(
-                            "&a&lSuccess! &User %(name) has been added to whitelist, cost &a%(time)&fms."
+                            "&a&lSuccess! &fUser &e%(name) &fhas been added to whitelist, cost &a%(time)&fms."
                     ).params("amount", "time").build();
 
             public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
                     .defaults(
-                            "&c&lFailed to add! &cThere are some errors, please see console for details."
+                            "&c&lFailed to add! &fThere are some errors, please see console for details."
                     ).params("amount", "time").build();
         }
 
@@ -99,12 +96,12 @@ public class PluginMessages extends TextMessages {
 
             public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                     .defaults(
-                            "&a&lSuccess! &User %(name) has been removed from whitelist, cost &a%(time)&fms."
+                            "&a&lSuccess! &fUser &e%(name) &fhas been removed from whitelist, cost &a%(time)&fms."
                     ).params("amount", "time").build();
 
             public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
                     .defaults(
-                            "&c&lFailed to remove! &cThere are some errors, please see console for details."
+                            "&c&lFailed to remove! &fThere are some errors, please see console for details."
                     ).params("amount", "time").build();
         }
 

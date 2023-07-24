@@ -6,6 +6,7 @@ import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.core.database.DataTables;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +33,7 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
 
     protected AbstractUserManager(@NotNull EasyPlugin plugin) {
         this.plugin = plugin;
-        this.executor = Executors.newCachedThreadPool((r) -> {
+        this.executor = Executors.newCachedThreadPool(r -> {
             Thread t = new Thread(r);
             t.setDaemon(true);
             t.setName(plugin.getName() + "-UserManager");
@@ -145,21 +146,19 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
     }
 
     @Override
-    public @NotNull CompletableFuture<Boolean> save(@NotNull U user) {
-        return CompletableFuture.supplyAsync(() -> {
-            UserKey key = user.getKey();
-            try {
-                long s1 = System.currentTimeMillis();
-                getPlugin().debug("Saving " + key.name() + "(#" + key.id() + ")" + "'s data...");
-                saveData(user);
-                getPlugin().debug("Save " + key.name() + "(#" + key.id() + ")" + "'s data finished, cost " + (System.currentTimeMillis() - s1) + " ms.");
-                return true;
-            } catch (Exception ex) {
-                getPlugin().error("Save " + key.name() + "(#" + key.id() + ")" + " failed, please check the configurations.");
-                ex.printStackTrace();
-                return false;
-            }
-        }, executor);
+    public boolean save(@NotNull U user) {
+        UserKey key = user.getKey();
+        try {
+            long s1 = System.currentTimeMillis();
+            getPlugin().debug("Saving " + key.name() + "(#" + key.id() + ")" + "'s data...");
+            saveData(user);
+            getPlugin().debug("Save " + key.name() + "(#" + key.id() + ")" + "'s data finished, cost " + (System.currentTimeMillis() - s1) + " ms.");
+            return true;
+        } catch (Exception ex) {
+            getPlugin().error("Save " + key.name() + "(#" + key.id() + ")" + " failed, please check the configurations.");
+            ex.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -167,20 +166,20 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
         U data = getNullable(key);
         if (data == null) return CompletableFuture.completedFuture(false);
 
-        if (save) {
-            return save(data).thenApply(result -> {
-                this.dataCache.remove(key);
-                return result;
-            });
-        } else {
-            this.dataCache.remove(key);
-            return CompletableFuture.completedFuture(true);
-        }
-
+        boolean result = true;
+        if (save) result = save(data);
+        this.dataCache.remove(key);
+        return CompletableFuture.completedFuture(result);
     }
 
-    public @NotNull CompletableFuture<Map<UUID, U>> loadOnline(@NotNull Function<Player, UUID> function) {
-        return loadGroup(Bukkit.getOnlinePlayers(), function, OfflinePlayer::isOnline);
+    public @NotNull CompletableFuture<Map<UUID, U>> loadOnline() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            try {
+                upsertKey(player.getUniqueId(), player.getName());
+            } catch (Exception ignored) {
+            }
+        }
+        return loadGroup(Bukkit.getOnlinePlayers(), Entity::getUniqueId, OfflinePlayer::isOnline);
     }
 
     public <T> @NotNull CompletableFuture<Map<UUID, U>> loadGroup(@NotNull Collection<? extends T> users,
@@ -214,15 +213,9 @@ public abstract class AbstractUserManager<U extends AbstractUserData> implements
         return loadGroup(allKeys, (v) -> false);
     }
 
-    public @NotNull CompletableFuture<Integer> saveAll() {
-        CompletableFuture<Integer> future = CompletableFuture.completedFuture(0);
-        if (getDataCache().isEmpty()) return future;
-
-        for (U value : getDataCache().values()) {
-            future = future.thenCombine(save(value), (before, result) -> before + (result ? 1 : 0));
-        }
-
-        return future;
+    public int saveAll() {
+        if (getDataCache().isEmpty()) return 0;
+        return (int) getDataCache().values().stream().filter(this::save).count();
     }
 
 }

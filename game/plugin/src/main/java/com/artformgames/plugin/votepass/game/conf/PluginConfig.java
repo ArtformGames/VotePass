@@ -2,10 +2,10 @@ package com.artformgames.plugin.votepass.game.conf;
 
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
+import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
 import com.artformgames.plugin.votepass.game.ui.admin.AdminHandleGUI;
 import com.artformgames.plugin.votepass.game.ui.admin.AdminManageGUI;
@@ -20,18 +20,23 @@ import java.time.Duration;
 
 public class PluginConfig extends ConfigurationRoot {
 
-    public static final Class<?> COMMON = CommonConfig.class;
-
     public static final class SERVER extends ConfigurationRoot {
 
         @HeaderComment({"The identify of this server", "Used for request and whitelist data"})
         public static final ConfiguredValue<String> ID = ConfiguredValue.of(String.class, "survival");
 
+
         @HeaderComment({
-                "When the number of approved users on the server is more than this value,",
-                "the vote will be automatically passed.",
+                "Auto pass ratio, when the ratio of the passed vote is greater than the value,",
+                "the vote will be automatically passed, below zero means disabled auto pass.",
+                "You can configure different ratio based on different total votable players.",
         })
-        public static final ConfiguredValue<Double> PASS_RATIO = ConfiguredValue.of(Double.class, 0.6);
+        public static final ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfiguredMap.builderOf(Integer.class, Double.class)
+                .asTreeMap().fromString().parseKey(Integer::parseInt).parseValue(Double::parseDouble)
+                .defaults(m -> {
+                    m.put(5, 0.8);
+                    m.put(20, 0.6);
+                }).build();
 
         @HeaderComment({
                 "Active user last online time",
@@ -71,6 +76,9 @@ public class PluginConfig extends ConfigurationRoot {
         public static final ConfiguredMessageList<String> KICK_MESSAGE = ConfiguredMessageList.asStrings()
                 .defaults("You are not in the whitelist, please request to join the whitelist.")
                 .build();
+
+        @HeaderComment("Whether to restrict administrators to managing only requests that require intervention.")
+        public static final ConfiguredValue<Boolean> MANAGE_RESTRICT = ConfiguredValue.of(Boolean.class, false);
 
     }
 

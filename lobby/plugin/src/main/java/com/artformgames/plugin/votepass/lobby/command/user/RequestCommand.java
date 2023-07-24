@@ -1,5 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.command.user;
 
+import cc.carm.lib.easyplugin.command.SimpleCompleter;
 import cc.carm.lib.easyplugin.command.SubCommand;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
@@ -14,6 +15,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class RequestCommand extends SubCommand<MainCommand> {
 
@@ -54,15 +58,21 @@ public class RequestCommand extends SubCommand<MainCommand> {
         return null;
     }
 
-    protected static boolean cannotCreate(Player player, LobbyUserData requestData, ServerSettings settings) {
-        RequestInformation request = requestData.getServerRequest(settings.id());
-        if (request != null) {
-            PluginMessages.PENDING.send(player, request, settings.name());
-            return true;
-        }
+    @Override
+    public List<String> tabComplete(JavaPlugin plugin, CommandSender sender, String[] args) {
+        if (args.length == 1) {
+            return SimpleCompleter.text(args[0], VotePassLobbyAPI.getServersManager().list().stream().map(ServerSettings::id).collect(Collectors.toSet()));
+        } else return SimpleCompleter.none();
+    }
 
+    protected static boolean cannotCreate(Player player, LobbyUserData requestData, ServerSettings settings) {
         if (requestData.isPassed(settings.id())) {
             PluginMessages.WHITELISTED.send(player, settings.name());
+            return true;
+        }
+        RequestInformation request = requestData.getServerRequest(settings.id());
+        if (request != null) {
+            PluginMessages.PENDING.send(player, request.getID(), settings.name());
             return true;
         }
         return false;

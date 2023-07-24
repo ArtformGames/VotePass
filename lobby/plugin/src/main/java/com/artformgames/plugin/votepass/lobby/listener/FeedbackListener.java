@@ -14,6 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 import java.time.LocalDateTime;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class FeedbackListener implements Listener {
 
@@ -24,10 +26,12 @@ public class FeedbackListener implements Listener {
         Main.getInstance().getScheduler().runLater(50L, () -> {
             if (!player.isOnline()) return;
             LobbyUserData data = VotePassLobbyAPI.getUserManager().get(player.getUniqueId());
-            data.listRequests().values().stream()
+
+            Set<Integer> removal = data.listRequests().values().stream()
                     .filter(value -> handleRequest(player, value))
                     .map(RequestInformation::getID)
-                    .forEach(data::removeRequest);
+                    .collect(Collectors.toSet());
+            removal.forEach(data::removeRequest);
         });
 
     }

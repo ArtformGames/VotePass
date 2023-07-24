@@ -37,7 +37,7 @@ public interface UserDataManager<U extends UserData> extends UserKeyManager {
         return Optional.ofNullable(getNullable(uuid));
     }
 
-    @NotNull CompletableFuture<Boolean> save(@NotNull U user);
+    boolean save(@NotNull U user);
 
     default @NotNull CompletableFuture<Boolean> unload(@NotNull UUID uuid) {
         return unload(uuid, true);

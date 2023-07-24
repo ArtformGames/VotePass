@@ -9,6 +9,7 @@ import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.game.Main;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.user.GameUser;
@@ -45,8 +46,9 @@ public class AdminManageGUI extends AutoPagedGUI {
 
     public void initItems() {
         Main.getInstance().getVoteManager().getRequests().values().stream()
-                .filter(value -> value.needIntervention(CommonConfig.TIME.ADMIN_INTERVENTION.get()))
-                .forEachOrdered(value -> addItem(createIcon(value)));
+                .filter(value -> !PluginConfig.SERVER.MANAGE_RESTRICT.getNotNull()
+                        || value.needIntervention(CommonConfig.TIME.ADMIN_INTERVENTION.get())
+                ).forEachOrdered(value -> addItem(createIcon(value)));
     }
 
     protected GUIItem createIcon(@NotNull RequestInformation request) {

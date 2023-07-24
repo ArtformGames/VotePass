@@ -3,8 +3,10 @@ package com.artformgames.plugin.votepass.lobby.ui;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
+import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.easyplugin.utils.ItemStackFactory;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
@@ -74,7 +76,7 @@ public class RequestingGUI extends AutoPagedGUI {
             addItem(createQuestionItem(entry.getKey(), entry.getValue()));
         }
 
-        setItem(createCancelItem(), 50, 52, 52);
+        setItem(createCancelItem(), 50, 51, 52);
         if (getSettings().questions().size() == getPendingRequest().getAnswers().size()) {
             setItem(createConfirmItem(), 46, 47, 48);
         } else {
@@ -87,7 +89,7 @@ public class RequestingGUI extends AutoPagedGUI {
         ConfiguredItem configuredItem = isAnswered ? PluginConfig.ANSWERING.ITEMS.FINISHED : PluginConfig.ANSWERING.ITEMS.REQUIRED;
 
         ItemStack icon = configuredItem.get(player, question.title());
-        insertLore(icon, "question", question.description());
+        insertLore(icon, "description", ColorParser.parse(question.description()));
 
         return new GUIItem(icon) {
             @Override
@@ -101,7 +103,11 @@ public class RequestingGUI extends AutoPagedGUI {
                 PluginMessages.WRITING.send(player, slot, question.title());
                 request.setEditingQuestion(id);
                 player.getInventory().setHeldItemSlot(slot);
-                player.getInventory().setItem(slot, generateAnswerBook(getPendingRequest().getAnswers().get(id).answers()));
+
+                List<String> existsAnswer = Optional.ofNullable(request.getAnswers().get(id))
+                        .map(RequestAnswer::answers).orElse(null);
+
+                player.getInventory().setItem(slot, generateAnswerBook(existsAnswer));
             }
         };
     }

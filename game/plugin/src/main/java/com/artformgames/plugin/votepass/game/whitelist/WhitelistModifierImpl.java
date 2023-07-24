@@ -6,14 +6,12 @@ import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistModifier;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistUserModifier;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class WhitelistModifierImpl implements WhitelistModifier {
@@ -22,7 +20,7 @@ public class WhitelistModifierImpl implements WhitelistModifier {
     Set<UserKey> removed = new HashSet<>();
 
     @Override
-    public @NotNull CompletableFuture<Integer> execute() {
+    public int execute() throws Exception {
         UsersManager manager = Main.getInstance().getUserManager();
         String server = Main.getInstance().getServerID();
 
@@ -33,29 +31,27 @@ public class WhitelistModifierImpl implements WhitelistModifier {
         for (WhitelistUserModifierImpl modifier : modifiers) {
             WhitelistUser user = modifier.toUser();
             manager.addWhitelist(user);
-            params.add(new Object[]{server, user.getUID(), user.isAbstained() ? 1 : 0, user.getPassedTime(), user.getLastOnline()});
+            params.add(new Object[]{
+                    server, user.getUID(), user.getLinkedRequestID(),
+                    user.isAbstained() ? 1 : 0, user.getPassedTime(), user.getLastOnline()
+            });
         }
 
-        CompletableFuture<Integer> replace = DataTables.VOTES.createReplaceBatch()
-                .setColumnNames("server", "user", "request", "abstained", "passed_time", "online_time")
+        int changes = DataTables.LIST.createReplaceBatch()
+                .setColumnNames("server", "user", "request", "abstain", "passed_time", "online_time")
                 .setAllParams(params)
-                .executeFuture(l -> l.stream().mapToInt(Integer::intValue).sum());
-
-        CompletableFuture<Integer> delete = new CompletableFuture<>();
+                .executeFunction(l -> l.stream().mapToInt(Integer::intValue).sum(), 0);
 
         for (UserKey key : removed) {
             if (!manager.removeWhitelist(key)) continue;
 
-            delete = delete.thenCombine(
-                    DataTables.VOTES.createDelete()
-                            .addCondition("server", server)
-                            .addCondition("user", key.id())
-                            .setLimit(1).build().executeFuture(l -> l),
-                    Integer::sum
-            );
+            changes += DataTables.LIST.createDelete()
+                    .addCondition("server", server)
+                    .addCondition("user", key.id())
+                    .setLimit(1).build().executeFunction(l -> l, 0);
         }
 
-        return replace.thenCombine(delete, Integer::sum);
+        return changes;
     }
 
     @Override

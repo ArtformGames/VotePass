@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -116,7 +117,7 @@ public class DataManager {
                 RequestResult.parse(rs.getInt("result")),
                 rs.getBoolean("feedback"),
                 rs.getTimestamp("create_time").toLocalDateTime(),
-                rs.getTimestamp("closed_time").toLocalDateTime()
+                Optional.ofNullable(rs.getTimestamp("closed_time")).map(Timestamp::toLocalDateTime).orElse(null)
         );
     }
 
@@ -127,7 +128,8 @@ public class DataManager {
             try {
                 requests.put(requestID, readRequest(resultSet));
             } catch (Exception ex) {
-                getLogger().severe("在读取请求 #" + requestID + " 时出现异常：" + ex.getMessage());
+                getLogger().severe("Error occurred when reading #" + requestID + " ：" + ex.getMessage());
+                ex.printStackTrace();
             }
         }
         return requests;
@@ -153,7 +155,7 @@ public class DataManager {
         return new VoteInformation(
                 rs.getInt("request"), user,
                 VoteDecision.parse(rs.getInt("decision")),
-                rs.getString("comments"),
+                rs.getString("comment"),
                 rs.getTimestamp("time").toLocalDateTime()
         );
     }

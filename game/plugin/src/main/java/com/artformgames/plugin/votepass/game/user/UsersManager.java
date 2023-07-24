@@ -1,8 +1,11 @@
 package com.artformgames.plugin.votepass.game.user;
 
 import cc.carm.lib.easyplugin.EasyPlugin;
+import cc.carm.lib.easysql.api.SQLQuery;
 import com.artformgames.plugin.votepass.api.user.UserKey;
+import com.artformgames.plugin.votepass.core.database.DataTables;
 import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
+import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.user.GameUserManager;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistModifier;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
@@ -12,10 +15,9 @@ import com.google.common.collect.ImmutableSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class UsersManager extends AbstractUserManager<GameUser> implements GameUserManager<GameUser> {
@@ -24,6 +26,31 @@ public class UsersManager extends AbstractUserManager<GameUser> implements GameU
 
     public UsersManager(@NotNull EasyPlugin plugin) {
         super(plugin);
+    }
+
+    public int loadWhitelist() {
+        Map<UUID, WhitelistUser> data = new HashMap<>();
+        try (SQLQuery query = DataTables.LIST.createQuery()
+                .addCondition("server", Main.getInstance().getServerID())
+                .build().execute()) {
+            ResultSet rs = query.getResultSet();
+            while (rs.next()) {
+                UserKey key = getKey(rs.getLong("user"));
+                if (key == null) continue;
+                WhitelistUser user = new WhitelistUser(
+                        key, rs.getInt("request"), rs.getBoolean("abstain"),
+                        rs.getTimestamp("passed_time").toLocalDateTime(),
+                        Optional.ofNullable(rs.getTimestamp("online_time"))
+                                .map(Timestamp::toLocalDateTime).orElse(null)
+                );
+                data.put(key.uuid(), user);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        this.whitelistMap.clear();
+        this.whitelistMap.putAll(data);
+        return data.size();
     }
 
     @Override
@@ -42,7 +69,7 @@ public class UsersManager extends AbstractUserManager<GameUser> implements GameU
         if (user == null) return;
 
         user.updateLastOnline();
-        modifyWhitelist().update(user).execute().get();
+        modifyWhitelist().update(user).execute();
     }
 
     @Override

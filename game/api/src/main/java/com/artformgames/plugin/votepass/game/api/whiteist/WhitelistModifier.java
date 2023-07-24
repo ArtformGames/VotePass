@@ -2,21 +2,19 @@ package com.artformgames.plugin.votepass.game.api.whiteist;
 
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public interface WhitelistModifier {
 
-    @NotNull CompletableFuture<Integer> execute();
+    int execute() throws Exception;
 
     WhitelistModifier modify(UserKey user, @Nullable Consumer<WhitelistUserModifier> migrator);
 
     default WhitelistModifier add(UserKey user) {
-        return modify(user, null);
+        return modify(user, u -> u.setPassedTime(LocalDateTime.now()));
     }
 
     default WhitelistModifier update(WhitelistedUserData data) {

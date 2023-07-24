@@ -55,8 +55,19 @@ public class VoteManagerImpl implements VoteManager {
     }
 
     @Override
-    public double getAutoPassRatio() {
-        return PluginConfig.SERVER.PASS_RATIO.getNotNull();
+    public double getAutoPassRatio(int total) {
+        Map<Integer, Double> ratioMap = PluginConfig.SERVER.AUTO_PASS_RATIO.getNotNull();
+        if (ratioMap.isEmpty()) return 0;
+
+        double ratio = 0;
+        for (Map.Entry<Integer, Double> entry : ratioMap.entrySet()) {
+            if (ratio == 0 || total > entry.getKey()) {
+                ratio = entry.getValue();
+            } else {
+                return ratio;
+            }
+        }
+        return ratio;
     }
 
     @Override
@@ -133,16 +144,19 @@ public class VoteManagerImpl implements VoteManager {
             }
         }
 
-        double base = (double) countable + missed - abs;
-        double ratio = getAutoPassRatio();
+        int total = countable + missed - abs;
+        double ratio = getAutoPassRatio(total);
+        if (ratio <= 0) {
+            Main.debugging("Players | total: " + total + " / voted: " + (pros + cons) + " (Auto pass disabled).");
+            return RequestResult.PENDING; // Disabled auto pass.
+        }
 
-        double autoApprove = base * ratio;
-        double autoDeny = base - autoApprove;
+        int autoApprove = (int) (total * ratio);
+        int autoDeny = total - autoApprove;
 
-        Main.debugging("Players | total: " + base + " / voted: " + (pros + cons));
+        Main.debugging("Players | total: " + total + " / voted: " + (pros + cons));
         Main.debugging("Auto approve required " + (ratio * 100) + "%  (Now " + pros + "/" + autoApprove + ")");
         Main.debugging("Auto reject required " + ((1 - ratio) * 100) + "% (Now " + cons + "/" + autoDeny + ")");
-
 
         if (pros >= autoApprove) return RequestResult.APPROVED;
         else if (cons >= autoDeny) return RequestResult.REJECTED;
@@ -151,8 +165,15 @@ public class VoteManagerImpl implements VoteManager {
 
     @Override
     public CompletableFuture<Boolean> approve(@NotNull RequestInformation request) {
-        return Main.getInstance().getUserManager().modifyWhitelist() // Add the player to the whitelist
-                .add(request).execute().thenCompose(changes -> updateResult(request, RequestResult.APPROVED));
+        return CompletableFuture.supplyAsync(() -> {
+            // Add the player to the whitelist
+            try {
+                Main.getInstance().getUserManager().modifyWhitelist().add(request).execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return true;
+        }).thenCompose(result -> updateResult(request, RequestResult.APPROVED));
     }
 
     @Override

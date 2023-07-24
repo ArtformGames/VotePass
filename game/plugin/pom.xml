@@ -69,11 +69,53 @@
                     <finalName>${project.name}-${project.parent.version}</finalName>
                     <outputDirectory>${project.parent.basedir}/.asset/</outputDirectory>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <relocations>
+                        <relocation>
+                            <pattern>cc.carm.lib</pattern>
+                            <shadedPattern>${project.package}.lib</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>${project.package}.lib.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>xyz.upperlevel.spigot.book</pattern>
+                            <shadedPattern>${project.package}.lib.book</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.json</pattern>
+                            <shadedPattern>${project.package}.lib.json</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>de.themoep.minedown</pattern>
+                            <shadedPattern>${project.package}.lib.minedown</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.cryptomorin.xseries</pattern>
+                            <shadedPattern>${project.package}.lib.xseries</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.zwitserloot.cmdreader</pattern>
+                            <shadedPattern>${project.package}.lib.cmdreader</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>lombok</pattern>
+                            <shadedPattern>${project.package}.lib.lombok</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.objectweb.asm</pattern>
+                            <shadedPattern>${project.package}.lib.asm</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.pns.signapi</pattern>
+                            <shadedPattern>${project.package}.lib.signapi</shadedPattern>
+                        </relocation>
+                    </relocations>
                     <filters>
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
-                                <exclude>META-INF/MANIFEST.MF</exclude>
+                                <exclude>META-INF/MAN IFEST.MF</exclude>
                                 <exclude>META-INF/*.txt</exclude>
                             </excludes>
                         </filter>

@@ -1,6 +1,8 @@
 package com.artformgames.plugin.votepass.game.command.admin.user;
 
+import cc.carm.lib.easyplugin.command.SimpleCompleter;
 import cc.carm.lib.easyplugin.command.SubCommand;
+import com.artformgames.plugin.votepass.api.user.UserData;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
@@ -10,6 +12,9 @@ import com.artformgames.plugin.votepass.game.user.UsersManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Objects;
 
 public class UserRemoveCommand extends SubCommand<MainCommand> {
 
@@ -38,7 +43,7 @@ public class UserRemoveCommand extends SubCommand<MainCommand> {
 
             PluginMessages.USERS.REMOVE.START.send(sender, key.name());
             try {
-                Main.getInstance().getUserManager().modifyWhitelist().remove(key).execute().get();
+                Main.getInstance().getUserManager().modifyWhitelist().remove(key).execute();
                 PluginMessages.USERS.REMOVE.SUCCESS.send(sender, key.name(), System.currentTimeMillis() - s1);
             } catch (Exception e) {
                 PluginMessages.USERS.REMOVE.FAILED.send(sender, key.name(), System.currentTimeMillis() - s1);
@@ -47,6 +52,16 @@ public class UserRemoveCommand extends SubCommand<MainCommand> {
 
         });
         return null;
+    }
+
+    @Override
+    public List<String> tabComplete(JavaPlugin plugin, CommandSender sender, String[] args) {
+        if (args.length == 1) {
+            return SimpleCompleter.objects(args[0], Main.getInstance().getUserManager()
+                    .getWhitelists().stream()
+                    .map(UserData::getKey).map(UserKey::name)
+                    .filter(Objects::nonNull));
+        } else return SimpleCompleter.none();
     }
 
     @Override

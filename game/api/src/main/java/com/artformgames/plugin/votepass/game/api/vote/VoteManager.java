@@ -16,7 +16,7 @@ public interface VoteManager {
 
     int sync();
 
-    double getAutoPassRatio();
+    double getAutoPassRatio(int total);
 
     @Unmodifiable
     @NotNull SortedMap<Integer, RequestInformation> getRequests();

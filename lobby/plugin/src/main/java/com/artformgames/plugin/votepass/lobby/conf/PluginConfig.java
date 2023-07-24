@@ -11,8 +11,6 @@ import org.bukkit.Material;
 
 public class PluginConfig extends ConfigurationRoot {
 
-    public static final Class<?> COMMON = CommonConfig.class;
-
     public static final class SERVERS extends ConfigurationRoot {
 
         public static final ConfiguredValue<String> FOLDER_NAME = ConfiguredValue.of(String.class, "servers");
@@ -74,7 +72,7 @@ public class PluginConfig extends ConfigurationRoot {
                     ).params("title", "description").build();
 
             public static final ConfiguredItem FINISHED = ConfiguredItem.create()
-                    .defaultType(Material.WRITABLE_BOOK)
+                    .defaultType(Material.WRITTEN_BOOK)
                     .defaultName("&8Q: &f%(title)")
                     .defaultLore(
                             " ",

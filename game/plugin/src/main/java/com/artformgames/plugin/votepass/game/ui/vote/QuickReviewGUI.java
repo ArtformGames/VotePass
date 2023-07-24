@@ -6,7 +6,7 @@ import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
-import com.artformgames.plugin.votepass.game.conf.PluginMessages;
+import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.entity.Player;
@@ -95,9 +95,9 @@ public class QuickReviewGUI {
 
     public static final class CONFIG extends ConfigurationRoot {
 
-        public static final ConfiguredMessageList<BaseComponent[]> OVERVIEW = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> OVERVIEW = TextMessages.list()
                 .defaults(
-                        "Handle request #(request_id)",
+                        "Handle request #%(request_id)",
                         " ",
                         "&7Applicant username",
                         "&6%(name)",
@@ -116,23 +116,23 @@ public class QuickReviewGUI {
                         "votes_amount").build();
 
 
-        public static final ConfiguredMessageList<BaseComponent[]> ANSWER_EMPTY = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> ANSWER_EMPTY = TextMessages.list()
                 .defaults(
                         "&8#%(index): &0%(question)",
                         " ",
                         "&7&oThis user did not answer the question.",
                         "&8Please keep turning the page to see other answers."
-                ).params("id", "amount").build();
+                ).params("index", "question").build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> ANSWER_CONTENT = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> ANSWER_CONTENT = TextMessages.list()
                 .defaults(
                         "&8#%(index): &0%(question)",
                         " ",
                         "&8This user answered %(words) words,",
                         "&8Please keep turning the page to see his answers."
-                ).params("id", "amount", "words").build();
+                ).params("index", "question", "words").build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> HAS_COMMENTS = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> HAS_COMMENTS = TextMessages.list()
                 .defaults(
                         "&8This request has a total of %(amount) comments,",
                         " ",
@@ -140,14 +140,14 @@ public class QuickReviewGUI {
                         "&8Please keep turning the page to see others opinions."
                 ).params("id", "amount").build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> NONE_COMMENT = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> NONE_COMMENT = TextMessages.list()
                 .defaults(
                         "&8There are currently no other votes on this request.",
                         " ",
                         "&7&oIf you want to express your personal opinion, please return to process this request in the next page."
                 ).params("id").build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> COMMENT_APPROVED = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> COMMENT_APPROVED = TextMessages.list()
                 .defaults(
                         "&8#%(index) &7from &9%(voter)",
                         " ",
@@ -156,7 +156,7 @@ public class QuickReviewGUI {
                         "&8%(comment)"
                 ).params("index", "voter", "comment").build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> COMMENT_REJECTED = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> COMMENT_REJECTED = TextMessages.list()
                 .defaults(
                         "&8#%(index) &7from &9%(voter)",
                         " ",
@@ -165,7 +165,7 @@ public class QuickReviewGUI {
                         "&8%(comment)"
                 ).params("index", "voter", "comment").build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> RETURN = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> RETURN = TextMessages.list()
                 .defaults(
                         "All answers have been displayed, please click the text below to go to the detailed interface for processing.",
                         " ",
