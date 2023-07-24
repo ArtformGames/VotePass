@@ -95,18 +95,6 @@
                             <shadedPattern>${project.package}.lib.xseries</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>com.zwitserloot.cmdreader</pattern>
-                            <shadedPattern>${project.package}.lib.cmdreader</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>lombok</pattern>
-                            <shadedPattern>${project.package}.lib.lombok</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>org.objectweb.asm</pattern>
-                            <shadedPattern>${project.package}.lib.asm</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>dev.pns.signapi</pattern>
                             <shadedPattern>${project.package}.lib.signapi</shadedPattern>
                         </relocation>
