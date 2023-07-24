@@ -44,9 +44,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.PnsDev</groupId>
+            <groupId>com.github.ArtformGames</groupId>
             <artifactId>SignAPI</artifactId>
-            <version>1.2</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
