@@ -7,9 +7,12 @@ import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
 import com.artformgames.plugin.votepass.game.command.MainCommand;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,6 +37,11 @@ public class UserRemoveCommand extends SubCommand<MainCommand> {
         if (data == null) {
             PluginMessages.USERS.NOT_IN.send(sender, username);
             return null;
+        }
+
+        Player online = Bukkit.getPlayer(data.getUserUUID());
+        if (online != null && online.isOnline()) {
+            online.kickPlayer(PluginConfig.SERVER.KICK_MESSAGE.parseToLine(online));
         }
 
         Main.getInstance().getScheduler().runAsync(() -> {
