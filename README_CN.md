@@ -17,9 +17,13 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 # **VotePass** (投票通过)
 
 > 您的请求已 **"投票通过"** !
-> 
+
 一款针对白名单服务器的 **高效**、**公平** 的验证插件，
 支持玩家自行提交服务器白名单请求，并由该服务器中所有通过的玩家进行投票审核。
+
+
+> 本插件已在 [MCBBS](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1462390)
+> 与 [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) 上发布。
 
 ## 功能 & 优势
 
@@ -27,6 +31,20 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 - **配置便捷!** 便捷清晰的配置条目，所有内容均可配置。
 - **操作方便!** 全GUI操作，简单易懂，玩家上手即可操作。
 - **玩家参与!** 玩家们得以行使自己的投票权，使得他们可以参与到服务器的管理中来。
+- **管理介入!** 超时未被处理的请求可以由管理员直接介入操作。
+
+## 游戏内截图
+
+![REQUEST](.doc/images/REQUEST.png)
+
+![COMMENTS](.doc/images/COMMENTS.png)
+
+## 依赖
+
+- **[必须]** 评论部分基于 [ProtocolLib](https://github.com/dmulloy2/ProtocolLib/) 实现。
+- **[推荐]** 变量部分基于 [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) 实现。安装后可正常使用PAPI变量。
+
+详细依赖列表可见 [Dependencies](https://github.com/ArtfromGames/VotePass/network/dependencies) 。
 
 ## 指令
 

@@ -21,12 +21,30 @@ An efficient and fair verification plugin for whitelisted servers,
 which supports players to submit whitelist requests by themselves
 and be reviewed by all players who have passed.
 
+> This plugin has been published on [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) .
+>
+> 本插件已在 [MCBBS](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1462390) 上发布，欢迎中文用户来这里下载。
+
 ## Features & Advantages
 
 - **Database Sync!** Based on database storage, data is safe and synchronized.
 - **Easy to configure!** Simple and convenient configuration method, all content can be configured!
 - **User-friendly GUI!** Full UI configuration, very easy for players to operate.
 - **Player participation!** Players can participate in the management of the server, making them more involved.
+
+## Screenshots
+
+![REQUEST](.doc/images/REQUEST.png)
+
+![COMMENTS](.doc/images/COMMENTS.png)
+
+
+## Dependencies
+
+- **[Necessary]** Comments part base on [ProtocolLib](https://github.com/dmulloy2/ProtocolLib/).
+- **[Recommend]** Placeholders based on [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) .
+
+For development dependencies, please see  [Dependencies](https://github.com/ArtformGames/VotePass/network/dependencies) .
 
 ## Commands
 
