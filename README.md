@@ -125,6 +125,13 @@ stored in the lobby's `<Data Folder>/servers/` for easy management.
 You can edit the storage path of the server configuration file in the plugin configuration file.
 
 ## Permissions
+```text
+# VotePass.admin
+- The permissions for all admin commands and functions.
+
+# VotePass.abstain
+- The permission that allow user to toggle auto abstain.
+```
 
 ## Statistics
 

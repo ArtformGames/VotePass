@@ -19,10 +19,10 @@ softdepend:
 
 
 permissions:
-  "VotePass.admin":
+  "votepass.admin":
     default: op
     description: "The permission that allow user to handle requests directly."
-  "VotePass.abstain":
+  "votepass.abstain":
     default: op
     description: "The permission that allow user to toggle auto abstain."
 
