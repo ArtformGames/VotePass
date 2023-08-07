@@ -13,7 +13,7 @@ README LANGUAGES [ [**English**](README.md) | [中文](README_CN.md)  ]
 [![Java CI with Maven](https://github.com/ArtformGames/VotePass/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/ArtformGames/VotePass/actions/workflows/maven.yml)
 ![Support](https://img.shields.io/badge/Minecraft-Java%201.8--Latest-green)
 
-# **VotePass** _(WIP)_
+# **VotePass**
 
 > You have been **"Passed by Vote"** !
 
@@ -22,6 +22,11 @@ which supports players to submit whitelist requests by themselves
 and be reviewed by all players who have passed.
 
 ## Features & Advantages
+
+- **Database Sync!** Based on database storage, data is safe and synchronized.
+- **Easy to configure!** Simple and convenient configuration method, all content can be configured!
+- **User-friendly GUI!** Full UI configuration, very easy for players to operate.
+- **Player participation!** Players can participate in the management of the server, making them more involved.
 
 ## Commands
 
