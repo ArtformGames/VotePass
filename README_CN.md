@@ -161,8 +161,9 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 ## 支持与致谢
 
-该项目又 [Artfrom Games](https://github.com/ArtformGames/) 提供技术支持。
+该项目由 [Artfrom Games](https://github.com/ArtformGames/) 提供技术支持。
 
 十分感谢 JetBrains 为本项目开发提供IDE及其对开源项目的大力支持。
+
 [![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/ArtformGames/VotePass)
 
