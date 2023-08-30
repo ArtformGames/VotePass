@@ -8,6 +8,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class UserListCommand extends SubCommand<MainCommand> {
 
     public UserListCommand(@NotNull MainCommand parent, String identifier, String... aliases) {
@@ -18,7 +20,11 @@ public class UserListCommand extends SubCommand<MainCommand> {
     public Void execute(JavaPlugin plugin, CommandSender sender, String[] args) throws Exception {
         var list = Main.getInstance().getUserManager().getWhitelists();
         PluginMessages.USERS.LIST.send(sender, list.size());
-        list.forEach(user -> PluginMessages.USERS.USER.send(sender, user.getKey().getDisplayName(), user.getKey().uuid(), user.getPassedTimeString()));
+        list.forEach(user -> PluginMessages.USERS.USER.send(sender,
+                user.getKey().getDisplayName(), user.getKey().uuid(),
+                Optional.ofNullable(user.getLinkedRequestID()).map(Object::toString).orElse("?"),
+                user.getPassedTimeString())
+        );
         return null;
     }
 
