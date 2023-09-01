@@ -71,7 +71,7 @@ public enum DataTables implements SQLTable {
     LIST("list", table -> {
         table.addColumn("server", "VARCHAR(24) NOT NULL");
         table.addColumn("user", "INT UNSIGNED NOT NULL");
-        table.addColumn("request", "INT UNSIGNED");
+        table.addColumn("request", "INT UNSIGNED NULL");
 
         // Whether this user are abstained from voting (Will not be count in active users)
         table.addColumn("abstain", "BIT NOT NULL DEFAULT 0");
@@ -86,11 +86,6 @@ public enum DataTables implements SQLTable {
         table.addForeignKey(
                 "user", "fk_votepass_list_user",
                 DataTables.USERS.getTableName(), "id",
-                ForeignKeyRule.CASCADE, ForeignKeyRule.CASCADE
-        );
-        table.addForeignKey(
-                "request", "fk_votepass_list_request",
-                DataTables.REQUESTS.getTableName(), "id",
                 ForeignKeyRule.CASCADE, ForeignKeyRule.CASCADE
         );
     });
