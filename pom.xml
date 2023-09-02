@@ -34,6 +34,13 @@
         <module>game/plugin</module>
     </modules>
 
+    <name>VotePass</name>
+    <description>
+        An efficient and fair verification plugin for whitelisted servers,
+        which supports players to submit whitelist requests by themselves
+        and be reviewed by all players who have passed.
+    </description>
+    <url>https://github.com/ArtformGames/VotePass</url>
 
     <developers>
         <developer>
