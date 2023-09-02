@@ -11,7 +11,7 @@ README LANGUAGES [ [**English**](README.md) | [中文](README_CN.md)  ]
 ![CodeSize](https://img.shields.io/github/languages/code-size/ArtformGames/VotePass)
 [![Download](https://img.shields.io/github/downloads/ArtformGames/VotePass/total)](https://github.com/ArtformGames/VotePass/releases)
 [![Java CI with Maven](https://github.com/ArtformGames/VotePass/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/ArtformGames/VotePass/actions/workflows/maven.yml)
-![Support](https://img.shields.io/badge/Minecraft-Java%201.8--Latest-green)
+![Support](https://img.shields.io/badge/Minecraft-Java%201.16--Latest-green)
 
 # **VotePass**
 
@@ -38,13 +38,13 @@ and be reviewed by all players who have passed.
 
 ![COMMENTS](.doc/images/COMMENTS.png)
 
-
 ## Dependencies
 
 - **[Necessary]** Comments part base on [ProtocolLib](https://github.com/dmulloy2/ProtocolLib/).
 - **[Recommend]** Placeholders based on [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) .
 
-For development dependencies, please see  [Dependencies](https://github.com/ArtformGames/VotePass/network/dependencies) .
+For development dependencies, please
+see  [Dependencies](https://github.com/ArtformGames/VotePass/network/dependencies) .
 
 ## Commands
 
@@ -143,6 +143,7 @@ stored in the lobby's `<Data Folder>/servers/` for easy management.
 You can edit the storage path of the server configuration file in the plugin configuration file.
 
 ## Permissions
+
 ```text
 # VotePass.admin
 - The permissions for all admin commands and functions.
@@ -162,7 +163,6 @@ The source code of this project adopts the [GNU General Public License v3.0](htt
 ## Supports
 
 This project is mainly developed by the [Artfrom Games](https://github.com/ArtformGames/) .
-
 
 Many thanks to Jetbrains for kindly providing a license for us to work on this and other open-source projects.  
 [![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/ArtformGames/VotePass)
