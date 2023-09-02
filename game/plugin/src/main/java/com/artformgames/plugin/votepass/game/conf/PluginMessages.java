@@ -78,7 +78,7 @@ public class PluginMessages extends TextMessages {
             public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                     .defaults(
                             "&a&lSuccess! &fUser &e%(name) &fhas been added to whitelist, cost &a%(time)&fms."
-                    ).params("amount", "time").build();
+                    ).params("name", "time").build();
 
             public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
                     .defaults(
