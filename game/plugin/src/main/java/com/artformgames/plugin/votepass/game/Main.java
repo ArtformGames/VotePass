@@ -7,13 +7,13 @@ import com.artformgames.plugin.votepass.core.listener.UserListener;
 import com.artformgames.plugin.votepass.game.command.MainCommand;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
+import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.listener.NotifyListener;
 import com.artformgames.plugin.votepass.game.listener.WhitelistListener;
 import com.artformgames.plugin.votepass.game.runnable.NotifyRunnable;
 import com.artformgames.plugin.votepass.game.runnable.SyncRunnable;
 import com.artformgames.plugin.votepass.game.user.UsersManager;
 import com.artformgames.plugin.votepass.game.vote.VoteManagerImpl;
-import dev.pns.signapi.SignAPI;
 import org.jetbrains.annotations.NotNull;
 
 public class Main extends VotePassPlugin implements VotePassServer {
@@ -27,8 +27,6 @@ public class Main extends VotePassPlugin implements VotePassServer {
     protected DataManager dataManager;
     protected UsersManager usersManager;
     protected VoteManagerImpl voteManager;
-
-    protected SignAPI signAPI;
 
     @Override
     protected void load() {
@@ -64,14 +62,12 @@ public class Main extends VotePassPlugin implements VotePassServer {
     @Override
     protected boolean initialize() {
 
-        log("Initialize sign api...");
-        this.signAPI = new SignAPI(this);
-
         log("Register listeners...");
         GUI.initialize(this);
         registerListener(new UserListener<>(getUserManager()));
         registerListener(new WhitelistListener());
         registerListener(new NotifyListener());
+        registerListener(new CommentListener());
 
         log("Register commands...");
         registerCommand("votepass", new MainCommand(this));
@@ -142,7 +138,4 @@ public class Main extends VotePassPlugin implements VotePassServer {
         return this.dataManager;
     }
 
-    public static SignAPI getSignAPI() {
-        return getInstance().signAPI;
-    }
 }

@@ -10,6 +10,7 @@ import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
+import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import org.bukkit.Material;
@@ -54,12 +55,16 @@ public class RequestCommentsGUI extends AutoPagedGUI {
             if (vote.comment() == null || vote.comment().isBlank()) continue;
 
             if (vote.isApproved()) {
-                addItem(new GUIItem(CONFIG.ITEMS.APPROVED.get(
-                        player, vote.voter().getDisplayName(), vote.comment(), vote.getTimeString())
+                addItem(new GUIItem(CONFIG.ITEMS.APPROVED
+                        .prepare(vote.voter().getDisplayName(), vote.getTimeString())
+                        .insertLore("comment", CommentListener.getCommentLore(vote.comment()))
+                        .get(player)
                 ));
             } else {
-                addItem(new GUIItem(CONFIG.ITEMS.REJECTED.get(
-                        player, vote.voter().getDisplayName(), vote.comment(), vote.getTimeString())
+                addItem(new GUIItem(CONFIG.ITEMS.REJECTED
+                        .prepare(vote.voter().getDisplayName(), vote.getTimeString())
+                        .insertLore("comment", CommentListener.getCommentLore(vote.comment()))
+                        .get(player)
                 ));
             }
         }
@@ -96,9 +101,9 @@ public class RequestCommentsGUI extends AutoPagedGUI {
                             "&7&oThis player approved this request",
                             "&7&oat &f&o%(time)",
                             " ",
-                            "&f%(content)",
+                            "#comment#",
                             " "
-                    ).params("voter", "content", "time").build();
+                    ).params("voter", "time").build();
 
             public static final ConfiguredItem REJECTED = ConfiguredItem.create()
                     .defaultType(Material.RED_STAINED_GLASS_PANE)
@@ -108,9 +113,9 @@ public class RequestCommentsGUI extends AutoPagedGUI {
                             "&7&oThis player rejected this request",
                             "&7&oat &f&o%(time)",
                             " ",
-                            "&f%(content)",
+                            "#comment#",
                             " "
-                    ).params("voter", "content", "time").build();
+                    ).params("voter", "time").build();
 
         }
     }

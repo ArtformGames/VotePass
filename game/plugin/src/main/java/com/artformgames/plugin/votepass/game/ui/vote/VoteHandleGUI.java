@@ -13,6 +13,7 @@ import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
+import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.ui.request.RequestAnswerGUI;
@@ -93,9 +94,11 @@ public class VoteHandleGUI extends AutoPagedGUI {
         ItemStack commentIcon;
 
         if (getPendingVote().getComments() == null || getPendingVote().getComments().isBlank()) {
-            commentIcon = CONFIG.ITEMS.NOT_COMMENTED.get(player, request.countCommentedVotes());
+            commentIcon = CONFIG.ITEMS.NOT_COMMENTED.prepare(request.countCommentedVotes()).get(player);
         } else {
-            commentIcon = CONFIG.ITEMS.COMMENTED.get(player, request.countCommentedVotes(), getPendingVote().getComments());
+            commentIcon = CONFIG.ITEMS.COMMENTED.prepare(request.countCommentedVotes())
+                    .insertLore("comment", CommentListener.getCommentLore(getPendingVote()))
+                    .get(player);
         }
 
         setItem(40, new GUIItem(commentIcon) {
@@ -104,7 +107,14 @@ public class VoteHandleGUI extends AutoPagedGUI {
                 if (type == ClickType.LEFT || type == ClickType.SHIFT_LEFT) {
                     RequestCommentsGUI.open(player, request, iconInfo, VoteHandleGUI.this);
                 } else if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
-                    VoteCommentGUI.open(player, getPendingVote(), iconInfo);
+
+                    PluginMessages.COMMENT.START.send(player, request.getID(), request.getUserDisplayName());
+                    CommentListener.startComment(player, (p, content) -> {
+                        getPendingVote().setComments(content);
+                        p.closeInventory();
+                        VoteHandleGUI.open(player, request, iconInfo);
+                    });
+
                 }
             }
         });
@@ -177,12 +187,12 @@ public class VoteHandleGUI extends AutoPagedGUI {
                             "&fThis request now has &E%(amount) &fcomments.",
                             " ",
                             "&7&oYou commented:",
-                            "&f %(comment)",
+                            "#comment#",
                             " ",
                             "&a ▶ Left  click &8|&f View other's comments",
                             "&a ▶ Right click &8|&f Edit your comment"
                     )
-                    .params("amount", "comment")
+                    .params("amount")
                     .build();
 
             public static final ConfiguredItem ANSWER = ConfiguredItem.create()

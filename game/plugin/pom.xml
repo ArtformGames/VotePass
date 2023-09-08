@@ -43,12 +43,6 @@
             <version>${project.parent.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.ArtformGames</groupId>
-            <artifactId>SignAPI</artifactId>
-            <version>1.2-SNAPSHOT</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -93,10 +87,6 @@
                         <relocation>
                             <pattern>com.cryptomorin.xseries</pattern>
                             <shadedPattern>${project.package}.lib.xseries</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>dev.pns.signapi</pattern>
-                            <shadedPattern>${project.package}.lib.signapi</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

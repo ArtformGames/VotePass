@@ -237,4 +237,20 @@ public class PluginMessages extends TextMessages {
 
     }
 
+    public static class COMMENT extends ConfigurationRoot {
+
+        public static final ConfiguredMessageList<BaseComponent[]> START = list()
+                .defaults(
+                        "&f",
+                        "&fYou are commenting on &e%(player) &f's whitelist application &8(#%(id))&f,",
+                        "&fYou can simply text your opinions in chat, or type '&ccancel&f' to return back."
+                ).params("id", "player").build();
+
+
+        public static final ConfiguredMessageList<BaseComponent[]> TOO_LONG = list()
+                .defaults(
+                        "&c&lToo long! &fMax length of a comment is &e%(max) &fletters."
+                ).params("max").build();
+    }
+
 }

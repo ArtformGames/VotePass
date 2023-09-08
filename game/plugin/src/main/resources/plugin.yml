@@ -10,13 +10,10 @@ authors:
 
 api-version: 1.16
 
-depend:
-  - ProtocolLib
 softdepend:
   - PlaceholderAPI
   - MineRedis
   - LuckPerms
-
 
 permissions:
   "votepass.admin":

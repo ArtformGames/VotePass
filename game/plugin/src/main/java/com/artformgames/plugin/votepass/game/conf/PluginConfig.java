@@ -96,6 +96,19 @@ public class PluginConfig extends ConfigurationRoot {
 
     }
 
+    public static final class COMMENT extends ConfigurationRoot {
+
+        @HeaderComment("Max letters in a single comment")
+        public static final ConfiguredValue<Integer> MAX = ConfiguredValue.of(Integer.class, 120);
+
+        @HeaderComment("How many letters are displayed in a single line")
+        public static final ConfiguredValue<Integer> LINE = ConfiguredValue.of(Integer.class, 30);
+
+        @HeaderComment("Prefix for each line")
+        public static final ConfiguredValue<String> PREFIX = ConfiguredValue.of(String.class, "&f&o  ");
+
+    }
+
     public static final class ICON extends ConfigurationRoot {
 
         public static final ConfiguredItem INFO = ConfiguredItem.create()
