@@ -180,6 +180,12 @@ public class PluginMessages extends TextMessages {
                         "&fYou are a whitelist user and should exercise the right to vote for the server whitelist review, but you still have &e%(amount) &f pieces of whitelist review votes that you have not participated in.",
                         "&fYou can [&6&lCLICK HERE](show_text=click to open the whitelist voting interface run_command=/votepass requests) &fParticipate in the server whitelist review and exercise your voting right!"
                 ).params("amount").build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> ALREADY_VOTED = list()
+                .defaults(
+                        "&fYou have already voted for &e%(player) &f's whitelist application &8(#%(id))&f!"
+                ).params("player", "id").build();
+
         public static final ConfiguredMessageList<BaseComponent[]> VIEWING = list()
                 .defaults(
                         "&fYou are viewing &e%(player) &f's answer to &6%(question) &f,",

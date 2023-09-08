@@ -5,6 +5,7 @@ import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.command.MainCommand;
+import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.ui.vote.VoteHandleGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -38,6 +39,12 @@ public class HandleCommand extends SubCommand<MainCommand> {
             CommonMessages.NOT_EXISTS.send(player, id);
             return null;
         }
+
+        if (request.isVoted(player.getUniqueId())) {
+            PluginMessages.VOTE.ALREADY_VOTED.prepare(request.getUserDisplayName(), request.getID()).to(player);
+            return null;
+        }
+
         VoteHandleGUI.open(player, request, null);
         return null;
     }
