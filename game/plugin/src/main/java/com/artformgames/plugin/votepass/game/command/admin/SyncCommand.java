@@ -20,7 +20,7 @@ public class SyncCommand extends SubCommand<MainCommand> {
             long s1 = System.currentTimeMillis();
             PluginMessages.SYNC.START.send(sender);
             int synced = Main.getInstance().getVoteManager().sync();
-            PluginMessages.SYNC.SUCCESS.send(sender, synced, System.currentTimeMillis() - s1);
+            PluginMessages.SYNC.SUCCESS.prepare(synced, System.currentTimeMillis() - s1).to(sender);
         });
         return null;
     }

@@ -49,7 +49,8 @@ public class QuickReviewGUI {
                 iconInfo.pros(), iconInfo.prosPercent(),
                 iconInfo.cons(), iconInfo.consPercent(),
                 iconInfo.abs(), iconInfo.absPercent(),
-                iconInfo.total()
+                iconInfo.passRequired(), iconInfo.passRemain(),
+                iconInfo.size(), iconInfo.total()
         );
     }
 
@@ -106,14 +107,19 @@ public class QuickReviewGUI {
                         "&c&lRejected&7: %(cons_amount)&8(%(cons_ratio)%)",
                         "&e&lAbstain&7: %(abstains_amount)&8(%(abstains_ratio)%)",
                         " ",
+                        "&fThis request requires &e%(pass_remain)&7/%(pass_required) &fmore approves to pass.",
+                        " ",
                         "&8Please turn to the next page for detailed answers."
-                ).params("name", "uuid",
+                ).params(
+                        "name", "uuid",
                         "request_id", "request_words",
                         "create_time", "close_time",
                         "pros_amount", "pros_ratio",
                         "cons_amount", "cons_ratio",
                         "abstains_amount", "abstains_ratio",
-                        "votes_amount").build();
+                        "pass_required", "pass_remain",
+                        "votes_amount", "total_amount"
+                ).build();
 
 
         public static final ConfiguredMessageList<BaseComponent[]> ANSWER_EMPTY = TextMessages.list()
@@ -134,7 +140,7 @@ public class QuickReviewGUI {
 
         public static final ConfiguredMessageList<BaseComponent[]> HAS_COMMENTS = TextMessages.list()
                 .defaults(
-                        "&8This request has a total of %(amount) comments,",
+                        "&8This request has a size of %(amount) comments,",
                         " ",
                         "&7&oIf you want to express your personal opinion, please return to process this request in the next page.",
                         "&8Please keep turning the page to see others opinions."

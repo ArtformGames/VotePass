@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Set;
@@ -188,4 +187,18 @@ public class RequestInformation {
         return getVotes().stream().anyMatch(vote -> vote.voter().equals(key));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RequestInformation that = (RequestInformation) o;
+
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

@@ -4,6 +4,7 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
 import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
@@ -15,6 +16,7 @@ import com.artformgames.plugin.votepass.game.ui.vote.QuickReviewGUI;
 import com.artformgames.plugin.votepass.game.ui.vote.RequestListGUI;
 import com.artformgames.plugin.votepass.game.ui.vote.VoteConfirmGUI;
 import com.artformgames.plugin.votepass.game.ui.vote.VoteHandleGUI;
+import org.bukkit.Material;
 
 import java.time.Duration;
 
@@ -29,7 +31,7 @@ public class PluginConfig extends ConfigurationRoot {
         @HeaderComment({
                 "Auto pass ratio, when the ratio of the passed vote is greater than the value,",
                 "the vote will be automatically passed, below zero means disabled auto pass.",
-                "You can configure different ratio based on different total votable players.",
+                "You can configure different ratio based on different size votable players.",
         })
         public static final ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfiguredMap.builderOf(Integer.class, Double.class)
                 .asTreeMap().fromString().parseKey(Integer::parseInt).parseValue(Double::parseDouble)
@@ -91,6 +93,38 @@ public class PluginConfig extends ConfigurationRoot {
         public static final ConfiguredSound APPROVED = ConfiguredSound.of("ENTITY_VILLAGER_CELEBRATE");
 
         public static final ConfiguredSound REJECT = ConfiguredSound.of("ENTITY_VILLAGER_NO");
+
+    }
+
+    public static final class ICON extends ConfigurationRoot {
+
+        public static final ConfiguredItem INFO = ConfiguredItem.create()
+                .defaultType(Material.PLAYER_HEAD)
+                .defaultName("&7#%(request_id) &e&l%(name)")
+                .defaultLore(
+                        " ",
+                        "&7Request form &e&l%(name)",
+                        "&7UUID: &e%(uuid)",
+                        "&7",
+                        "&7Contain words: &e%(request_words)",
+                        "&7Submit time: &e%(create_time)",
+                        "&7Close time: &e%(close_time)",
+                        " ",
+                        "&f✔ &a&lApproved&7: &a%(pros_amount)&7/%(votes_amount) &8(%(pros_ratio)%)",
+                        "&f✘ &c&lRejected&7: &c%(cons_amount)&7/%(votes_amount) &8(%(cons_ratio)%)",
+                        "&f◮ &e&lAbstained&7: &7%(abstains_amount)&7/%(votes_amount) &8(%(abstains_ratio)%)",
+                        " ",
+                        "&fRequire &e%(pass_remain)&7/%(pass_required) &fmore approves to pass the request.",
+                        "#click-lore#{1,0}"
+                ).params("name", "uuid",
+                        "request_id", "request_words",
+                        "create_time", "close_time",
+                        "pros_amount", "pros_ratio",
+                        "cons_amount", "cons_ratio",
+                        "abstains_amount", "abstains_ratio",
+                        "pass_required", "pass_remain",
+                        "votes_amount", "total_amount"
+                ).build();
 
     }
 

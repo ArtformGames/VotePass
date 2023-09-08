@@ -61,14 +61,7 @@ public class VoteConfirmGUI extends GUI {
     }
 
     public void loadInfo() {
-        setItem(12, new GUIItem(CONFIG.ITEMS.INFO.get(player,
-                iconInfo.displayName(), iconInfo.uuid(), iconInfo.id(), iconInfo.words(),
-                iconInfo.createTime(), iconInfo.expireTime(),
-                iconInfo.pros(), iconInfo.prosPercent(),
-                iconInfo.cons(), iconInfo.consPercent(),
-                iconInfo.abs(), iconInfo.absPercent(),
-                iconInfo.total()
-        )));
+        setItem(12, new GUIItem(iconInfo.prepareIcon().get(player)));
 
         switch (decision) {
             case REJECT ->
@@ -134,31 +127,6 @@ public class VoteConfirmGUI extends GUI {
                 .build();
 
         public static final class ITEMS extends ConfigurationRoot {
-
-            public static final ConfiguredItem INFO = ConfiguredItem.create()
-                    .defaultType(Material.PLAYER_HEAD)
-                    .defaultName("&7#%(request_id) &e&l%(name)")
-                    .defaultLore(
-                            " ",
-                            "&7Request form &e&l%(name)",
-                            "&7UUID: &e%(uuid)",
-                            "&7",
-                            "&7Contain words: &e%(request_words)",
-                            "&7Submit time: &e%(create_time)",
-                            "&7Close time: &e%(close_time)",
-                            " ",
-                            "&f✔ &a&lApproved&7: &a%(pros_amount)&7/%(votes_amount) &8(%(pros_ratio)%)",
-                            "&f✘ &c&lRejected&7: &c%(cons_amount)&7/%(votes_amount) &8(%(cons_ratio)%)",
-                            "&f◮ &e&lAbstained&7: &7%(abstains_amount)&7/%(votes_amount) &8(%(abstains_ratio)%)"
-                    ).params("name", "uuid",
-                            "request_id", "request_words",
-                            "create_time", "close_time",
-                            "pros_amount", "pros_ratio",
-                            "cons_amount", "cons_ratio",
-                            "abstains_amount", "abstains_ratio",
-                            "votes_amount"
-                    ).build();
-
 
             public static final ConfiguredItem APPROVED = ConfiguredItem.create()
                     .defaultType(Material.EMERALD)

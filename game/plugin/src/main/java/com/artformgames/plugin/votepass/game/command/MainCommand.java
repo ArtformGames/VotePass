@@ -1,10 +1,7 @@
 package com.artformgames.plugin.votepass.game.command;
 
 import com.artformgames.plugin.votepass.core.command.VotePassCommand;
-import com.artformgames.plugin.votepass.game.command.admin.ManageCommand;
-import com.artformgames.plugin.votepass.game.command.admin.MigrateCommand;
-import com.artformgames.plugin.votepass.game.command.admin.ReloadCommand;
-import com.artformgames.plugin.votepass.game.command.admin.SyncCommand;
+import com.artformgames.plugin.votepass.game.command.admin.*;
 import com.artformgames.plugin.votepass.game.command.admin.user.UserAddCommand;
 import com.artformgames.plugin.votepass.game.command.admin.user.UserListCommand;
 import com.artformgames.plugin.votepass.game.command.admin.user.UserRemoveCommand;
@@ -26,6 +23,7 @@ public class MainCommand extends VotePassCommand {
         registerSubCommand(new AbstainCommand(this, "abstain", "abstained"));
 
         registerSubCommand(new ManageCommand(this, "manage"));
+        registerSubCommand(new VerifyCommand(this, "verify"));
         registerSubCommand(new MigrateCommand(this, "migrate"));
         registerSubCommand(new SyncCommand(this, "sync"));
         registerSubCommand(new ReloadCommand(this, "reload"));

@@ -147,14 +147,14 @@ public class VoteManagerImpl implements VoteManager {
         int total = countable + missed - abs;
         double ratio = getAutoPassRatio(total);
         if (ratio <= 0) {
-            Main.debugging("Players | total: " + total + " / voted: " + (pros + cons) + " (Auto pass disabled).");
+            Main.debugging("Players | size: " + total + " / voted: " + (pros + cons) + " (Auto pass disabled).");
             return RequestResult.PENDING; // Disabled auto pass.
         }
 
         int autoApprove = (int) (total * ratio);
         int autoDeny = total - autoApprove;
 
-        Main.debugging("Players | total: " + total + " / voted: " + (pros + cons));
+        Main.debugging("Players | size: " + total + " / voted: " + (pros + cons));
         Main.debugging("Auto approve required " + (ratio * 100) + "%  (Now " + pros + "/" + autoApprove + ")");
         Main.debugging("Auto reject required " + ((1 - ratio) * 100) + "% (Now " + cons + "/" + autoDeny + ")");
 

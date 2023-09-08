@@ -50,8 +50,8 @@ public class PluginMessages extends TextMessages {
                 ).params("name").build();
 
         public static final ConfiguredMessageList<BaseComponent[]> LIST = list()
-                .defaults("&fServer users list &7(total &F%(total)&7):")
-                .params("total").build();
+                .defaults("&fServer users list &7(size &F%(size)&7):")
+                .params("size").build();
 
         public static final ConfiguredMessageList<BaseComponent[]> USER = list()
                 .defaults("&8- [&f%(name) &7[#%(request)]](hover=&7Joined at &f%(passed_time)))")
@@ -138,7 +138,22 @@ public class PluginMessages extends TextMessages {
 
         public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                 .defaults(
-                        "&a&lSuccess! &There are %(amount) whitelist requests have been synchronized to the server, cost &a%(time)&fms."
+                        "&a&lDone! &fThere are &e%(amount) &fwhitelist requests have been synchronized to the server, cost &a%(time)&fms."
+                ).params("amount", "time").build();
+
+    }
+
+    public static class VERIFY extends ConfigurationRoot {
+
+        public static final ConfiguredMessageList<BaseComponent[]> START = list()
+                .defaults(
+                        "&fVerifying and recalculating current requests..",
+                        "&fThis may take a while, please wait patiently."
+                ).build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
+                .defaults(
+                        "&a&lSuccess! &fThere are &e%(amount) &fwhitelist requests have been updated, cost &a%(time)&fms."
                 ).params("amount", "time").build();
 
     }
