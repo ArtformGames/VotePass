@@ -8,7 +8,6 @@ import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.game.Main;
-import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.user.GameUser;
@@ -53,7 +52,7 @@ public class RequestListGUI extends AutoPagedGUI {
     protected GUIItem createIcon(@NotNull RequestInformation request) {
         RequestIconInfo iconInfo = RequestIconInfo.of(request);
         return new GUIItem(iconInfo.prepareIcon()
-                .insertLore("#click-lore#", CONFIG.ADDITIONAL_LORE.CLICK)
+                .insertLore("click-lore", CONFIG.ADDITIONAL_LORE.CLICK)
                 .get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {

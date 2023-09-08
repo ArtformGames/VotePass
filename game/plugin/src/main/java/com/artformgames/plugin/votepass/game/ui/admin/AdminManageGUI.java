@@ -53,7 +53,7 @@ public class AdminManageGUI extends AutoPagedGUI {
     protected GUIItem createIcon(@NotNull RequestInformation request) {
         RequestIconInfo iconInfo = RequestIconInfo.of(request);
         return new GUIItem(iconInfo.prepareIcon()
-                .insertLore("#click-lore#", CONFIG.ADDITIONAL_LORE.CLICK)
+                .insertLore("click-lore", CONFIG.ADDITIONAL_LORE.CLICK)
                 .get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {
