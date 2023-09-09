@@ -5,6 +5,7 @@ import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
+import com.artformgames.plugin.votepass.game.ui.vote.VoteHandleGUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,14 +14,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 
 public class CommentListener implements Listener {
 
-    protected static final Map<UUID, BiConsumer<Player, String>> commenting = new HashMap<>();
+    protected static final Map<UUID, PendingVote> commenting = new HashMap<>();
 
-    public static void startComment(@NotNull Player player, @NotNull BiConsumer<Player, String> callback) {
-        commenting.put(player.getUniqueId(), callback);
+    public static void startComment(@NotNull Player player, @NotNull PendingVote vote) {
+        commenting.put(player.getUniqueId(), vote);
     }
 
     public static void cancelComment(@NotNull Player player) {
@@ -31,23 +31,26 @@ public class CommentListener implements Listener {
     public void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 
-        BiConsumer<Player, String> callback = commenting.remove(player.getUniqueId());
-        if (callback == null) return;
+        PendingVote vote = commenting.remove(player.getUniqueId());
+        if (vote == null) return;
 
         event.setCancelled(true);
         String content = ColorParser.clear(event.getMessage());
 
         if (content.isEmpty() || content.isBlank() || content.equalsIgnoreCase("cancel")) {
+            handle(player, vote);
             return;
         }
 
         int max = PluginConfig.COMMENT.MAX.getNotNull();
         if (content.length() > PluginConfig.COMMENT.MAX.getNotNull()) {
             PluginMessages.COMMENT.TOO_LONG.send(player, max);
-            startComment(player, callback); // Retry
+            startComment(player, vote); // Retry
             return;
         }
-        Main.getInstance().getScheduler().run(() -> callback.accept(player, content));
+
+        vote.setComments(content);
+        handle(player, vote);
     }
 
     @EventHandler
@@ -71,6 +74,10 @@ public class CommentListener implements Listener {
         }
 
         return lore;
+    }
+
+    public void handle(Player player, PendingVote vote) {
+        Main.getInstance().getScheduler().run(() -> VoteHandleGUI.open(player, vote.getRequest(), null));
     }
 
     public static List<String> getCommentLore(PendingVote vote) {
