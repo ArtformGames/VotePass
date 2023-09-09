@@ -107,11 +107,10 @@ public class VoteHandleGUI extends AutoPagedGUI {
                 if (type == ClickType.LEFT || type == ClickType.SHIFT_LEFT) {
                     RequestCommentsGUI.open(player, request, iconInfo, VoteHandleGUI.this);
                 } else if (type == ClickType.RIGHT || type == ClickType.SHIFT_RIGHT) {
-
+                    player.closeInventory();
                     PluginMessages.COMMENT.START.send(player, request.getID(), request.getUserDisplayName());
                     CommentListener.startComment(player, (p, content) -> {
                         getPendingVote().setComments(content);
-                        p.closeInventory();
                         VoteHandleGUI.open(player, request, iconInfo);
                     });
 

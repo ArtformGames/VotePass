@@ -1,6 +1,7 @@
 package com.artformgames.plugin.votepass.game.listener;
 
 import cc.carm.lib.easyplugin.utils.ColorParser;
+import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
@@ -46,8 +47,7 @@ public class CommentListener implements Listener {
             startComment(player, callback); // Retry
             return;
         }
-
-        callback.accept(player, content);
+        Main.getInstance().getScheduler().run(() -> callback.accept(player, content));
     }
 
     @EventHandler
