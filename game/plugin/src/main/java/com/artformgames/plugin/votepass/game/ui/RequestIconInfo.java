@@ -83,13 +83,13 @@ public record RequestIconInfo(
         return info.getID();
     }
 
-    static String getPercent(int x, int y) {
-        if (x == 0 || y == 0) return "0.00";
+    public static String getPercent(int x, int y) {
+        if (x <= 0 || y <= 0) return "0.00";
 
         double d1 = x * 1.0;
         double d2 = y * 1.0;
-        NumberFormat percentInstance = NumberFormat.getPercentInstance();
+        NumberFormat percentInstance = NumberFormat.getInstance();
         percentInstance.setMinimumFractionDigits(2);
-        return percentInstance.format(d1 / d2);
+        return percentInstance.format((d1 / d2) * 100);
     }
 }
