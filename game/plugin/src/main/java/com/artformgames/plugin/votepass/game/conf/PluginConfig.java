@@ -82,6 +82,26 @@ public class PluginConfig extends ConfigurationRoot {
         @HeaderComment("Whether to restrict administrators to managing only requests that require intervention.")
         public static final ConfiguredValue<Boolean> MANAGE_RESTRICT = ConfiguredValue.of(Boolean.class, false);
 
+        @HeaderComment({
+                "The commands that will be executed after player submit a vote."
+        })
+        public static final class COMMANDS extends ConfigurationRoot {
+
+            public static final ConfiguredMessageList<String> APPROVE = ConfiguredMessageList.asStrings()
+                    .defaults("say &a%player_name% &fjust &aapproved&f the &a%(target)&f's request &6#%(id) &f!")
+                    .build();
+
+            public static final ConfiguredMessageList<String> ABSTAIN = ConfiguredMessageList.asStrings()
+                    .defaults("say &a%player_name% &fjust &eabstained&f to vote for the &a%(target)&f's request &6#%(id) &f!")
+                    .build();
+
+            public static final ConfiguredMessageList<String> REJECT = ConfiguredMessageList.asStrings()
+                    .defaults("say &a%player_name% &fjust &cdenied&f the &a%(target)&f's request &6#%(id) &f!")
+                    .build();
+
+        }
+
+
     }
 
     public static final class SOUNDS extends ConfigurationRoot {

@@ -6,6 +6,7 @@ import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.game.Main;
@@ -14,12 +15,14 @@ import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.user.GameUser;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public class VoteConfirmGUI extends GUI {
@@ -91,14 +94,17 @@ public class VoteConfirmGUI extends GUI {
 
                 switch (decision) {
                     case APPROVE -> {
+                        executeCommands(player, PluginConfig.SERVER.COMMANDS.APPROVE, request.getUserDisplayName(), request.getID());
                         PluginMessages.VOTE.APPROVED.send(player, request.getID(), request.getUserDisplayName());
                         PluginConfig.SOUNDS.APPROVED.playTo(player);
                     }
                     case REJECT -> {
+                        executeCommands(player, PluginConfig.SERVER.COMMANDS.REJECT, request.getUserDisplayName(), request.getID());
                         PluginMessages.VOTE.REJECTED.send(player, request.getID(), request.getUserDisplayName());
                         PluginConfig.SOUNDS.REJECT.playTo(player);
                     }
                     case ABSTAIN -> {
+                        executeCommands(player, PluginConfig.SERVER.COMMANDS.ABSTAIN, request.getUserDisplayName(), request.getID());
                         PluginMessages.VOTE.ABSTAINED.send(player, request.getID(), request.getUserDisplayName());
                         PluginConfig.SOUNDS.ABSTAIN.playTo(player);
                     }
@@ -118,6 +124,19 @@ public class VoteConfirmGUI extends GUI {
         }, 41, 42, 43, 44);
     }
 
+    public void executeCommands(Player player, ConfiguredMessageList<String> list, Object... values) {
+        executeCommands(list.parse(player, values));
+    }
+
+    public void executeCommands(@Nullable List<String> commands) {
+        for (String command : commands) {
+            try {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     public static final class CONFIG extends ConfigurationRoot {
 
