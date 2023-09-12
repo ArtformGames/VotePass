@@ -2,7 +2,9 @@ package com.artformgames.plugin.votepass.api.data.request;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public record RequestAnswer(@NotNull String question, @NotNull List<String> answers) {
 

@@ -12,6 +12,7 @@ import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
@@ -27,6 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public class VoteHandleGUI extends AutoPagedGUI {
@@ -97,7 +99,7 @@ public class VoteHandleGUI extends AutoPagedGUI {
             commentIcon = CONFIG.ITEMS.NOT_COMMENTED.prepare(request.countCommentedVotes()).get(player);
         } else {
             commentIcon = CONFIG.ITEMS.COMMENTED.prepare(request.countCommentedVotes())
-                    .insertLore("comment", CommentListener.getCommentLore(getPendingVote()))
+                    .insertLore("comment", GUIUtils.formatCommentLine(getPendingVote()))
                     .get(player);
         }
 
@@ -118,7 +120,16 @@ public class VoteHandleGUI extends AutoPagedGUI {
 
     public void loadAnswers() {
         for (RequestAnswer value : request.getContents().values()) {
-            addItem(new GUIItem(CONFIG.ITEMS.ANSWER.get(player, value.question(), value.countWords())) {
+            ConfiguredItem.PreparedItem item = CONFIG.ITEMS.ANSWER.prepare(value.question(), value.countWords());
+            List<String> lore = GUIUtils.formatAnswersLore(value);
+            if (lore.size() > PluginConfig.ANSWERS.MAX_LINES.getNotNull()) {
+                item.insertLore("contents", lore.subList(0, PluginConfig.ANSWERS.MAX_LINES.getNotNull()));
+                item.insertLore("more-contents", PluginConfig.ANSWERS.EXTRA);
+            } else {
+                item.insertLore("contents", lore);
+            }
+
+            addItem(new GUIItem(item.get(player)) {
                 @Override
                 public void onClick(Player clicker, ClickType type) {
                     player.closeInventory();
@@ -128,6 +139,7 @@ public class VoteHandleGUI extends AutoPagedGUI {
             });
         }
     }
+
 
     public static final class CONFIG extends ConfigurationRoot {
 
@@ -195,9 +207,11 @@ public class VoteHandleGUI extends AutoPagedGUI {
                     .defaultName("&7Question: &f%(question)")
                     .defaultLore(
                             " ",
-                            "&fThis answer contains &e%(words) &fwords.",
+                            "&fThis answer contains &e%(words) &fletters.",
+                            "#contents#{1}",
+                            "#more-contents#{1}",
                             " ",
-                            "&a ▶ Click &8|&f View answer contents"
+                            "&a ▶ Click &8|&f View full answer contents"
                     )
                     .params("question", "words")
                     .build();

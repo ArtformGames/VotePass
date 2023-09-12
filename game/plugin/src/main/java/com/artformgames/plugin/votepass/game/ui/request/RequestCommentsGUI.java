@@ -10,7 +10,6 @@ import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
-import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import org.bukkit.Material;
@@ -57,13 +56,13 @@ public class RequestCommentsGUI extends AutoPagedGUI {
             if (vote.isApproved()) {
                 addItem(new GUIItem(CONFIG.ITEMS.APPROVED
                         .prepare(vote.voter().getDisplayName(), vote.getTimeString())
-                        .insertLore("comment", CommentListener.getCommentLore(vote.comment()))
+                        .insertLore("comment", GUIUtils.formatCommentLine(vote.comment()))
                         .get(player)
                 ));
             } else {
                 addItem(new GUIItem(CONFIG.ITEMS.REJECTED
                         .prepare(vote.voter().getDisplayName(), vote.getTimeString())
-                        .insertLore("comment", CommentListener.getCommentLore(vote.comment()))
+                        .insertLore("comment", GUIUtils.formatCommentLine(vote.comment()))
                         .get(player)
                 ));
             }

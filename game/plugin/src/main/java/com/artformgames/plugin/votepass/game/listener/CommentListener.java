@@ -58,30 +58,9 @@ public class CommentListener implements Listener {
         cancelComment(event.getPlayer());
     }
 
-    public static List<String> getCommentLore(String content) {
-        List<String> lore = new ArrayList<>();
-        if (content == null || content.isBlank()) return lore;
-
-        int line = PluginConfig.COMMENT.LINE.getNotNull();
-        String prefix = PluginConfig.COMMENT.PREFIX.getNotNull();
-
-        int length = content.length();
-        int lines = length / line + (length % line == 0 ? 0 : 1);
-        for (int i = 0; i < lines; i++) {
-            int start = i * line;
-            int end = Math.min((i + 1) * line, length);
-            lore.add(prefix + content.substring(start, end));
-        }
-
-        return lore;
-    }
-
     public void handle(Player player, PendingVote vote) {
         Main.getInstance().getScheduler().run(() -> VoteHandleGUI.open(player, vote.getRequest(), null));
     }
 
-    public static List<String> getCommentLore(PendingVote vote) {
-        return getCommentLore(vote.getComments());
-    }
 
 }

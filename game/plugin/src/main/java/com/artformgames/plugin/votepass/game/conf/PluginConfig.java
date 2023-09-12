@@ -12,7 +12,6 @@ import com.artformgames.plugin.votepass.game.ui.admin.AdminHandleGUI;
 import com.artformgames.plugin.votepass.game.ui.admin.AdminManageGUI;
 import com.artformgames.plugin.votepass.game.ui.request.RequestCommentsGUI;
 import com.artformgames.plugin.votepass.game.ui.user.AbstainToggleGUI;
-import com.artformgames.plugin.votepass.game.ui.vote.QuickReviewGUI;
 import com.artformgames.plugin.votepass.game.ui.vote.RequestListGUI;
 import com.artformgames.plugin.votepass.game.ui.vote.VoteConfirmGUI;
 import com.artformgames.plugin.votepass.game.ui.vote.VoteHandleGUI;
@@ -125,12 +124,31 @@ public class PluginConfig extends ConfigurationRoot {
         public static final ConfiguredValue<Integer> MAX = ConfiguredValue.of(Integer.class, 120);
 
         @HeaderComment("How many letters are displayed in a single line")
-        public static final ConfiguredValue<Integer> LINE = ConfiguredValue.of(Integer.class, 30);
+        public static final ConfiguredValue<Integer> LINE = ConfiguredValue.of(Integer.class, 25);
 
         @HeaderComment("Prefix for each line")
         public static final ConfiguredValue<String> PREFIX = ConfiguredValue.of(String.class, "&f&o  ");
 
     }
+
+    public static final class ANSWERS extends ConfigurationRoot {
+
+        @HeaderComment("How many letters are displayed in a single line")
+        public static final ConfiguredValue<Integer> LETTERS_PER_LINE = ConfiguredValue.of(Integer.class, 25);
+
+        @HeaderComment("Max lines that displayed in lore")
+        public static final ConfiguredValue<Integer> MAX_LINES = ConfiguredValue.of(Integer.class, 6);
+
+        @HeaderComment("Prefix for each line")
+        public static final ConfiguredValue<String> PREFIX = ConfiguredValue.of(String.class, "&f&o  ");
+
+        @HeaderComment("Extra lore if answers are too long, tell voters to click to view details.")
+        public static final ConfiguredMessageList<String> EXTRA = ConfiguredMessageList.ofStrings(
+                "&f&o  ... More in details!"
+        );
+
+    }
+
 
     public static final class ICON extends ConfigurationRoot {
 
@@ -171,7 +189,6 @@ public class PluginConfig extends ConfigurationRoot {
         public static final Class<?> REQUEST_LIST = RequestListGUI.CONFIG.class;
         public static final Class<?> REQUEST_COMMENTS = RequestCommentsGUI.CONFIG.class;
 
-        public static final Class<?> QUICK_REVIEW = QuickReviewGUI.CONFIG.class;
         public static final Class<?> VOTE_HANDLE = VoteHandleGUI.CONFIG.class;
         public static final Class<?> VOTE_CONFIRM = VoteConfirmGUI.CONFIG.class;
 

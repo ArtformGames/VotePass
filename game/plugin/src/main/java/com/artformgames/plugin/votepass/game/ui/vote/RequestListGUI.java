@@ -56,16 +56,7 @@ public class RequestListGUI extends AutoPagedGUI {
                 .get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {
-                if (type.isLeftClick() || iconInfo.words() >= 5000) {
-                    VoteHandleGUI.open(player, request, iconInfo);
-                } else if (type.isRightClick()) {
-                    player.closeInventory();
-                    if (!QuickReviewGUI.open(player, request)) {
-                        VoteHandleGUI.open(player, request, iconInfo);
-                    }
-                } else {
-                    player.closeInventory();
-                }
+                VoteHandleGUI.open(player, request, iconInfo);
             }
         };
     }
@@ -79,8 +70,7 @@ public class RequestListGUI extends AutoPagedGUI {
         public static final class ADDITIONAL_LORE extends ConfigurationRoot {
 
             public static final ConfiguredMessageList<String> CLICK = ConfiguredMessageList.asStrings().defaults(
-                    "&a ▶ Left  click &8|&f view details",
-                    "&a ▶ Right click &8|&f quick review"
+                    "&a ▶ Click &8|&f View details"
             ).build();
 
         }
