@@ -222,8 +222,8 @@ public class VoteHandleGUI extends AutoPagedGUI {
 
             public static final ConfiguredMessageList<BaseComponent[]> RETURN = PluginMessages.list()
                     .defaults(
-                            "All answers have been displayed.",
-                            "[Click here](hover=Click to return to the details page and continue processing related answers. run_command=/votepass handle %(id)) to return to the request details page."
+                            "&0All answers have been displayed.",
+                            "[&2&l[Click here]](hover=Click to return to the details page and continue processing related answers. run_command=/votepass handle %(id))&0 to return to the request details page."
                     ).params("id")
                     .build();
 
