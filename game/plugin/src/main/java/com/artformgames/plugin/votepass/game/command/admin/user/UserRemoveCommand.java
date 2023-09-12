@@ -54,7 +54,7 @@ public class UserRemoveCommand extends SubCommand<MainCommand> {
                 Main.getInstance().getUserManager().modifyWhitelist().remove(key).execute();
                 PluginMessages.USERS.REMOVE.SUCCESS.send(sender, key.name(), System.currentTimeMillis() - s1);
             } catch (Exception e) {
-                PluginMessages.USERS.REMOVE.FAILED.send(sender, key.name(), System.currentTimeMillis() - s1);
+                PluginMessages.USERS.REMOVE.FAILED.send(sender);
                 e.printStackTrace();
             }
 

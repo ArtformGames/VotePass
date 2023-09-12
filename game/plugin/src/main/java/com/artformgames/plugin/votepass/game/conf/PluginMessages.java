@@ -97,12 +97,12 @@ public class PluginMessages extends TextMessages {
             public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                     .defaults(
                             "&a&lSuccess! &fUser &e%(name) &fhas been removed from whitelist, cost &a%(time)&fms."
-                    ).params("amount", "time").build();
+                    ).params("name", "time").build();
 
             public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
                     .defaults(
                             "&c&lFailed to remove! &fThere are some errors, please see console for details."
-                    ).params("amount", "time").build();
+                    ).build();
         }
 
 
@@ -124,7 +124,7 @@ public class PluginMessages extends TextMessages {
         public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
                 .defaults(
                         "&c&lFailed! &cThere are some errors, please see console for details."
-                ).params("amount", "time").build();
+                ).build();
 
     }
 
