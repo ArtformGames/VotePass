@@ -12,7 +12,6 @@ import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
-import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
@@ -28,7 +27,6 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Optional;
 
 public class VoteHandleGUI extends AutoPagedGUI {
@@ -119,22 +117,13 @@ public class VoteHandleGUI extends AutoPagedGUI {
     }
 
     public void loadAnswers() {
-        for (RequestAnswer value : request.getContents().values()) {
-            ConfiguredItem.PreparedItem item = CONFIG.ITEMS.ANSWER.prepare(value.question(), value.countWords());
-            List<String> lore = GUIUtils.formatAnswersLore(value);
-            if (lore.size() > PluginConfig.ANSWERS.MAX_LINES.getNotNull()) {
-                item.insertLore("contents", lore.subList(0, PluginConfig.ANSWERS.MAX_LINES.getNotNull()));
-                item.insertLore("more-contents", PluginConfig.ANSWERS.EXTRA);
-            } else {
-                item.insertLore("contents", lore);
-            }
-
-            addItem(new GUIItem(item.get(player)) {
+        for (RequestAnswer answer : request.getContents().values()) {
+            addItem(new GUIItem(GUIUtils.loadAnswersIcon(player, answer, CONFIG.ITEMS.ANSWER)) {
                 @Override
                 public void onClick(Player clicker, ClickType type) {
                     player.closeInventory();
-                    PluginMessages.VOTE.VIEWING.send(player, request.getID(), request.getUserDisplayName(), value.question());
-                    RequestAnswerGUI.open(player, request, value, CONFIG.BOOK.RETURN.parseToLine(player, request.getID()));
+                    PluginMessages.VOTE.VIEWING.send(player, request.getID(), request.getUserDisplayName(), answer.question());
+                    RequestAnswerGUI.open(player, request, answer, CONFIG.BOOK.RETURN.parseToLine(player, request.getID()));
                 }
             });
         }

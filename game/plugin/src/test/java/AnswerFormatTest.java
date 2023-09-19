@@ -1,50 +1,32 @@
-import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
-import com.artformgames.plugin.votepass.game.conf.PluginConfig;
+import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class AnswerFormatTest {
 
     @Test
     public void onTest() {
 
-        System.out.println(formatAnswersLore(List.of(
-                "answer1answer1answer1answer1answer1answer1",
-                "answer2answer1answer1answer1answer1answer12",
+        List<String> contents = List.of(
+                "This is the first line of the answer",
+                "And this is the second line",
+                "Of course the third line",
                 " ",
                 "%%%%player%%%%",
                 "",
                 "answer3 %player_name% %%player%%"
-        )));
+        );
 
-    }
+        List<String> formatted = GUIUtils.formatAnswersLore(contents, "-->", 35);
 
-    public static List<String> formatAnswersLore(List<String> answers) {
+        System.out.println("Formatted ");
+        formatted.forEach(System.out::println);
 
-        int lettersPreLine = 35;
+        System.out.println(" ");
+        System.out.println("Limited x3");
+        formatted.subList(0, 3).forEach(System.out::println);
 
-        String prefix = "-->";
-
-        List<String> lore = new ArrayList<>();
-        for (String answer : answers) {
-            String cleared = answer
-                    .replaceAll("%+([一-龥_a-zA-Z0-9-]+)%+", "$1")
-                    .replaceAll("&", "&&").replaceAll(Pattern.quote("§"), "&&")
-                    .replaceAll("^&+$", "");// Prevent color problems
-            if (cleared.isBlank()) continue;
-
-            int length = cleared.length();
-            int lines = length / lettersPreLine + (length % lettersPreLine == 0 ? 0 : 1);
-            for (int i = 0; i < lines; i++) {
-                int start = i * lettersPreLine;
-                int end = Math.min((i + 1) * lettersPreLine, length);
-                lore.add(prefix + cleared.substring(start, end));
-            }
-        }
-        return lore;
     }
 
 }
