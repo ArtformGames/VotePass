@@ -1,6 +1,7 @@
 package com.artformgames.plugin.votepass.game.ui;
 
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
+import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
@@ -75,8 +76,10 @@ public class GUIUtils {
 
         content = content
                 .replaceAll("%+([一-龥_a-zA-Z0-9-]+)%+", "$1")
-                .replaceAll("&", "&&").replaceAll(Pattern.quote("§"), "&&")
+                .replaceAll(Pattern.quote("§"), "&")
                 .replaceAll("^&+$", "");// Prevent color problems
+        content = ColorParser.clear(content);
+        
         if (content.isBlank()) return lore;
 
         int length = content.length();
