@@ -3,10 +3,9 @@ package com.artformgames.plugin.votepass.lobby.conf;
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.value.type.ConfiguredList;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import org.bukkit.Material;
 
 public class PluginConfig extends ConfigurationRoot {

@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.game.ui;
 
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.PreparedItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
@@ -65,7 +65,7 @@ public record RequestIconInfo(
         };
     }
 
-    public ConfiguredItem.PreparedItem prepareIcon() {
+    public PreparedItem prepareIcon() {
         return PluginConfig.ICON.INFO
                 .prepare(generateParams())
                 .setSkullOwner(info.getUserUUID());

@@ -4,7 +4,7 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
 import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
@@ -126,8 +126,6 @@ public class PluginConfig extends ConfigurationRoot {
         @HeaderComment("How many letters are displayed in a single line")
         public static final ConfiguredValue<Integer> LINE = ConfiguredValue.of(Integer.class, 25);
 
-        @HeaderComment("Prefix for each line")
-        public static final ConfiguredValue<String> PREFIX = ConfiguredValue.of(String.class, "&f&o  ");
 
     }
 
@@ -138,9 +136,6 @@ public class PluginConfig extends ConfigurationRoot {
 
         @HeaderComment("Max lines that displayed in lore")
         public static final ConfiguredValue<Integer> MAX_LINES = ConfiguredValue.of(Integer.class, 6);
-
-        @HeaderComment("Prefix for each line")
-        public static final ConfiguredValue<String> PREFIX = ConfiguredValue.of(String.class, "&f&o  ");
 
         @HeaderComment("Extra lore if answers are too long, tell voters to click to view details.")
         public static final ConfiguredMessageList<String> EXTRA = ConfiguredMessageList.ofStrings(
@@ -182,6 +177,7 @@ public class PluginConfig extends ConfigurationRoot {
 
     }
 
+    @SuppressWarnings("unused")
     public static final class GUIS extends ConfigurationRoot {
 
         public static final Class<?> ABSTAIN_TOGGLE = AbstainToggleGUI.CONFIG.class;

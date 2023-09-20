@@ -18,7 +18,7 @@ public class AnswerFormatTest {
                 "answer3 %player_name% %%player%%"
         );
 
-        List<String> formatted = GUIUtils.formatAnswersLore(contents, "-->", 35);
+        List<String> formatted = GUIUtils.formatAnswersLore(contents, 35);
 
         System.out.println("Formatted ");
         formatted.forEach(System.out::println);

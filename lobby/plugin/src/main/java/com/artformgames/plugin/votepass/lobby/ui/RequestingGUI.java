@@ -5,7 +5,7 @@ import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.easyplugin.utils.ItemStackFactory;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;

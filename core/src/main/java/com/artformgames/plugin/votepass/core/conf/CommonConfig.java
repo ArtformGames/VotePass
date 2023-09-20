@@ -4,7 +4,7 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.ConfigPath;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.core.database.DBConfiguration;
 import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
 import org.bukkit.Material;

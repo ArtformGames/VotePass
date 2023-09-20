@@ -4,7 +4,7 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
@@ -131,7 +131,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
                     .defaultLore(
                             " ",
                             "&fThis answer contains &e%(words) &fletters.",
-                            "#contents#{1}",
+                            "{  &f&o}#contents#{1}",
                             "#more-contents#{1}",
                             " ",
                             "&a ▶ Click &8|&f View full answer contents"
