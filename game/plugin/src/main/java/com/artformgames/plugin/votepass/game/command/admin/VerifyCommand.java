@@ -11,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class VerifyCommand extends SubCommand<MainCommand> {
 
     public VerifyCommand(@NotNull MainCommand parent, String identifier, String... aliases) {
@@ -25,20 +28,23 @@ public class VerifyCommand extends SubCommand<MainCommand> {
             PluginMessages.VERIFY.START.send(sender);
             VoteManager voteManager = Main.getInstance().getVoteManager();
 
-            int updated = 0;
+            Set<RequestInformation> approved = new HashSet<>();
+            Set<RequestInformation> rejected = new HashSet<>();
             for (RequestInformation request : voteManager.getRequests().values()) {
-                RequestResult result = voteManager.calculateResult(request);
-                if (result == RequestResult.PENDING) continue;
-                updated++;
-
-                if (result == RequestResult.APPROVED) {
-                    voteManager.approve(request).join();
+                if (voteManager.calculateResult(request) == RequestResult.APPROVED) {
+                    approved.add(request);
                 } else {
-                    voteManager.reject(request).join();
+                    rejected.add(request);
                 }
             }
 
-            PluginMessages.VERIFY.SUCCESS.prepare(updated, System.currentTimeMillis() - s1).to(sender);
+            approved.forEach(requestInformation -> voteManager.approve(requestInformation).join());
+            rejected.forEach(requestInformation -> voteManager.reject(requestInformation).join());
+
+            PluginMessages.VERIFY.SUCCESS.prepare(
+                    approved.size() + rejected.size(),
+                    System.currentTimeMillis() - s1
+            ).to(sender);
         });
         return null;
     }
