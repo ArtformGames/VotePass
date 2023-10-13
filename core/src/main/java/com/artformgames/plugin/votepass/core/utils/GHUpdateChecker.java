@@ -57,7 +57,7 @@ public class GHUpdateChecker {
         } else if (behindVersions == 0) {
             this.logger.info("Now is up-to-date");
         } else if (behindVersions > 0) {
-            this.logger.info("New verson found! Now is behind " + behindVersions + " version(s).");
+            this.logger.info("New version found! Now is behind " + behindVersions + " version(s).");
             this.logger.info("Download at -> " + downloadURL);
         } else {
             this.logger.severe("Checking for updates failed! The current version is unknown, please use the native version to avoid security issues.");
