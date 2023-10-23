@@ -11,7 +11,7 @@ import org.bukkit.Material;
 
 import java.time.Duration;
 
-public class CommonConfig extends ConfigurationRoot{
+public class CommonConfig extends ConfigurationRoot {
 
     @ConfigPath(root = true)
     public static final ConfiguredValue<Boolean> DEBUG = ConfiguredValue.of(Boolean.class, false);
@@ -40,6 +40,7 @@ public class CommonConfig extends ConfigurationRoot{
     @ConfigPath(root = true)
     public static final class TIME extends ConfigurationRoot {
 
+        @HeaderComment("The time that the request will be automatically closed if it have not been handled yet.")
         public static final ConfiguredValue<Duration> AUTO_CLOSE = ConfiguredValue
                 .builderOf(Duration.class).fromString()
                 .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
@@ -47,6 +48,7 @@ public class CommonConfig extends ConfigurationRoot{
                 .defaults(Duration.ofDays(15))
                 .build();
 
+        @HeaderComment("The time that the request will be sent to admin to handle if request still have no result.")
         public static final ConfiguredValue<Duration> ADMIN_INTERVENTION = ConfiguredValue
                 .builderOf(Duration.class).fromString()
                 .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
