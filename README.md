@@ -127,11 +127,13 @@ The main command is `/VotePass` or `/vp`.
 
 ## Configurations
 
-### Plugin Configuration ([`config.yml`]() .
+You can find configuration translations at [VotePass-Translations](https://github.com/ArtformGames/VotePass-Translations).
+
+### Plugin Configuration (`config.yml`) .
 
 Will be generated on the first boot up.
 
-### Messages Configuration ([`messages.yml`]())
+### Messages Configuration (`messages.yml`)
 
 Will be generated on the first boot up.
 

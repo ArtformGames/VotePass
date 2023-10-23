@@ -126,12 +126,11 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 ```
 
 ## 配置文件
-
-### 插件配置文件([`config.yml`]() .
+### 插件配置文件(`config.yml`) .
 
 将在服务器首次启动时生成。您可以 [在这里](https://github.com/ArtformGames/VotePass-Translations) 找到该配置文件的中文译本。
 
-### 消息配置文件([`messages.yml`]())
+### 消息配置文件 (`messages.yml`)
 
 将在服务器首次启动时生成。您可以 [在这里](https://github.com/ArtformGames/VotePass-Translations) 找到该配置文件的中文译本。
 
