@@ -4,9 +4,9 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.easyplugin.gui.GUI;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
-import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.game.Main;
@@ -129,8 +129,9 @@ public class VoteConfirmGUI extends GUI {
     }
 
     public void executeCommands(@Nullable List<String> commands) {
-        if (commands == null) return;
+        if (commands == null || commands.isEmpty()) return;
         for (String command : commands) {
+            if (command == null) continue;
             try {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
             } catch (Exception ex) {
