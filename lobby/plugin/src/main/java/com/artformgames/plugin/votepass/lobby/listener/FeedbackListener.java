@@ -49,9 +49,7 @@ public class FeedbackListener implements Listener {
             }
             default -> {
                 if (request.isTimeout(CommonConfig.TIME.AUTO_CLOSE.getNotNull())) {
-                    request.setResult(RequestResult.REJECTED);
-                    request.setCloseTime(LocalDateTime.now());
-                    handleDeniedRequest(player, configuration, request);
+                    handleExpiredRequest(player, configuration, request);
                     return true;
                 } else {
                     return false;
@@ -67,6 +65,19 @@ public class FeedbackListener implements Listener {
             PluginMessages.FEEDBACK.SOUND.playTo(player);
         }
 
+        request.setFeedback(true);
+        VotePassLobbyAPI.getRequestManager().update(request);
+    }
+
+    private void handleExpiredRequest(Player player, ServerSettings configuration, RequestInformation request) {
+        Main.debugging("Handling expired #" + request.getID());
+        if (configuration != null) {
+            PluginMessages.FEEDBACK.EXPIRED.send(player, request.getID(), configuration.name());
+            PluginMessages.FEEDBACK.SOUND.playTo(player);
+        }
+        
+        request.setResult(RequestResult.REJECTED);
+        request.setCloseTime(LocalDateTime.now());
         request.setFeedback(true);
         VotePassLobbyAPI.getRequestManager().update(request);
     }

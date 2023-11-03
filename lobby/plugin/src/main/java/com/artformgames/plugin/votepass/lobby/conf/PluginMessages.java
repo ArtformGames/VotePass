@@ -98,6 +98,11 @@ public class PluginMessages extends TextMessages {
                         "&fYour application for &6%(name) &fserver whitelist &8#&e%(request_id)&f has been rejected, please check the application content and try again."
                 ).params("request_id", "name").build();
 
+        public static final ConfiguredMessageList<BaseComponent[]> EXPIRED = list()
+                .defaults(
+                        "&fYour application for &6%(name) &fserver whitelist &8#&e%(request_id)&f has expired because no enough users to vote. please try again and call on more users to vote for you."
+                ).params("request_id", "name").build();
+
     }
 
     public static class TOGGLE extends ConfigurationRoot {
