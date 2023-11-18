@@ -15,6 +15,8 @@ README LANGUAGES [ [**English**](README.md) | [中文](README_CN.md)  ]
 
 # **VotePass**
 
+![logo](.doc/logo_v2.png)
+
 > You have been **"Passed by Vote"** !
 
 An efficient and fair verification plugin for whitelisted servers,

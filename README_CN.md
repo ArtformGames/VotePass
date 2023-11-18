@@ -16,6 +16,8 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 # **VotePass** (投票通过)
 
+![logo](.doc/logo_v2.png)
+
 > 您的请求已 **"投票通过"** !
 
 一款针对白名单服务器的 **高效**、**公平** 的验证插件，
