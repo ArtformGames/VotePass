@@ -15,7 +15,7 @@ README LANGUAGES [ [**English**](README.md) | [中文](README_CN.md)  ]
 
 # **VotePass**
 
-![logo](.doc/logo_v2.png)
+<img src=".doc/logo_v2.png" width="300px"  height="300px" alt="Project logo" style="float: right">
 
 > You have been **"Passed by Vote"** !
 
