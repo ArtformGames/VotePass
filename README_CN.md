@@ -15,8 +15,6 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 # **VotePass** (投票通过)
 
-<img src=".doc/logo_v2.png" width="300px"  height="300px" alt="Project logo" style="float: right">
-
 > 您的请求已 **"投票通过"** !
 
 一款针对白名单服务器的 **高效**、**公平** 的验证插件，
@@ -25,6 +23,8 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 > 本插件已在 [MCBBS](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1462390)
 > 与 [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) 上发布。
+
+<img src=".doc/logo_v2.png" width="300px"  height="300px" alt="Project logo" align="right">
 
 ## 功能 & 优势
 
