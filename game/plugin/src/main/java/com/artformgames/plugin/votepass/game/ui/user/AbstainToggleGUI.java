@@ -2,6 +2,7 @@ package com.artformgames.plugin.votepass.game.ui.user;
 
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
@@ -40,7 +41,7 @@ public class AbstainToggleGUI {
 
     public static final class CONFIG extends ConfigurationRoot {
 
-        public static final ConfiguredMessageList<BaseComponent[]> ENABLED = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> ENABLED = TextMessages.list()
                 .defaults(
                         "&8Your current status is",
                         "&e&labstaining all vote rights&8.",
@@ -50,7 +51,7 @@ public class AbstainToggleGUI {
                         " "
                 ).build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> DISABLED = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> DISABLED = TextMessages.list()
                 .defaults(
                         "&8Your current status is",
                         "&a&lParticipating in voting&8.",
@@ -59,7 +60,7 @@ public class AbstainToggleGUI {
                         " ",
                         " "
                 ).build();
-        public static final ConfiguredMessageList<BaseComponent[]> TOGGLE = PluginMessages.list()
+        public static final ConfiguredMessageList<BaseComponent[]> TOGGLE = TextMessages.list()
                 .defaults(
                         "You can choose whether to automatically waive all future requests.",
                         " ",
