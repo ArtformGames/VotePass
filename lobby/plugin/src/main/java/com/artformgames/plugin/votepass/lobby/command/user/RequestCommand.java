@@ -3,6 +3,7 @@ package com.artformgames.plugin.votepass.lobby.command.user;
 import cc.carm.lib.easyplugin.command.SimpleCompleter;
 import cc.carm.lib.easyplugin.command.SubCommand;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
+import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
@@ -10,6 +11,7 @@ import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
 import com.artformgames.plugin.votepass.lobby.command.MainCommand;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
 import com.artformgames.plugin.votepass.lobby.ui.RequestingGUI;
+import com.artformgames.plugin.votepass.lobby.ui.ResubmitGUI;
 import com.artformgames.plugin.votepass.lobby.ui.RulesBookUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -44,16 +46,24 @@ public class RequestCommand extends SubCommand<MainCommand> {
         if (settings.rules() != null) {
             PluginMessages.RULES.send(player, settings.name());
             RulesBookUI.open(player, settings.id(), settings.rules());
-        } else {
-            PendingRequest pendingRequest = requestData.getPendingRequest();
-            if (pendingRequest != null && pendingRequest.getSettings().equals(settings)) {
-                RequestingGUI.open(player, requestData, pendingRequest);
-            } else {
-                PluginMessages.ACCEPTED.send(player, settings.name());
-                RequestingGUI.open(player, requestData, requestData.createPendingRequest(settings));
-            }
-
+            return null;
         }
+        PendingRequest pendingRequest = requestData.getPendingRequest();
+        if (pendingRequest != null && pendingRequest.getSettings().equals(settings)) {
+            RequestingGUI.open(player, requestData, pendingRequest);
+            return null;
+        }
+
+        PluginMessages.ACCEPTED.send(player, settings.name());
+        Main.getInstance().getRequestManager()
+                .lastFailed(requestData.getKey(), settings.id())
+                .thenAccept(lastFailed -> Main.getInstance().getScheduler().run(() -> {
+                    if (lastFailed == null) {
+                        RequestingGUI.open(player, requestData, requestData.createPendingRequest(settings));
+                    } else {
+                        ResubmitGUI.open(player, requestData, settings, lastFailed);
+                    }
+                }));
 
         return null;
     }

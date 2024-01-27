@@ -103,7 +103,7 @@ public class DataManager {
     public @NotNull Map<Integer, RequestInformation> queryRequests(@Nullable Consumer<@NotNull TableQueryBuilder> conditions) throws SQLException {
         TableQueryBuilder builder = DataTables.REQUESTS.createQuery();
         if (conditions != null) conditions.accept(builder);
-        return builder.build().executeFunction(query -> readRequests(query.getResultSet()), new HashMap<>());
+        return builder.build().executeFunction(query -> readRequests(query.getResultSet()), new LinkedHashMap<>());
     }
 
     private @NotNull RequestInformation readRequest(ResultSet rs) throws SQLException {
@@ -122,7 +122,7 @@ public class DataManager {
     }
 
     private @NotNull Map<Integer, RequestInformation> readRequests(ResultSet resultSet) throws SQLException {
-        Map<Integer, RequestInformation> requests = new HashMap<>();
+        Map<Integer, RequestInformation> requests = new LinkedHashMap<>();
         while (resultSet.next()) {
             int requestID = resultSet.getInt("id");
             try {
