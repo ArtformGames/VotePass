@@ -1,17 +1,18 @@
 package com.artformgames.plugin.votepass.game.conf;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.core.Configuration;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
-import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Sound;
 
-public class PluginMessages extends TextMessages {
+import static com.artformgames.plugin.votepass.core.conf.TextMessages.list;
 
-    public static final class COMMAND extends ConfigurationRoot {
+public interface PluginMessages extends Configuration {
 
-        public static final ConfiguredMessageList<BaseComponent[]> USER = list()
+    interface COMMAND extends Configuration {
+
+        ConfiguredMessageList<BaseComponent[]> USER = list()
                 .defaults(
                         "&e&lVotePass &fCommands &7(/votepass)",
                         "&8#&f requests",
@@ -22,7 +23,7 @@ public class PluginMessages extends TextMessages {
                         "&8-&7 Enable/Disable the auto abstain function."
                 ).build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> ADMIN = list()
+        ConfiguredMessageList<BaseComponent[]> ADMIN = list()
                 .defaults(
                         "&8#&f manage",
                         "&8-&7 Open the admin manage GUI.",
@@ -41,7 +42,7 @@ public class PluginMessages extends TextMessages {
                 ).build();
     }
 
-    public static class USERS extends ConfigurationRoot {
+    interface USERS extends Configuration {
         public static final ConfiguredMessageList<BaseComponent[]> NEVER_JOINED = list()
                 .defaults(
                         "&fUser %(name) is never joined in the server,",
@@ -67,39 +68,39 @@ public class PluginMessages extends TextMessages {
                         "&fUser %(name) is not in the whitelist."
                 ).params("name").build();
 
-        public static final class ADD extends ConfigurationRoot {
+        public interface ADD extends Configuration {
 
-            public static final ConfiguredMessageList<BaseComponent[]> START = list()
+            ConfiguredMessageList<BaseComponent[]> START = list()
                     .defaults(
                             "&fTry to add user %(name) to whitelist...",
                             "&fThis may take a while, please wait patiently."
                     ).params("name").build();
 
-            public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
+            ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                     .defaults(
                             "&a&lSuccess! &fUser &e%(name) &fhas been added to whitelist, cost &a%(time)&fms."
                     ).params("name", "time").build();
 
-            public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
+            ConfiguredMessageList<BaseComponent[]> FAILED = list()
                     .defaults(
                             "&c&lFailed to add! &fThere are some errors, please see console for details."
                     ).params("amount", "time").build();
         }
 
-        public static final class REMOVE extends ConfigurationRoot {
+        public interface REMOVE extends Configuration {
 
-            public static final ConfiguredMessageList<BaseComponent[]> START = list()
+            ConfiguredMessageList<BaseComponent[]> START = list()
                     .defaults(
                             "&fTry to remove user %(name) from whitelist...",
                             "&fThis may take a while, please wait patiently."
                     ).params("name").build();
 
-            public static final ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
+            ConfiguredMessageList<BaseComponent[]> SUCCESS = list()
                     .defaults(
                             "&a&lSuccess! &fUser &e%(name) &fhas been removed from whitelist, cost &a%(time)&fms."
                     ).params("name", "time").build();
 
-            public static final ConfiguredMessageList<BaseComponent[]> FAILED = list()
+            ConfiguredMessageList<BaseComponent[]> FAILED = list()
                     .defaults(
                             "&c&lFailed to remove! &fThere are some errors, please see console for details."
                     ).build();
@@ -108,7 +109,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class MIGRATE extends ConfigurationRoot {
+    interface MIGRATE extends Configuration {
 
         public static final ConfiguredMessageList<BaseComponent[]> START = list()
                 .defaults(
@@ -128,7 +129,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class SYNC extends ConfigurationRoot {
+    interface SYNC extends Configuration {
 
         public static final ConfiguredMessageList<BaseComponent[]> START = list()
                 .defaults(
@@ -143,7 +144,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class VERIFY extends ConfigurationRoot {
+    interface VERIFY extends Configuration {
 
         public static final ConfiguredMessageList<BaseComponent[]> START = list()
                 .defaults(
@@ -158,7 +159,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class ABSTAIN extends ConfigurationRoot {
+    interface ABSTAIN extends Configuration {
 
         public static final ConfiguredMessageList<BaseComponent[]> ABSTAINED = list()
                 .defaults(
@@ -173,7 +174,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class VOTE extends ConfigurationRoot {
+    interface VOTE extends Configuration {
 
         public static final ConfiguredMessageList<BaseComponent[]> NOT_VOTED = list()
                 .defaults(
@@ -214,7 +215,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class ADMIN extends ConfigurationRoot {
+    interface ADMIN extends Configuration {
 
         public static final ConfiguredSound SOUND = ConfiguredSound.of(Sound.ENTITY_VILLAGER_CELEBRATE);
 
@@ -237,7 +238,7 @@ public class PluginMessages extends TextMessages {
 
     }
 
-    public static class COMMENT extends ConfigurationRoot {
+    interface COMMENT extends Configuration {
 
         public static final ConfiguredMessageList<BaseComponent[]> START = list()
                 .defaults(
