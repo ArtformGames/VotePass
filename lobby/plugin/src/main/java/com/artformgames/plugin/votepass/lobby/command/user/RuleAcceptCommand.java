@@ -1,6 +1,7 @@
 package com.artformgames.plugin.votepass.lobby.command.user;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
+import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
@@ -8,6 +9,7 @@ import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
 import com.artformgames.plugin.votepass.lobby.command.MainCommand;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
 import com.artformgames.plugin.votepass.lobby.ui.RequestingGUI;
+import com.artformgames.plugin.votepass.lobby.ui.ResubmitGUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,7 +43,15 @@ public class RuleAcceptCommand extends SubCommand<MainCommand> {
             RequestingGUI.open(player, data, pendingRequest);
         } else {
             PluginMessages.ACCEPTED.send(player, settings.name());
-            RequestingGUI.open(player, data, data.createPendingRequest(settings));
+            Main.getInstance().getRequestManager()
+                    .lastFailed(data.getKey(), settings.id())
+                    .thenAccept(lastFailed -> Main.getInstance().getScheduler().run(() -> {
+                        if (lastFailed == null) {
+                            RequestingGUI.open(player, data, data.createPendingRequest(settings));
+                        } else {
+                            ResubmitGUI.open(player, data, settings, lastFailed);
+                        }
+                    }));
         }
 
         return null;

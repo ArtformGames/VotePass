@@ -57,16 +57,14 @@ public class VoteManagerImpl implements VoteManager {
     @Override
     public double getAutoPassRatio(int total) {
         Map<Integer, Double> ratioMap = PluginConfig.SERVER.AUTO_PASS_RATIO.getNotNull();
-        if (ratioMap.isEmpty()) return 0;
+        if (ratioMap.isEmpty()) return 1;
 
-        double ratio = 0;
+        double ratio = 1;
         for (Map.Entry<Integer, Double> entry : ratioMap.entrySet()) {
-            if (ratio == 0 || total > entry.getKey()) {
-                ratio = entry.getValue();
-            } else {
-                return ratio;
-            }
+            if (ratio < 1 && total < entry.getKey()) break;
+            ratio = entry.getValue();
         }
+        
         return ratio;
     }
 

@@ -48,6 +48,7 @@ public class RequestCommand extends SubCommand<MainCommand> {
             RulesBookUI.open(player, settings.id(), settings.rules());
             return null;
         }
+
         PendingRequest pendingRequest = requestData.getPendingRequest();
         if (pendingRequest != null && pendingRequest.getSettings().equals(settings)) {
             RequestingGUI.open(player, requestData, pendingRequest);

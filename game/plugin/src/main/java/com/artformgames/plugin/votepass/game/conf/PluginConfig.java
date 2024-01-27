@@ -2,6 +2,7 @@ package com.artformgames.plugin.votepass.game.conf;
 
 import cc.carm.lib.configuration.core.Configuration;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
+import cc.carm.lib.configuration.core.value.impl.ConfigValueMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
@@ -32,7 +33,7 @@ public interface PluginConfig extends Configuration {
                 "the vote will be automatically passed, below zero means disabled auto pass.",
                 "You can configure different ratio based on different size votable players.",
         })
-        ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfiguredMap.builderOf(Integer.class, Double.class)
+        ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfigValueMap.builderOf(Integer.class, Double.class)
                 .asTreeMap().fromString().parseKey(Integer::parseInt).parseValue(Double::parseDouble)
                 .defaults(m -> {
                     m.put(5, 0.8);
