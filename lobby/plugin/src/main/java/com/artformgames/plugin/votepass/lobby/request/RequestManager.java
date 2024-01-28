@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class RequestManager implements UserRequestManager {
@@ -55,4 +56,27 @@ public class RequestManager implements UserRequestManager {
             }
         });
     }
+
+    @Override
+    public @NotNull CompletableFuture<RequestInformation> lastFailed(@NotNull UserKey key, @NotNull String server) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Map<Integer, RequestInformation> requests = Main.getInstance().getDataManager().queryRequests(b -> {
+                    b.addCondition("server", server);
+                    b.addCondition("user", key.id());
+                    b.addCondition("result", RequestResult.REJECTED.getID());
+                    b.addNotNullCondition("closed_time");
+                    b.orderBy("create_time", false);
+                    b.setLimit(1);
+                });
+                if (requests.isEmpty()) return null;
+                else return requests.values().iterator().next();
+            } catch (Exception ex) {
+                Main.severe("Error occurred when loading " + key.name() + "'s request, please check the configuration.");
+                ex.printStackTrace();
+                return null;
+            }
+        });
+    }
+
 }

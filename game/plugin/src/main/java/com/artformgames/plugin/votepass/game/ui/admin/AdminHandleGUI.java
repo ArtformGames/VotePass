@@ -4,11 +4,12 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
-import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
+import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
@@ -143,7 +144,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
 
         public static final class BOOK extends ConfigurationRoot {
 
-            public static final ConfiguredMessageList<BaseComponent[]> RETURN = PluginMessages.list()
+            public static final ConfiguredMessageList<BaseComponent[]> RETURN = TextMessages.list()
                     .defaults(
                             "&0All answers have been displayed.",
                             "[&2&l[Click here]](hover=Click to return to the details page and continue processing related answers. run_command=/votepass manage %(id))&0 to return to the request details page."

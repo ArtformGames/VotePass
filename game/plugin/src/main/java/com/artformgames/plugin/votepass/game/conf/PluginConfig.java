@@ -1,12 +1,13 @@
 package com.artformgames.plugin.votepass.game.conf;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.core.Configuration;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
+import cc.carm.lib.configuration.core.value.impl.ConfigValueMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
-import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
 import com.artformgames.plugin.votepass.game.ui.admin.AdminHandleGUI;
 import com.artformgames.plugin.votepass.game.ui.admin.AdminManageGUI;
@@ -19,12 +20,12 @@ import org.bukkit.Material;
 
 import java.time.Duration;
 
-public class PluginConfig extends ConfigurationRoot {
+public interface PluginConfig extends Configuration {
 
-    public static final class SERVER extends ConfigurationRoot {
+    interface SERVER extends Configuration {
 
         @HeaderComment({"The identify of this server", "Used for request and whitelist data"})
-        public static final ConfiguredValue<String> ID = ConfiguredValue.of(String.class, "survival");
+        ConfiguredValue<String> ID = ConfiguredValue.of(String.class, "survival");
 
 
         @HeaderComment({
@@ -32,9 +33,10 @@ public class PluginConfig extends ConfigurationRoot {
                 "the vote will be automatically passed, below zero means disabled auto pass.",
                 "You can configure different ratio based on different size votable players.",
         })
-        public static final ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfiguredMap.builderOf(Integer.class, Double.class)
+        ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfigValueMap.builderOf(Integer.class, Double.class)
                 .asTreeMap().fromString().parseKey(Integer::parseInt).parseValue(Double::parseDouble)
                 .defaults(m -> {
+                    m.put(2, 1.0);
                     m.put(5, 0.8);
                     m.put(20, 0.6);
                 }).build();
@@ -44,7 +46,7 @@ public class PluginConfig extends ConfigurationRoot {
                 "Only users that have been online within this time will be counted as active users.",
                 "And only active users will be count when auto pass handling."
         })
-        public static final ConfiguredValue<Duration> ACTIVE_ONLINE_TIME = ConfiguredValue
+        ConfiguredValue<Duration> ACTIVE_ONLINE_TIME = ConfiguredValue
                 .builderOf(Duration.class).fromString()
                 .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
                 .serializeValue(TimeStringUtils::serializeDuration)
@@ -56,7 +58,7 @@ public class PluginConfig extends ConfigurationRoot {
                 "This value should not be lower than 10 seconds.",
                 "If periods value ≤0 , the new requests will only be synced by execute 'votepass sync' command"
         })
-        public static final ConfiguredValue<Duration> SYNC_PERIOD = ConfiguredValue
+        ConfiguredValue<Duration> SYNC_PERIOD = ConfiguredValue
                 .builderOf(Duration.class).fromString()
                 .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
                 .serializeValue(TimeStringUtils::serializeDuration)
@@ -64,7 +66,7 @@ public class PluginConfig extends ConfigurationRoot {
                 .build();
 
         @HeaderComment({"Periods that notify players to handle requests"})
-        public static final ConfiguredValue<Duration> NOTIFY_PERIOD = ConfiguredValue
+        ConfiguredValue<Duration> NOTIFY_PERIOD = ConfiguredValue
                 .builderOf(Duration.class).fromString()
                 .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
                 .serializeValue(TimeStringUtils::serializeDuration)
@@ -74,29 +76,29 @@ public class PluginConfig extends ConfigurationRoot {
         @HeaderComment({
                 "The kick message when the player is not in the whitelist."
         })
-        public static final ConfiguredMessageList<String> KICK_MESSAGE = ConfiguredMessageList.asStrings()
+        ConfiguredMessageList<String> KICK_MESSAGE = ConfiguredMessageList.asStrings()
                 .defaults("You are not in the whitelist, please request to join the whitelist.")
                 .build();
 
         @HeaderComment("Whether to restrict administrators to managing only requests that require intervention.")
-        public static final ConfiguredValue<Boolean> MANAGE_RESTRICT = ConfiguredValue.of(Boolean.class, false);
+        ConfiguredValue<Boolean> MANAGE_RESTRICT = ConfiguredValue.of(Boolean.class, false);
 
         @HeaderComment({
                 "The commands that will be executed after player submit a vote."
         })
-        public static final class COMMANDS extends ConfigurationRoot {
+        interface COMMANDS extends Configuration {
 
-            public static final ConfiguredMessageList<String> APPROVE = ConfiguredMessageList.asStrings()
+            ConfiguredMessageList<String> APPROVE = ConfiguredMessageList.asStrings()
                     .defaults("say &a%player_name% &fjust &aapproved&f the &a%(target)&f's request &6#%(id) &f!")
                     .params("id", "target")
                     .build();
 
-            public static final ConfiguredMessageList<String> ABSTAIN = ConfiguredMessageList.asStrings()
+            ConfiguredMessageList<String> ABSTAIN = ConfiguredMessageList.asStrings()
                     .defaults("say &a%player_name% &fjust &eabstained&f to vote for the &a%(target)&f's request &6#%(id) &f!")
                     .params("id", "target")
                     .build();
 
-            public static final ConfiguredMessageList<String> REJECT = ConfiguredMessageList.asStrings()
+            ConfiguredMessageList<String> REJECT = ConfiguredMessageList.asStrings()
                     .defaults("say &a%player_name% &fjust &cdenied&f the &a%(target)&f's request &6#%(id) &f!")
                     .params("id", "target")
                     .build();
@@ -106,48 +108,48 @@ public class PluginConfig extends ConfigurationRoot {
 
     }
 
-    public static final class SOUNDS extends ConfigurationRoot {
+    interface SOUNDS extends Configuration {
 
-        public static final ConfiguredSound NOTIFY = ConfiguredSound.of("ENTITY_VILLAGER_CELEBRATE");
+        ConfiguredSound NOTIFY = ConfiguredSound.of("ENTITY_VILLAGER_CELEBRATE");
 
-        public static final ConfiguredSound ABSTAIN = ConfiguredSound.of("ENTITY_VILLAGER_HURT");
+        ConfiguredSound ABSTAIN = ConfiguredSound.of("ENTITY_VILLAGER_HURT");
 
-        public static final ConfiguredSound APPROVED = ConfiguredSound.of("ENTITY_VILLAGER_CELEBRATE");
+        ConfiguredSound APPROVED = ConfiguredSound.of("ENTITY_VILLAGER_CELEBRATE");
 
-        public static final ConfiguredSound REJECT = ConfiguredSound.of("ENTITY_VILLAGER_NO");
+        ConfiguredSound REJECT = ConfiguredSound.of("ENTITY_VILLAGER_NO");
 
     }
 
-    public static final class COMMENT extends ConfigurationRoot {
+    interface COMMENT extends Configuration {
 
         @HeaderComment("Max letters in a single comment")
-        public static final ConfiguredValue<Integer> MAX = ConfiguredValue.of(Integer.class, 120);
+        ConfiguredValue<Integer> MAX = ConfiguredValue.of(Integer.class, 120);
 
         @HeaderComment("How many letters are displayed in a single line")
-        public static final ConfiguredValue<Integer> LINE = ConfiguredValue.of(Integer.class, 25);
+        ConfiguredValue<Integer> LINE = ConfiguredValue.of(Integer.class, 25);
 
 
     }
 
-    public static final class ANSWERS extends ConfigurationRoot {
+    interface ANSWERS extends Configuration {
 
         @HeaderComment("How many letters are displayed in a single line")
-        public static final ConfiguredValue<Integer> LETTERS_PER_LINE = ConfiguredValue.of(Integer.class, 25);
+        ConfiguredValue<Integer> LETTERS_PER_LINE = ConfiguredValue.of(Integer.class, 25);
 
         @HeaderComment("Max lines that displayed in lore")
-        public static final ConfiguredValue<Integer> MAX_LINES = ConfiguredValue.of(Integer.class, 6);
+        ConfiguredValue<Integer> MAX_LINES = ConfiguredValue.of(Integer.class, 6);
 
         @HeaderComment("Extra lore if answers are too long, tell voters to click to view details.")
-        public static final ConfiguredMessageList<String> EXTRA = ConfiguredMessageList.ofStrings(
+        ConfiguredMessageList<String> EXTRA = ConfiguredMessageList.ofStrings(
                 "&f&o  ... More in details!"
         );
 
     }
 
 
-    public static final class ICON extends ConfigurationRoot {
+    interface ICON extends Configuration {
 
-        public static final ConfiguredItem INFO = ConfiguredItem.create()
+        ConfiguredItem INFO = ConfiguredItem.create()
                 .defaultType(Material.PLAYER_HEAD)
                 .defaultName("&7#%(request_id) &e&l%(name)")
                 .defaultLore(
@@ -178,18 +180,18 @@ public class PluginConfig extends ConfigurationRoot {
     }
 
     @SuppressWarnings("unused")
-    public static final class GUIS extends ConfigurationRoot {
+    interface GUIS extends Configuration {
 
-        public static final Class<?> ABSTAIN_TOGGLE = AbstainToggleGUI.CONFIG.class;
+        Class<?> ABSTAIN_TOGGLE = AbstainToggleGUI.CONFIG.class;
 
-        public static final Class<?> REQUEST_LIST = RequestListGUI.CONFIG.class;
-        public static final Class<?> REQUEST_COMMENTS = RequestCommentsGUI.CONFIG.class;
+        Class<?> REQUEST_LIST = RequestListGUI.CONFIG.class;
+        Class<?> REQUEST_COMMENTS = RequestCommentsGUI.CONFIG.class;
 
-        public static final Class<?> VOTE_HANDLE = VoteHandleGUI.CONFIG.class;
-        public static final Class<?> VOTE_CONFIRM = VoteConfirmGUI.CONFIG.class;
+        Class<?> VOTE_HANDLE = VoteHandleGUI.CONFIG.class;
+        Class<?> VOTE_CONFIRM = VoteConfirmGUI.CONFIG.class;
 
-        public static final Class<?> ADMIN_MANAGE = AdminManageGUI.CONFIG.class;
-        public static final Class<?> ADMIN_HANDLE = AdminHandleGUI.CONFIG.class;
+        Class<?> ADMIN_MANAGE = AdminManageGUI.CONFIG.class;
+        Class<?> ADMIN_HANDLE = AdminHandleGUI.CONFIG.class;
 
     }
 

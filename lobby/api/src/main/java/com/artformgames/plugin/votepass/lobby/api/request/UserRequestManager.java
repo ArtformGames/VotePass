@@ -4,6 +4,7 @@ import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -12,5 +13,7 @@ public interface UserRequestManager {
     @NotNull CompletableFuture<RequestInformation> commit(@NotNull UserKey user, @NotNull PendingRequest request);
 
     @NotNull CompletableFuture<Void> update(@NotNull RequestInformation content);
+
+    @NotNull CompletableFuture<@Nullable RequestInformation> lastFailed(@NotNull UserKey key, @NotNull String server);
 
 }

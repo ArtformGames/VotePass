@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.core;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.core.Configuration;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
@@ -21,8 +21,8 @@ public abstract class VotePassPlugin extends EasyPlugin {
 
     public abstract AbstractUserManager<?> getUserManager();
 
-    public void initializeConfigs(@NotNull Class<? extends ConfigurationRoot> configRoot,
-                                  @NotNull Class<? extends ConfigurationRoot> messageRoot) {
+    public void initializeConfigs(@NotNull Class<? extends Configuration> configRoot,
+                                  @NotNull Class<? extends Configuration> messageRoot) {
         this.configuration = new MineConfiguration(this, CommonConfig.class, CommonMessages.class);
         this.configuration.initializeConfig(configRoot);
         this.configuration.initializeMessage(messageRoot);

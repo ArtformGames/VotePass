@@ -6,6 +6,7 @@ import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.easyplugin.utils.ItemStackFactory;
 import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.PreparedItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
@@ -16,18 +17,17 @@ import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
 import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
-import com.google.common.collect.Lists;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.upperlevel.spigot.book.BookUtil;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class RequestingGUI extends AutoPagedGUI {
@@ -42,7 +42,11 @@ public class RequestingGUI extends AutoPagedGUI {
     @NotNull PendingRequest pendingRequest;
 
     public RequestingGUI(@NotNull Player player, @NotNull LobbyUserData data, @NotNull PendingRequest pendingRequest) {
-        super(GUIType.SIX_BY_NINE, PluginConfig.ANSWERING.TITLE.parse(player, pendingRequest.getSettings().name()), 10, 34);
+        super(
+                GUIType.SIX_BY_NINE,
+                Objects.requireNonNull(PluginConfig.ANSWERING.TITLE.parse(player, pendingRequest.getSettings().name())),
+                10, 34
+        );
         this.player = player;
         this.data = data;
         this.pendingRequest = pendingRequest;
@@ -87,11 +91,10 @@ public class RequestingGUI extends AutoPagedGUI {
     protected GUIItem createQuestionItem(int id, ServerQuestion question) {
         boolean isAnswered = getPendingRequest().isAnswered(id);
         ConfiguredItem configuredItem = isAnswered ? PluginConfig.ANSWERING.ITEMS.FINISHED : PluginConfig.ANSWERING.ITEMS.REQUIRED;
+        PreparedItem item = configuredItem.prepare(question.title());
+        item.insertLore("description", ColorParser.parse(question.description()));
 
-        ItemStack icon = configuredItem.get(player, question.title());
-        insertLore(icon, "description", ColorParser.parse(question.description()));
-
-        return new GUIItem(icon) {
+        return new GUIItem(item.get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {
                 player.closeInventory();
@@ -159,23 +162,6 @@ public class RequestingGUI extends AutoPagedGUI {
 
     protected GUIItem createPendingItem() {
         return new GUIItem(PluginConfig.ANSWERING.ITEMS.PENDING.get(player));
-    }
-
-
-    public void insertLore(@Nullable ItemStack item, String id, List<String> var2) {
-        if (item == null) return;
-
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null || meta.getLore() == null || meta.getLore().isEmpty()) return;
-
-        List<String> lore = meta.getLore();
-        int index = lore.indexOf("#" + id + "#");
-        if (index >= 0) {
-            Lists.reverse(var2).forEach(var2x -> lore.add(index + 1, var2x));
-            lore.remove(index);
-        }
-        meta.setLore(lore);
-        item.setItemMeta(meta);
     }
 
     public ItemStack generateAnswerBook(@Nullable List<String> existingPages) {

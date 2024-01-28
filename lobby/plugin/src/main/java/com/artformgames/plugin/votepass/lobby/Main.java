@@ -4,8 +4,6 @@ import cc.carm.lib.easyplugin.gui.GUI;
 import com.artformgames.plugin.votepass.core.VotePassPlugin;
 import com.artformgames.plugin.votepass.core.database.DataManager;
 import com.artformgames.plugin.votepass.core.listener.UserListener;
-import com.artformgames.plugin.votepass.lobby.api.request.UserRequestManager;
-import com.artformgames.plugin.votepass.lobby.api.server.ServerSettingsManager;
 import com.artformgames.plugin.votepass.lobby.command.MainCommand;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
@@ -14,9 +12,6 @@ import com.artformgames.plugin.votepass.lobby.listener.FeedbackListener;
 import com.artformgames.plugin.votepass.lobby.request.RequestManager;
 import com.artformgames.plugin.votepass.lobby.server.SettingsManager;
 import com.artformgames.plugin.votepass.lobby.user.UsersManager;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class Main extends VotePassPlugin implements VotePassLobby {
@@ -114,12 +109,12 @@ public class Main extends VotePassPlugin implements VotePassLobby {
     }
 
     @Override
-    public @NotNull ServerSettingsManager getServersManager() {
+    public @NotNull SettingsManager getServersManager() {
         return this.settingsManager;
     }
 
     @Override
-    public @NotNull UserRequestManager getRequestManager() {
+    public @NotNull RequestManager getRequestManager() {
         return this.requestManager;
     }
 }
