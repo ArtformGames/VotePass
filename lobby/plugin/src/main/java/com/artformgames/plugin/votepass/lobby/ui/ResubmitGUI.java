@@ -61,6 +61,7 @@ public class ResubmitGUI extends AutoPagedGUI {
 
     public void initItems() {
         setItem(4, new GUIItem(PluginConfig.RESUBMIT.ITEMS.INFO.prepare(
+                getRequest().getID(),
                 getRequest().count(VoteDecision.APPROVE),
                 getRequest().count(VoteDecision.REJECT),
                 getRequest().count(VoteDecision.ABSTAIN)

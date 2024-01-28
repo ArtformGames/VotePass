@@ -36,6 +36,7 @@ public interface PluginConfig extends Configuration {
         ConfiguredMap<Integer, Double> AUTO_PASS_RATIO = ConfigValueMap.builderOf(Integer.class, Double.class)
                 .asTreeMap().fromString().parseKey(Integer::parseInt).parseValue(Double::parseDouble)
                 .defaults(m -> {
+                    m.put(2, 1.0);
                     m.put(5, 0.8);
                     m.put(20, 0.6);
                 }).build();

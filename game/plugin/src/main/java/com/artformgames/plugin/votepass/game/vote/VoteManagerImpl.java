@@ -61,10 +61,10 @@ public class VoteManagerImpl implements VoteManager {
 
         double ratio = 1;
         for (Map.Entry<Integer, Double> entry : ratioMap.entrySet()) {
-            if (ratio < 1 && total < entry.getKey()) break;
+            if (total < entry.getKey()) break;
             ratio = entry.getValue();
         }
-        
+
         return ratio;
     }
 
