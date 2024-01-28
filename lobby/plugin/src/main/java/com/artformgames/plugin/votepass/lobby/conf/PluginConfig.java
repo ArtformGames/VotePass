@@ -123,9 +123,9 @@ public interface PluginConfig extends Configuration {
                     .defaultLore(
                             " ",
                             "&fWe found a previous request with",
-                            "&a Approved %(approve)",
-                            "&c Rejected %(reject)",
-                            "&a Abstained %(abstain)",
+                            "  &a Approved %(approve)",
+                            "  &c Rejected %(reject)",
+                            "  &e Abstained %(abstain)",
                             "&7&oMaybe the request wasn't rejected, ",
                             "&7&obut simply closed automatically because it took too long.",
                             " ",
