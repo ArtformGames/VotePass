@@ -42,7 +42,6 @@ and be reviewed by all players who have passed.
 
 ## Dependencies
 
-- **[Necessary]** Comments part base on [ProtocolLib](https://github.com/dmulloy2/ProtocolLib/).
 - **[Recommend]** Placeholders based on [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) .
 
 For development dependencies, please

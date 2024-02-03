@@ -42,7 +42,6 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 ## 依赖
 
-- **[必须]** 评论部分基于 [ProtocolLib](https://github.com/dmulloy2/ProtocolLib/) 实现。
 - **[推荐]** 变量部分基于 [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) 实现。安装后可正常使用PAPI变量。
 
 详细依赖列表可见 [Dependencies](https://github.com/ArtfromGames/VotePass/network/dependencies) 。
