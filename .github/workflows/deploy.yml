@@ -41,7 +41,9 @@ jobs:
           asset_path: ".asset/*.jar"
           asset_content_type: application/java-archive
 
-      - uses: Kir-Antipov/mc-publish@v3.3
+      - name: "Modrinth Publish"
+        id: publish-modrinth
+        uses: Kir-Antipov/mc-publish@v3.3
         with:
           modrinth-id: kyCduETO
           modrinth-featured: true
@@ -60,8 +62,5 @@ jobs:
           dependencies: |
             placeholderapi(optional)
 
-      # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
-      - name: Build Translations
-        uses: Ghost
