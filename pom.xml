@@ -14,7 +14,7 @@
 
         <project.package>${project.groupId}.plugin.votepass</project.package>
 
-        <deps.easyplugin.version>1.5.11</deps.easyplugin.version>
+        <deps.easyplugin.version>1.5.12</deps.easyplugin.version>
         <deps.easysql.version>0.4.7</deps.easysql.version>
         <deps.mineconfig.version>2.9.3</deps.mineconfig.version>
 
