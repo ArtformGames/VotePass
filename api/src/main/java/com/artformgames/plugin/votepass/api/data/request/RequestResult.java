@@ -6,7 +6,8 @@ public enum RequestResult {
 
     PENDING(0),
     APPROVED(1),
-    REJECTED(2);
+    REJECTED(2),
+    EXPIRED(3);
 
     private final int id;
 

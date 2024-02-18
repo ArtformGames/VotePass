@@ -53,7 +53,7 @@ public record RequestIconInfo(
                 autoApprove, autoApprove - pros,
                 getPercent(pros, voteSize), getPercent(cons, voteSize), getPercent(abs, voteSize),
                 info.getCreateTimeString(),
-                info.getExpireTimeString(CommonConfig.TIME.AUTO_CLOSE.getNotNull())
+                info.getExpireTimeString(PluginConfig.TIME.AUTO_CLOSE.getNotNull())
         );
     }
 

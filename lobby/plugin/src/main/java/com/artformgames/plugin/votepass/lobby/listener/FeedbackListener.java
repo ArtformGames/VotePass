@@ -1,8 +1,7 @@
 package com.artformgames.plugin.votepass.lobby.listener;
 
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
-import com.artformgames.plugin.votepass.api.data.request.RequestResult;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
@@ -13,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,60 +35,25 @@ public class FeedbackListener implements Listener {
     }
 
     private boolean handleRequest(Player player, RequestInformation request) {
+        return switch (request.getResult()) {
+            case REJECTED -> feedbackRequest(player, PluginMessages.FEEDBACK.REJECTED, request);
+            case APPROVED -> feedbackRequest(player, PluginMessages.FEEDBACK.APPROVED, request);
+            case EXPIRED -> feedbackRequest(player, PluginMessages.FEEDBACK.EXPIRED, request);
+            default -> false;
+        };
+    }
+
+    private boolean feedbackRequest(Player player, ConfiguredMessageList<?> message, RequestInformation request) {
+        Main.debugging("Handling " + request.getResult().name() + " -> #" + request.getID());
         ServerSettings configuration = VotePassLobbyAPI.getServersManager().getSettings(request.getServer());
-        switch (request.getResult()) {
-            case REJECTED -> {
-                handleDeniedRequest(player, configuration, request);
-                return true;
-            }
-            case APPROVED -> {
-                handleApprovedRequest(player, configuration, request);
-                return true;
-            }
-            default -> {
-                if (request.isTimeout(CommonConfig.TIME.AUTO_CLOSE.getNotNull())) {
-                    handleExpiredRequest(player, configuration, request);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-    }
-
-    private void handleDeniedRequest(Player player, ServerSettings configuration, RequestInformation request) {
-        Main.debugging("Handling denied #" + request.getID());
         if (configuration != null) {
-            PluginMessages.FEEDBACK.REJECTED.send(player, request.getID(), configuration.name());
+            message.send(player, request.getID(), configuration.name());
             PluginMessages.FEEDBACK.SOUND.playTo(player);
         }
 
         request.setFeedback(true);
         VotePassLobbyAPI.getRequestManager().update(request);
-    }
-
-    private void handleExpiredRequest(Player player, ServerSettings configuration, RequestInformation request) {
-        Main.debugging("Handling expired #" + request.getID());
-        if (configuration != null) {
-            PluginMessages.FEEDBACK.EXPIRED.send(player, request.getID(), configuration.name());
-            PluginMessages.FEEDBACK.SOUND.playTo(player);
-        }
-        
-        request.setResult(RequestResult.REJECTED);
-        request.setCloseTime(LocalDateTime.now());
-        request.setFeedback(true);
-        VotePassLobbyAPI.getRequestManager().update(request);
-    }
-
-    private void handleApprovedRequest(Player player, ServerSettings configuration, RequestInformation request) {
-        Main.debugging("Handling approved #" + request.getID());
-        if (configuration != null) {
-            PluginMessages.FEEDBACK.APPROVED.send(player, request.getID(), configuration.name());
-            PluginMessages.FEEDBACK.SOUND.playTo(player);
-        }
-
-        request.setFeedback(true);
-        VotePassLobbyAPI.getRequestManager().update(request);
+        return true;
     }
 
 }

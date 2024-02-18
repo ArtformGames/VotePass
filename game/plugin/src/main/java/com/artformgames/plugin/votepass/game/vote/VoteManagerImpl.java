@@ -4,7 +4,6 @@ import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.request.RequestResult;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.core.database.DataTables;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.user.GameUserData;
@@ -30,7 +29,7 @@ public class VoteManagerImpl implements VoteManager {
     public int sync() {
         try {
             int startID = getLastKey();
-            Duration closeDuration = CommonConfig.TIME.AUTO_CLOSE.get();
+            Duration closeDuration = PluginConfig.TIME.AUTO_CLOSE.get();
 
             Map<Integer, RequestInformation> data = Main.getInstance().getDataManager()
                     .queryRequests(builder -> {
@@ -86,7 +85,7 @@ public class VoteManagerImpl implements VoteManager {
 
     @Override
     public int countAdminRequests() {
-        return countRequest(r -> r.needIntervention(CommonConfig.TIME.ADMIN_INTERVENTION.get()));
+        return countRequest(r -> r.needIntervention(PluginConfig.TIME.ADMIN_INTERVENTION.get()));
     }
 
     @Override

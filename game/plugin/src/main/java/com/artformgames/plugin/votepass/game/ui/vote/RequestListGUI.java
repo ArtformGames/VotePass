@@ -7,8 +7,8 @@ import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.game.Main;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
 import com.artformgames.plugin.votepass.game.ui.RequestIconInfo;
 import com.artformgames.plugin.votepass.game.user.GameUser;
@@ -46,7 +46,7 @@ public class RequestListGUI extends AutoPagedGUI {
 
     public void initItems() {
         Main.getInstance().getVoteManager().getRequests().values().stream()
-                .filter(v -> !v.isTimeout(CommonConfig.TIME.AUTO_CLOSE.getNotNull()))
+                .filter(v -> !v.isTimeout(PluginConfig.TIME.AUTO_CLOSE.getNotNull()))
                 .filter(value -> !value.isVoted(getUser().getKey()))
                 .forEachOrdered(value -> addItem(createIcon(value)));
     }

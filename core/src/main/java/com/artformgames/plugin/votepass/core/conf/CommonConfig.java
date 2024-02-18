@@ -6,10 +6,7 @@ import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.core.database.DBConfiguration;
-import com.artformgames.plugin.votepass.core.utils.TimeStringUtils;
 import org.bukkit.Material;
-
-import java.time.Duration;
 
 public class CommonConfig extends ConfigurationRoot {
 
@@ -40,21 +37,7 @@ public class CommonConfig extends ConfigurationRoot {
     @ConfigPath(root = true)
     public static final class TIME extends ConfigurationRoot {
 
-        @HeaderComment("The time that the request will be automatically closed if it have not been handled yet.")
-        public static final ConfiguredValue<Duration> AUTO_CLOSE = ConfiguredValue
-                .builderOf(Duration.class).fromString()
-                .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
-                .serializeValue(TimeStringUtils::serializeDuration)
-                .defaults(Duration.ofDays(15))
-                .build();
 
-        @HeaderComment("The time that the request will be sent to admin to handle if request still have no result.")
-        public static final ConfiguredValue<Duration> ADMIN_INTERVENTION = ConfiguredValue
-                .builderOf(Duration.class).fromString()
-                .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
-                .serializeValue(TimeStringUtils::serializeDuration)
-                .defaults(Duration.ofDays(7))
-                .build();
 
     }
 

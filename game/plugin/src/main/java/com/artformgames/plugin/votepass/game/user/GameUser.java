@@ -3,12 +3,12 @@ package com.artformgames.plugin.votepass.game.user;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.api.user.UserKey;
-import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.core.user.AbstractUserData;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.VotePassServerAPI;
 import com.artformgames.plugin.votepass.game.api.user.GameUserData;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Unmodifiable;
@@ -35,7 +35,7 @@ public class GameUser extends AbstractUserData implements GameUserData {
     @Override
     public int countUnvotedRequest() {
         return (int) VotePassServerAPI.getVoteManager().getRequests().values().stream()
-                .filter(v -> !v.isTimeout(CommonConfig.TIME.AUTO_CLOSE.getNotNull()))
+                .filter(v -> !v.isTimeout(PluginConfig.TIME.AUTO_CLOSE.getNotNull()))
                 .filter(value -> !value.isVoted(key))
                 .count();
     }

@@ -22,6 +22,25 @@ import java.time.Duration;
 
 public interface PluginConfig extends Configuration {
 
+    interface TIME extends Configuration {
+
+        @HeaderComment("The time that the request will be automatically closed if it have not been handled yet.")
+        ConfiguredValue<Duration> AUTO_CLOSE = ConfiguredValue
+                .builderOf(Duration.class).fromString()
+                .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
+                .serializeValue(TimeStringUtils::serializeDuration)
+                .defaults(Duration.ofDays(15))
+                .build();
+        
+        @HeaderComment("The time that the request will be sent to admin to handle if request still have no result.")
+        ConfiguredValue<Duration> ADMIN_INTERVENTION = ConfiguredValue
+                .builderOf(Duration.class).fromString()
+                .parseValue((v, d) -> TimeStringUtils.parseDuration(v))
+                .serializeValue(TimeStringUtils::serializeDuration)
+                .defaults(Duration.ofDays(7))
+                .build();
+    }
+
     interface SERVER extends Configuration {
 
         @HeaderComment({"The identify of this server", "Used for request and whitelist data"})
