@@ -6,6 +6,8 @@ import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.core.database.DataTables;
 import com.artformgames.plugin.votepass.game.Main;
+import com.artformgames.plugin.votepass.game.api.event.RequestResultUpdatedEvent;
+import com.artformgames.plugin.votepass.game.api.event.RequestVoteSubmittedEvent;
 import com.artformgames.plugin.votepass.game.api.user.GameUserData;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
 import com.artformgames.plugin.votepass.game.api.vote.VoteManager;
@@ -115,7 +117,10 @@ public class VoteManagerImpl implements VoteManager {
                         reject(request);
                     }
                     return i;
-                }).thenApply(i -> vote);
+                }).thenApply(i -> {
+                    Main.getInstance().callAsync(new RequestVoteSubmittedEvent(request, vote));
+                    return vote;
+                });
     }
 
     @Override
@@ -185,7 +190,12 @@ public class VoteManagerImpl implements VoteManager {
         request.setResult(result);
         request.setCloseTime(LocalDateTime.now());
 
-        return Main.getInstance().getDataManager().updateRequest(request);
+        return Main.getInstance().getDataManager().updateRequest(request).thenApply(success -> {
+            if (success) {
+                Main.getInstance().callAsync(new RequestResultUpdatedEvent(request));
+            }
+            return success;
+        });
     }
 
     public int getLastKey() {
