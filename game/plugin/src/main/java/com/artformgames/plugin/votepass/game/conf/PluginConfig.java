@@ -3,6 +3,7 @@ package com.artformgames.plugin.votepass.game.conf;
 import cc.carm.lib.configuration.core.Configuration;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.configuration.core.value.impl.ConfigValueMap;
+import cc.carm.lib.configuration.core.value.type.ConfiguredList;
 import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
@@ -31,7 +32,7 @@ public interface PluginConfig extends Configuration {
                 .serializeValue(TimeStringUtils::serializeDuration)
                 .defaults(Duration.ofDays(15))
                 .build();
-        
+
         @HeaderComment("The time that the request will be sent to admin to handle if request still have no result.")
         ConfiguredValue<Duration> ADMIN_INTERVENTION = ConfiguredValue
                 .builderOf(Duration.class).fromString()
@@ -151,6 +152,9 @@ public interface PluginConfig extends Configuration {
     }
 
     interface ANSWERS extends Configuration {
+
+        @HeaderComment("Hidden questions' id list, will not be displayed to voters.")
+        ConfiguredList<Integer> HIDDEN = ConfiguredList.of(Integer.class, 999);
 
         @HeaderComment("How many letters are displayed in a single line")
         ConfiguredValue<Integer> LETTERS_PER_LINE = ConfiguredValue.of(Integer.class, 25);

@@ -13,6 +13,7 @@ import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
 import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.vote.PendingVote;
+import com.artformgames.plugin.votepass.game.conf.PluginConfig;
 import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import com.artformgames.plugin.votepass.game.listener.CommentListener;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
@@ -28,6 +29,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class VoteHandleGUI extends AutoPagedGUI {
@@ -118,7 +120,9 @@ public class VoteHandleGUI extends AutoPagedGUI {
     }
 
     public void loadAnswers() {
-        for (RequestAnswer answer : request.getContents().values()) {
+        for (Map.Entry<Integer, RequestAnswer> entry : request.getContents().entrySet()) {
+            if (PluginConfig.ANSWERS.HIDDEN.contains(entry.getKey())) continue; // Hidden values
+            RequestAnswer answer = entry.getValue();
             addItem(new GUIItem(GUIUtils.loadAnswersIcon(player, answer, CONFIG.ITEMS.ANSWER)) {
                 @Override
                 public void onClick(Player clicker, ClickType type) {
