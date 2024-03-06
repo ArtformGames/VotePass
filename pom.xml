@@ -23,7 +23,7 @@
     </properties>
     <groupId>com.artformgames</groupId>
     <artifactId>votepass-parent</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1</version>
     <modules>
         <module>api</module>
         <module>lobby/api</module>

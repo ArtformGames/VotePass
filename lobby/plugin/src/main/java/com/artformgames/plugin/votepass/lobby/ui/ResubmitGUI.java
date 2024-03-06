@@ -85,7 +85,7 @@ public class ResubmitGUI extends AutoPagedGUI {
             public void onClick(Player clicker, ClickType type) {
                 player.closeInventory();
 
-                PendingRequest pending = new PendingRequest(server);
+                PendingRequest pending = data.createPendingRequest(server);
                 getRequest().getContents().forEach((i, a) -> pending.applyAnswer(i, a.answers()));
 
                 RequestingGUI.open(player, data, pending);
