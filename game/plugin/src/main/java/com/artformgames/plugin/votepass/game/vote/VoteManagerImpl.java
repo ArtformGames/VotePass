@@ -160,8 +160,8 @@ public class VoteManagerImpl implements VoteManager {
         Main.debugging("Auto approve required " + (ratio * 100) + "%  (Now " + pros + "/" + autoApprove + ")");
         Main.debugging("Auto reject required " + ((1 - ratio) * 100) + "% (Now " + cons + "/" + autoDeny + ")");
 
-        if (pros >= autoApprove) return RequestResult.APPROVED;
-        else if (cons >= autoDeny) return RequestResult.REJECTED;
+        if (autoApprove > 0 && pros >= autoApprove) return RequestResult.APPROVED;
+        else if (autoDeny > 0 && cons >= autoDeny) return RequestResult.REJECTED;
         else return RequestResult.PENDING;
     }
 
