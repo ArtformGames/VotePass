@@ -29,6 +29,7 @@ public class RequestManager implements UserRequestManager {
                                 DataSerializer.serializeAnswers(request.getAnswers()), LocalDateTime.now()
                         ).returnGeneratedKey().execute();
 
+
                 return new RequestInformation(
                         id, request.getSettings().id(), user,
                         request.getAnswers(), new HashSet<>(),

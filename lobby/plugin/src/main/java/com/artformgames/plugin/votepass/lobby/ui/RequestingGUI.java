@@ -10,10 +10,12 @@ import cc.carm.lib.mineconfiguration.bukkit.value.item.PreparedItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
+import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerQuestion;
 import com.artformgames.plugin.votepass.lobby.api.data.server.ServerSettings;
 import com.artformgames.plugin.votepass.lobby.api.data.user.PendingRequest;
+import com.artformgames.plugin.votepass.lobby.api.event.RequestCreatedEvent;
 import com.artformgames.plugin.votepass.lobby.api.user.LobbyUserData;
 import com.artformgames.plugin.votepass.lobby.conf.PluginConfig;
 import com.artformgames.plugin.votepass.lobby.conf.PluginMessages;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 public class RequestingGUI extends AutoPagedGUI {
 
@@ -37,9 +40,12 @@ public class RequestingGUI extends AutoPagedGUI {
         questionsGUI.openGUI(player);
     }
 
-    @NotNull Player player;
-    @NotNull LobbyUserData data;
-    @NotNull PendingRequest pendingRequest;
+    @NotNull
+    Player player;
+    @NotNull
+    LobbyUserData data;
+    @NotNull
+    PendingRequest pendingRequest;
 
     public RequestingGUI(@NotNull Player player, @NotNull LobbyUserData data, @NotNull PendingRequest pendingRequest) {
         super(
@@ -134,15 +140,16 @@ public class RequestingGUI extends AutoPagedGUI {
 
                 VotePassLobbyAPI.getRequestManager()
                         .commit(getData().getKey(), getPendingRequest())
-                        .thenAccept(request -> {
+                        .thenCompose(request -> {
                             if (request == null) {
                                 PluginMessages.ERROR.send(player, getSettings().name());
-                                return;
+                                return CompletableFuture.completedFuture(null);
                             }
 
                             getData().addRequest(request);
                             getData().removePendingRequest();
                             PluginMessages.POSTED.send(player, request.getID(), getSettings().name());
+                            return Main.getInstance().callAsync(new RequestCreatedEvent(request));
                         });
             }
         };
