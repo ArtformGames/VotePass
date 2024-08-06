@@ -112,11 +112,6 @@
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
 
-        <repository>
-            <id>carm-repo</id>
-            <url>https://repo.carm.cc/repository/maven-public/</url>
-        </repository>
-
     </repositories>
 
     <dependencies>
