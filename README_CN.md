@@ -166,6 +166,8 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 [![bStats](https://bstats.org/signatures/bukkit/VotePass.svg)](https://bstats.org/plugin/bukkit/VotePass/18946)
 
+![Alt](https://repobeats.axiom.co/api/embed/bb854d190c553c0ef2aaea241099ec886d23e691.svg "Repobeats analytics image")
+
 ## 开源协议
 
 本项目源码采用 [GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0) 开源协议。

@@ -172,6 +172,8 @@ You can edit the storage path of the server configuration file in the plugin con
 
 [![bStats](https://bstats.org/signatures/bukkit/VotePass.svg)](https://bstats.org/plugin/bukkit/VotePass/18946)
 
+![Alt](https://repobeats.axiom.co/api/embed/bb854d190c553c0ef2aaea241099ec886d23e691.svg "Repobeats analytics image")
+
 ## Open Source Licence
 
 The source code of this project adopts the [GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0).
