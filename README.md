@@ -21,9 +21,7 @@ An efficient and fair verification plugin for whitelisted servers,
 which supports players to submit whitelist requests by themselves
 and be reviewed by all players who have passed.
 
-> This plugin has been published on [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) .
->
-> 本插件已在 [MCBBS](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1462390) 上发布，欢迎中文用户来这里下载。
+> This plugin has been published on [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) and [Modrinth](https://modrinth.com/plugin/votepass/).
 
 <img src=".doc/logo_v2.png" width="300px"  height="300px" alt="Project logo" align="right">
 

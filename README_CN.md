@@ -21,7 +21,7 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 支持玩家自行提交服务器白名单请求，并由该服务器中所有通过的玩家进行投票审核。
 
 
-> 本插件已在 [MCBBS](https://www.mcbbs.net/forum.php?mod=viewthread&tid=1462390)
+> 本插件已在 [Modrinth](https://modrinth.com/plugin/votepass/)
 > 与 [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) 上发布。
 
 <img src=".doc/logo_v2.png" width="300px"  height="300px" alt="Project logo" align="right">
