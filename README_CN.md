@@ -46,6 +46,19 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 
 详细依赖列表可见 [Dependencies](https://github.com/ArtfromGames/VotePass/network/dependencies) 。
 
+## 拓展
+
+> 您也开发了一款与本插件相关的拓展插件吗？欢迎在 [Issues](https://github.com/ArtformGames/VotePass/issues) 中提交您的拓展插件！
+
+### [**VotePass-Mailer**](https://github.com/ArtformGames/VotePass-Mailer)
+
+在游戏服务器中支持通过邮件通知申请人最终投票结果。
+
+### [**VotePass-QQNotify**](https://github.com/ArtformGames/VotePass-QQNotify)
+
+在大厅服务器中支持通过QQ发送新请求信息，以召唤玩家投票。
+
+
 ## 指令
 
 插件的主指令为 `/VotePass` 或 `/vp`.

@@ -45,6 +45,20 @@ and be reviewed by all players who have passed.
 For development dependencies, please
 see  [Dependencies](https://github.com/ArtformGames/VotePass/network/dependencies) .
 
+## Extensions
+
+> Have you developed an extension plugin related to this plugin?
+> Welcome to submit your extension plugin in [Issues](https://github.com/ArtformGames/VotePass/issues)
+> and we will add it to the list!
+
+### [**VotePass-Mailer**](https://github.com/ArtformGames/VotePass-Mailer)
+
+Support email notify for VotePass in game servers.
+
+### [**VotePass-QQNotify**](https://github.com/ArtformGames/VotePass-QQNotify)
+
+Support QQ notify for VotePass in lobby servers.
+
 ## Commands
 
 The main command is `/VotePass` or `/vp`.
