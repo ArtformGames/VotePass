@@ -60,7 +60,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <finalName>${project.name}-${project.parent.version}</finalName>
+                    <finalName>${project.name}-${project.version}</finalName>
                     <outputDirectory>${project.parent.basedir}/.asset/</outputDirectory>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <relocations>
