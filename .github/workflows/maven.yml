@@ -40,3 +40,4 @@ jobs:
           name: assets
           path: ".asset/*.jar"
           retention-days: 5
+          include-hidden-files: true
