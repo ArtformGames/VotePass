@@ -24,7 +24,7 @@ README LANGUAGES [ [English](README.md) | [**中文**](README_CN.md)  ]
 > 本插件已在 [Modrinth](https://modrinth.com/plugin/votepass/)
 > 与 [SpigotMC](https://www.spigotmc.org/resources/votepass.111846/) 上发布。
 
-<img src=".doc/logo_v2.png" width="300px"  height="300px" alt="Project logo" align="right">
+<img src=".doc/logo.png" width="300px"  height="300px" alt="Project logo" align="right">
 
 ## 功能 & 优势
 
