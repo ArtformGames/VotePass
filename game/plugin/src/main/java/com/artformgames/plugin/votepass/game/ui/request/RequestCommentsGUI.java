@@ -1,13 +1,12 @@
 package com.artformgames.plugin.votepass.game.ui.request;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.Configuration;
 import cc.carm.lib.easyplugin.gui.GUI;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
-import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteInformation;
 import com.artformgames.plugin.votepass.game.ui.GUIUtils;
@@ -29,7 +28,7 @@ public class RequestCommentsGUI extends AutoPagedGUI {
 
 
     protected RequestCommentsGUI(Player player, @NotNull RequestInformation request, @Nullable RequestIconInfo iconInfo, @Nullable GUI backGUI) {
-        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parse(player, request.getID(), request.getUserDisplayName()), 19, 25);
+        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parseLine(player, request.getID(), request.getUserDisplayName()), 19, 25);
         this.player = player;
         this.request = request;
         this.backGUI = backGUI;
@@ -41,7 +40,7 @@ public class RequestCommentsGUI extends AutoPagedGUI {
     public void initItems() {
 
         setItem(0, new GUIItem(iconInfo.prepareIcon()
-                .insertLore("click-lore", CONFIG.ADDITIONAL_LORE.CLICK)
+                .insert("click-lore", CONFIG.ADDITIONAL_LORE.CLICK)
                 .get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {
@@ -56,13 +55,13 @@ public class RequestCommentsGUI extends AutoPagedGUI {
             if (vote.isApproved()) {
                 addItem(new GUIItem(CONFIG.ITEMS.APPROVED
                         .prepare(vote.voter().getDisplayName(), vote.getTimeString())
-                        .insertLore("comment", GUIUtils.formatCommentLine(vote.comment()), true)
+                        .insert("comment", GUIUtils.formatCommentLine(vote.comment()))
                         .get(player)
                 ));
             } else {
                 addItem(new GUIItem(CONFIG.ITEMS.REJECTED
                         .prepare(vote.voter().getDisplayName(), vote.getTimeString())
-                        .insertLore("comment", GUIUtils.formatCommentLine(vote.comment()), true)
+                        .insert("comment", GUIUtils.formatCommentLine(vote.comment()))
                         .get(player)
                 ));
             }
@@ -75,24 +74,24 @@ public class RequestCommentsGUI extends AutoPagedGUI {
         new RequestCommentsGUI(player, request, iconInfo, backGUI).openGUI(player);
     }
 
-    public static final class CONFIG extends ConfigurationRoot {
+    public interface CONFIG extends Configuration {
 
-        public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
+        ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
                 .defaults("&e&lComments &7| Request #&f%(id)")
                 .params("id", "username")
                 .build();
 
-        public static final class ADDITIONAL_LORE extends ConfigurationRoot {
+        interface ADDITIONAL_LORE extends Configuration {
 
-            public static final ConfiguredMessageList<String> CLICK = ConfiguredMessageList.asStrings().defaults(
+            ConfiguredMessage<String> CLICK = ConfiguredMessage.asString().defaults(
                     " &a ▶ Click &8|&f Return to the request details page"
             ).build();
 
         }
 
-        public static final class ITEMS extends ConfigurationRoot {
+        interface ITEMS extends Configuration {
 
-            public static final ConfiguredItem APPROVED = ConfiguredItem.create()
+            ConfiguredItem APPROVED = ConfiguredItem.create()
                     .defaultType(Material.GREEN_STAINED_GLASS_PANE)
                     .defaultName("&7Comment from &f%(voter)")
                     .defaultLore(
@@ -104,7 +103,7 @@ public class RequestCommentsGUI extends AutoPagedGUI {
                             " "
                     ).params("voter", "time").build();
 
-            public static final ConfiguredItem REJECTED = ConfiguredItem.create()
+            ConfiguredItem REJECTED = ConfiguredItem.create()
                     .defaultType(Material.RED_STAINED_GLASS_PANE)
                     .defaultName("&7Comment from &f%(voter)")
                     .defaultLore(

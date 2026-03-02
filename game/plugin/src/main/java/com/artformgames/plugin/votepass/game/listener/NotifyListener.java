@@ -31,7 +31,7 @@ public class NotifyListener implements Listener {
         if (user != null) {
             int requests = user.countUnvotedRequest();
             if (requests > 0) {
-                PluginMessages.VOTE.NOT_VOTED.send(player, requests);
+                PluginMessages.VOTE.NOT_VOTED.sendTo(player, requests);
                 PluginConfig.SOUNDS.NOTIFY.playTo(player);
             }
         }
@@ -39,7 +39,7 @@ public class NotifyListener implements Listener {
         if (userManager.isAdmin(player)) {
             int requireIntervention = voteManager.countAdminRequests();
             if (requireIntervention > 0) {
-                PluginMessages.ADMIN.INTERVENTION.send(player, requireIntervention);
+                PluginMessages.ADMIN.INTERVENTION.sendTo(player, requireIntervention);
                 PluginMessages.ADMIN.SOUND.playTo(player);
             }
         }

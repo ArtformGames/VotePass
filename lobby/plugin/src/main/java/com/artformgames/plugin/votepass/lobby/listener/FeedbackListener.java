@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.lobby.listener;
 
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.lobby.Main;
 import com.artformgames.plugin.votepass.lobby.VotePassLobbyAPI;
@@ -43,11 +43,11 @@ public class FeedbackListener implements Listener {
         };
     }
 
-    private boolean feedbackRequest(Player player, ConfiguredMessageList<?> message, RequestInformation request) {
+    private boolean feedbackRequest(Player player, ConfiguredMessage<?> message, RequestInformation request) {
         Main.debugging("Handling " + request.getResult().name() + " -> #" + request.getID());
         ServerSettings configuration = VotePassLobbyAPI.getServersManager().getSettings(request.getServer());
         if (configuration != null) {
-            message.send(player, request.getID(), configuration.name());
+            message.sendTo(player, request.getID(), configuration.name());
             PluginMessages.FEEDBACK.SOUND.playTo(player);
         }
 

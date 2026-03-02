@@ -19,8 +19,8 @@ public class UserListCommand extends SubCommand<MainCommand> {
     @Override
     public Void execute(JavaPlugin plugin, CommandSender sender, String[] args) throws Exception {
         var list = Main.getInstance().getUserManager().getWhitelists();
-        PluginMessages.USERS.LIST.send(sender, list.size());
-        list.forEach(user -> PluginMessages.USERS.USER.send(sender,
+        PluginMessages.USERS.LIST.sendTo(sender, list.size());
+        list.forEach(user -> PluginMessages.USERS.USER.sendTo(sender,
                 user.getKey().getDisplayName(), user.getKey().uuid(),
                 Optional.ofNullable(user.getLinkedRequestID()).map(Object::toString).orElse("?"),
                 user.getPassedTimeString())

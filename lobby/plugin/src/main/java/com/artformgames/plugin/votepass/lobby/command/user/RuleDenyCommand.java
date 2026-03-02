@@ -28,7 +28,7 @@ public class RuleDenyCommand extends SubCommand<MainCommand> {
             return getParent().sendMessage(sender, PluginMessages.DISABLED, settings.id());
         }
 
-        PluginMessages.REJECTED.send(player, settings.name());
+        PluginMessages.REJECTED.sendTo(player, settings.name());
         return null;
     }
 

@@ -26,9 +26,9 @@ public class ToggleCommand extends SubCommand<MainCommand> {
         VotePassLobbyAPI.getServersManager().setDisabled(settings.id(), !disabled);
 
         if (disabled) {
-            PluginMessages.TOGGLE.ENABLED.send(sender, settings.name());
+            PluginMessages.TOGGLE.ENABLED.sendTo(sender, settings.name());
         } else {
-            PluginMessages.TOGGLE.DISABLED.send(sender, settings.name());
+            PluginMessages.TOGGLE.DISABLED.sendTo(sender, settings.name());
         }
         return null;
     }

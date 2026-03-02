@@ -27,7 +27,7 @@ public class MigrateCommand extends SubCommand<MainCommand> {
 
         Main.getInstance().getScheduler().runAsync(() -> {
             long s1 = System.currentTimeMillis();
-            PluginMessages.MIGRATE.START.send(sender);
+            PluginMessages.MIGRATE.START.sendTo(sender);
 
             WhitelistModifier modifier = usersManager.modifyWhitelist();
             for (OfflinePlayer player : Bukkit.getWhitelistedPlayers()) {
@@ -40,9 +40,9 @@ public class MigrateCommand extends SubCommand<MainCommand> {
 
             try {
                 int changes = modifier.execute();
-                PluginMessages.MIGRATE.SUCCESS.send(sender, changes, System.currentTimeMillis() - s1);
+                PluginMessages.MIGRATE.SUCCESS.sendTo(sender, changes, System.currentTimeMillis() - s1);
             } catch (Exception e) {
-                PluginMessages.MIGRATE.FAILED.send(sender);
+                PluginMessages.MIGRATE.FAILED.sendTo(sender);
                 e.printStackTrace();
             }
         });

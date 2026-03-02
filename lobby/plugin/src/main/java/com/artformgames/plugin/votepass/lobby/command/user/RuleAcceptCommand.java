@@ -42,7 +42,7 @@ public class RuleAcceptCommand extends SubCommand<MainCommand> {
             // Answering the corresponding question, let the player continue to answer
             RequestingGUI.open(player, data, pendingRequest);
         } else {
-            PluginMessages.ACCEPTED.send(player, settings.name());
+            PluginMessages.ACCEPTED.sendTo(player, settings.name());
             Main.getInstance().getRequestManager()
                     .lastFailed(data.getKey(), settings.id())
                     .thenAccept(lastFailed -> Main.getInstance().getScheduler().run(() -> {

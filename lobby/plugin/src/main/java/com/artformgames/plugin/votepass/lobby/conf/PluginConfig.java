@@ -1,21 +1,23 @@
 package com.artformgames.plugin.votepass.lobby.conf;
 
-import cc.carm.lib.configuration.core.Configuration;
-import cc.carm.lib.configuration.core.annotation.HeaderComment;
-import cc.carm.lib.configuration.core.value.type.ConfiguredList;
-import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
+
+import cc.carm.lib.configuration.Configuration;
+import cc.carm.lib.configuration.annotation.ConfigPath;
+import cc.carm.lib.configuration.annotation.HeaderComments;
+import cc.carm.lib.configuration.value.standard.ConfiguredList;
+import cc.carm.lib.configuration.value.standard.ConfiguredValue;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import org.bukkit.Material;
 
+@ConfigPath(root = true)
 public interface PluginConfig extends Configuration {
 
     interface SERVERS extends Configuration {
 
         ConfiguredValue<String> FOLDER_NAME = ConfiguredValue.of(String.class, "servers");
 
-        ConfiguredList<String> DISABLED = ConfiguredList.of(String.class);
+        ConfiguredList<String> DISABLED = ConfiguredList.of("YOUR-DISABLED-SERVER-ID");
 
     }
 
@@ -23,12 +25,12 @@ public interface PluginConfig extends Configuration {
 
         interface BOOK extends Configuration {
 
-            ConfiguredMessageList<String> ACCEPT = ConfiguredMessageList.asStrings()
+            ConfiguredMessage<String> ACCEPT = ConfiguredMessage.asString()
                     .defaults("[&a&l[ACCEPT THE RULE]](hover=&fClick to &a&lconfirm and accept the server rules&f. run_command=/votepass accept %(server))")
                     .params("server")
                     .build();
 
-            ConfiguredMessageList<String> DENY = ConfiguredMessageList.asStrings()
+            ConfiguredMessage<String> DENY = ConfiguredMessage.asString()
                     .defaults("[&c&l[DENY THE RULE]](hover=&fClick to &c&lrefuse the server rules&f. run_command=/votepass deny %(server))")
                     .params("server")
                     .build();
@@ -47,14 +49,14 @@ public interface PluginConfig extends Configuration {
 
         interface BOOK_ITEM extends Configuration {
 
-            @HeaderComment("Which slot should we put the answering book in players inventory? (0~8)")
+            @HeaderComments("Which slot should we put the answering book in players inventory? (0~8)")
             ConfiguredValue<Integer> SLOT = ConfiguredValue.of(Integer.class, 8);
 
             ConfiguredMessage<String> NAME = ConfiguredMessage.asString()
                     .defaults("&c&lAnswering book &8(Right click)")
                     .build();
 
-            ConfiguredMessageList<String> LORE = ConfiguredMessageList.asStrings()
+            ConfiguredMessage<String> LORE = ConfiguredMessage.asString()
                     .defaults("&fOpen and answer your questions!")
                     .build();
 

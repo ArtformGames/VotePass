@@ -1,11 +1,10 @@
 package com.artformgames.plugin.votepass.game.ui.admin;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.Configuration;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestAnswer;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
@@ -37,7 +36,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
     private final @NotNull RequestIconInfo iconInfo;
 
     public AdminHandleGUI(@NotNull Player player, @NotNull RequestInformation request, @Nullable RequestIconInfo iconInfo) {
-        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parse(player, request.getID(), request.getUsername()), 19, 25);
+        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parseLine(player, request.getID(), request.getUsername()), 19, 25);
         this.player = player;
         this.request = request;
         this.iconInfo = Optional.ofNullable(iconInfo).orElse(RequestIconInfo.of(request));
@@ -57,7 +56,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
                 player.closeInventory();
                 if (!player.hasPermission("votepass.admin")) return;
                 Main.getInstance().getVoteManager().approve(request);
-                PluginMessages.ADMIN.APPROVED.send(player, request.getID(), request.getUsername());
+                PluginMessages.ADMIN.APPROVED.sendTo(player, request.getID(), request.getUsername());
             }
         }, 36, 37, 38, 39);
 
@@ -67,7 +66,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
                 player.closeInventory();
                 if (!player.hasPermission("votepass.admin")) return;
                 Main.getInstance().getVoteManager().reject(request);
-                PluginMessages.ADMIN.REJECTED.send(player, request.getID(), request.getUsername());
+                PluginMessages.ADMIN.REJECTED.sendTo(player, request.getID(), request.getUsername());
             }
         }, 41, 42, 43, 44);
 
@@ -86,35 +85,35 @@ public class AdminHandleGUI extends AutoPagedGUI {
                 @Override
                 public void onClick(Player clicker, ClickType type) {
                     player.closeInventory();
-                    PluginMessages.VOTE.VIEWING.send(player, request.getID(), request.getUserDisplayName(), answer.question());
-                    RequestAnswerGUI.open(player, request, answer, CONFIG.BOOK.RETURN.parseToLine(player, request.getID()));
+                    PluginMessages.VOTE.VIEWING.sendTo(player, request.getID(), request.getUserDisplayName(), answer.question());
+                    RequestAnswerGUI.open(player, request, answer, CONFIG.BOOK.RETURN.compileLine(player, request.getID()));
                 }
             });
         }
     }
 
-    public static final class CONFIG extends ConfigurationRoot {
+    public interface CONFIG extends Configuration {
 
-        public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
+        ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
                 .defaults("&a&lHandle Request &7#%(id)")
                 .params("id", "username")
                 .build();
 
-        public static final class ITEMS extends ConfigurationRoot {
+        interface ITEMS extends Configuration {
 
-            public static final ConfiguredItem APPROVE = ConfiguredItem.create()
+            ConfiguredItem APPROVE = ConfiguredItem.create()
                     .defaultType(Material.GREEN_STAINED_GLASS_PANE)
                     .defaultName("&a&lApprove &fthe request &8#&f%(id)")
                     .params("id", "username")
                     .build();
 
-            public static final ConfiguredItem REJECT = ConfiguredItem.create()
+            ConfiguredItem REJECT = ConfiguredItem.create()
                     .defaultType(Material.RED_STAINED_GLASS_PANE)
                     .defaultName("&c&lReject &fthe request &8#&f%(id)")
                     .params("id", "username")
                     .build();
 
-            public static final ConfiguredItem COMMENTED = ConfiguredItem.create()
+            ConfiguredItem COMMENTED = ConfiguredItem.create()
                     .defaultType(Material.PAPER)
                     .defaultName("&f&lRequest comments")
                     .defaultLore(
@@ -126,7 +125,7 @@ public class AdminHandleGUI extends AutoPagedGUI {
                     .params("amount")
                     .build();
 
-            public static final ConfiguredItem ANSWER = ConfiguredItem.create()
+            ConfiguredItem ANSWER = ConfiguredItem.create()
                     .defaultType(Material.BOOK)
                     .defaultName("&7Question: &f%(question)")
                     .defaultLore(
@@ -142,9 +141,9 @@ public class AdminHandleGUI extends AutoPagedGUI {
 
         }
 
-        public static final class BOOK extends ConfigurationRoot {
+        interface BOOK extends Configuration {
 
-            public static final ConfiguredMessageList<BaseComponent[]> RETURN = TextMessages.list()
+            ConfiguredMessage<BaseComponent[]> RETURN = TextMessages.create()
                     .defaults(
                             "&0All answers have been displayed.",
                             "[&2&l[Click here]](hover=Click to return to the details page and continue processing related answers. run_command=/votepass manage %(id))&0 to return to the request details page."

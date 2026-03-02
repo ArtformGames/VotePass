@@ -23,7 +23,7 @@ public class WhitelistListener implements Listener {
         // not whitelisted , kick and notify.
         event.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_WHITELIST);
 
-        String kickMessage = PluginConfig.SERVER.KICK_MESSAGE.parseToLine(null);
+        String kickMessage = PluginConfig.SERVER.KICK_MESSAGE.parseLine(null);
         if (kickMessage != null) event.setKickMessage(kickMessage);
 
     }

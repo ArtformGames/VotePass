@@ -44,7 +44,7 @@ public class RequestCommand extends SubCommand<MainCommand> {
         if (RequestCommand.cannotCreate(player, requestData, settings)) return null;
 
         if (settings.rules() != null) {
-            PluginMessages.RULES.send(player, settings.name());
+            PluginMessages.RULES.sendTo(player, settings.name());
             RulesBookUI.open(player, settings.id(), settings.rules());
             return null;
         }
@@ -55,7 +55,7 @@ public class RequestCommand extends SubCommand<MainCommand> {
             return null;
         }
 
-        PluginMessages.ACCEPTED.send(player, settings.name());
+        PluginMessages.ACCEPTED.sendTo(player, settings.name());
         Main.getInstance().getRequestManager()
                 .lastFailed(requestData.getKey(), settings.id())
                 .thenAccept(lastFailed -> Main.getInstance().getScheduler().run(() -> {
@@ -78,12 +78,12 @@ public class RequestCommand extends SubCommand<MainCommand> {
 
     protected static boolean cannotCreate(Player player, LobbyUserData requestData, ServerSettings settings) {
         if (requestData.isPassed(settings.id())) {
-            PluginMessages.WHITELISTED.send(player, settings.name());
+            PluginMessages.WHITELISTED.sendTo(player, settings.name());
             return true;
         }
         RequestInformation request = requestData.getServerRequest(settings.id());
         if (request != null) {
-            PluginMessages.PENDING.send(player, request.getID(), settings.name());
+            PluginMessages.PENDING.sendTo(player, request.getID(), settings.name());
             return true;
         }
         return false;

@@ -50,7 +50,7 @@ public class UserListener<U extends AbstractUserData, M extends AbstractUserMana
         U data = getUserManager().getNullable(e.getPlayer().getUniqueId());
         if (data == null) {
             e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-            Optional.ofNullable(CommonMessages.LOAD_FAILED.parseToLine(e.getPlayer())).ifPresent(e::setKickMessage);
+            Optional.ofNullable(CommonMessages.LOAD_FAILED.parseLine(e.getPlayer())).ifPresent(e::setKickMessage);
         }
     }
 

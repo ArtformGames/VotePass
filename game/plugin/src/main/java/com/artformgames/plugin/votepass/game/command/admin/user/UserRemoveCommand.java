@@ -35,13 +35,13 @@ public class UserRemoveCommand extends SubCommand<MainCommand> {
 
         WhitelistedUserData data = usersManager.getWhitelistData(username);
         if (data == null) {
-            PluginMessages.USERS.NOT_IN.send(sender, username);
+            PluginMessages.USERS.NOT_IN.sendTo(sender, username);
             return null;
         }
 
         Player online = Bukkit.getPlayer(data.getUserUUID());
         if (online != null && online.isOnline()) {
-            online.kickPlayer(PluginConfig.SERVER.KICK_MESSAGE.parseToLine(online));
+            online.kickPlayer(PluginConfig.SERVER.KICK_MESSAGE.parseLine(online));
         }
 
         Main.getInstance().getScheduler().runAsync(() -> {
@@ -49,12 +49,12 @@ public class UserRemoveCommand extends SubCommand<MainCommand> {
 
             UserKey key = data.getKey();
 
-            PluginMessages.USERS.REMOVE.START.send(sender, key.name());
+            PluginMessages.USERS.REMOVE.START.sendTo(sender, key.name());
             try {
                 Main.getInstance().getUserManager().modifyWhitelist().remove(key).execute();
-                PluginMessages.USERS.REMOVE.SUCCESS.send(sender, key.name(), System.currentTimeMillis() - s1);
+                PluginMessages.USERS.REMOVE.SUCCESS.sendTo(sender, key.name(), System.currentTimeMillis() - s1);
             } catch (Exception e) {
-                PluginMessages.USERS.REMOVE.FAILED.send(sender);
+                PluginMessages.USERS.REMOVE.FAILED.sendTo(sender);
                 e.printStackTrace();
             }
 

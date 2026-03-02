@@ -18,15 +18,15 @@ public class ReloadCommand extends SubCommand<MainCommand> {
     public Void execute(JavaPlugin plugin, CommandSender sender, String[] args) throws Exception {
 
         try {
-            CommonMessages.RELOAD.START.send(sender);
+            CommonMessages.RELOAD.START.sendTo(sender);
             long s1 = System.currentTimeMillis();
 
             Main.getInstance().getConfiguration().reload();
             Main.getInstance().getServersManager().reloadSettings();
 
-            CommonMessages.RELOAD.SUCCESS.send(sender, System.currentTimeMillis() - s1);
+            CommonMessages.RELOAD.SUCCESS.sendTo(sender, System.currentTimeMillis() - s1);
         } catch (Exception e) {
-            CommonMessages.RELOAD.FAILED.send(sender);
+            CommonMessages.RELOAD.FAILED.sendTo(sender);
             e.printStackTrace();
         }
 

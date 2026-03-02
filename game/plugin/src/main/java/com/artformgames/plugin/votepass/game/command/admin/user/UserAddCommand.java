@@ -27,7 +27,7 @@ public class UserAddCommand extends SubCommand<MainCommand> {
 
         WhitelistedUserData data = usersManager.getWhitelistData(username);
         if (data != null) {
-            PluginMessages.USERS.ALREADY_IN.send(sender, data.getKey().name());
+            PluginMessages.USERS.ALREADY_IN.sendTo(sender, data.getKey().name());
             return null;
         }
 
@@ -36,16 +36,16 @@ public class UserAddCommand extends SubCommand<MainCommand> {
 
             UserKey key = usersManager.getKey(username);
             if (key == null) {
-                PluginMessages.USERS.NEVER_JOINED.send(sender, username);
+                PluginMessages.USERS.NEVER_JOINED.sendTo(sender, username);
                 return;
             }
 
-            PluginMessages.USERS.ADD.START.send(sender, key.name());
+            PluginMessages.USERS.ADD.START.sendTo(sender, key.name());
             try {
                 Main.getInstance().getUserManager().modifyWhitelist().add(key).execute();
-                PluginMessages.USERS.ADD.SUCCESS.send(sender, key.name(), System.currentTimeMillis() - s1);
+                PluginMessages.USERS.ADD.SUCCESS.sendTo(sender, key.name(), System.currentTimeMillis() - s1);
             } catch (Exception e) {
-                PluginMessages.USERS.ADD.FAILED.send(sender, key.name(), System.currentTimeMillis() - s1);
+                PluginMessages.USERS.ADD.FAILED.sendTo(sender, key.name(), System.currentTimeMillis() - s1);
                 e.printStackTrace();
             }
 

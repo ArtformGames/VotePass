@@ -1,11 +1,10 @@
 package com.artformgames.plugin.votepass.game.ui.vote;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.Configuration;
 import cc.carm.lib.easyplugin.gui.GUI;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.item.ConfiguredItem;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.api.data.vote.VoteDecision;
@@ -40,7 +39,7 @@ public class VoteConfirmGUI extends GUI {
     private final @NotNull VoteDecision decision;
 
     public VoteConfirmGUI(@NotNull Player player, @NotNull RequestInformation request, @NotNull VoteDecision decision, @Nullable RequestIconInfo iconInfo) {
-        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parse(player, request.getID(), request.getUserDisplayName()));
+        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parseLine(player, request.getID(), request.getUserDisplayName()));
         this.player = player;
         this.request = request;
         this.iconInfo = Optional.ofNullable(iconInfo).orElse(RequestIconInfo.of(request));
@@ -95,17 +94,17 @@ public class VoteConfirmGUI extends GUI {
                 switch (decision) {
                     case APPROVE -> {
                         executeCommands(player, PluginConfig.SERVER.COMMANDS.APPROVE, request.getUserDisplayName(), request.getID());
-                        PluginMessages.VOTE.APPROVED.send(player, request.getID(), request.getUserDisplayName());
+                        PluginMessages.VOTE.APPROVED.sendTo(player, request.getID(), request.getUserDisplayName());
                         PluginConfig.SOUNDS.APPROVED.playTo(player);
                     }
                     case REJECT -> {
                         executeCommands(player, PluginConfig.SERVER.COMMANDS.REJECT, request.getUserDisplayName(), request.getID());
-                        PluginMessages.VOTE.REJECTED.send(player, request.getID(), request.getUserDisplayName());
+                        PluginMessages.VOTE.REJECTED.sendTo(player, request.getID(), request.getUserDisplayName());
                         PluginConfig.SOUNDS.REJECT.playTo(player);
                     }
                     case ABSTAIN -> {
                         executeCommands(player, PluginConfig.SERVER.COMMANDS.ABSTAIN, request.getUserDisplayName(), request.getID());
-                        PluginMessages.VOTE.ABSTAINED.send(player, request.getID(), request.getUserDisplayName());
+                        PluginMessages.VOTE.ABSTAINED.sendTo(player, request.getID(), request.getUserDisplayName());
                         PluginConfig.SOUNDS.ABSTAIN.playTo(player);
                     }
                 }
@@ -124,7 +123,7 @@ public class VoteConfirmGUI extends GUI {
         }, 41, 42, 43, 44);
     }
 
-    public void executeCommands(Player player, ConfiguredMessageList<String> list, Object... values) {
+    public void executeCommands(Player player, ConfiguredMessage<String> list, Object... values) {
         executeCommands(list.parse(player, values));
     }
 
@@ -140,16 +139,16 @@ public class VoteConfirmGUI extends GUI {
         }
     }
 
-    public static final class CONFIG extends ConfigurationRoot {
+    public interface CONFIG extends Configuration {
 
-        public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
+        ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
                 .defaults("&a&lConfirm Vote | &7#%(id)")
                 .params("id", "username")
                 .build();
 
-        public static final class ITEMS extends ConfigurationRoot {
+        interface ITEMS extends Configuration {
 
-            public static final ConfiguredItem APPROVED = ConfiguredItem.create()
+            ConfiguredItem APPROVED = ConfiguredItem.create()
                     .defaultType(Material.EMERALD)
                     .defaultName("&7You decision is &a&lApproved")
                     .defaultLore(
@@ -159,7 +158,7 @@ public class VoteConfirmGUI extends GUI {
                             " "
                     ).params("id", "player").build();
 
-            public static final ConfiguredItem ABSTAINED = ConfiguredItem.create()
+            ConfiguredItem ABSTAINED = ConfiguredItem.create()
                     .defaultType(Material.COAL)
                     .defaultName("&7You decision is &e&lAbstained")
                     .defaultLore(
@@ -168,7 +167,7 @@ public class VoteConfirmGUI extends GUI {
                             " "
                     ).params("id", "player").build();
 
-            public static final ConfiguredItem REJECTED = ConfiguredItem.create()
+            ConfiguredItem REJECTED = ConfiguredItem.create()
                     .defaultType(Material.REDSTONE)
                     .defaultName("&7You decision is &c&lRejected")
                     .defaultLore(
@@ -178,17 +177,17 @@ public class VoteConfirmGUI extends GUI {
                             " "
                     ).params("id", "player").build();
 
-            public static final ConfiguredItem CONFIRM = ConfiguredItem.create()
+            ConfiguredItem CONFIRM = ConfiguredItem.create()
                     .defaultType(Material.GREEN_STAINED_GLASS_PANE)
                     .defaultName("&a&lConfirm your vote")
                     .build();
 
-            public static final ConfiguredItem CANCEL = ConfiguredItem.create()
+            ConfiguredItem CANCEL = ConfiguredItem.create()
                     .defaultType(Material.RED_STAINED_GLASS_PANE)
                     .defaultName("&7Consider later")
                     .build();
 
-            public static final ConfiguredItem NOT_COMMENTED = ConfiguredItem.create()
+            ConfiguredItem NOT_COMMENTED = ConfiguredItem.create()
                     .defaultType(Material.PAPER)
                     .defaultName("&f&lPersonal comments")
                     .defaultLore(
@@ -198,7 +197,7 @@ public class VoteConfirmGUI extends GUI {
                     )
                     .build();
 
-            public static final ConfiguredItem COMMENTED = ConfiguredItem.create()
+            ConfiguredItem COMMENTED = ConfiguredItem.create()
                     .defaultType(Material.PAPER)
                     .defaultName("&f&lPersonal comments")
                     .defaultLore(

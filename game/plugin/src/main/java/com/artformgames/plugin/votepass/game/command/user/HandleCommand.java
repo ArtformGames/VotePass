@@ -30,13 +30,13 @@ public class HandleCommand extends SubCommand<MainCommand> {
         }
 
         if (id <= 0) {
-            CommonMessages.WRONG_NUMBER.send(player);
+            CommonMessages.WRONG_NUMBER.sendTo(player);
             return null;
         }
 
         RequestInformation request = Main.getInstance().getVoteManager().getRequest(id);
         if (request == null) {
-            CommonMessages.NOT_EXISTS.send(player, id);
+            CommonMessages.NOT_EXISTS.sendTo(player, id);
             return null;
         }
 

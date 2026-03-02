@@ -33,7 +33,7 @@ public class ResubmitGUI extends AutoPagedGUI {
 
     public ResubmitGUI(@NotNull Player player, @NotNull LobbyUserData data,
                        @NotNull ServerSettings server, @NotNull RequestInformation lastFailed) {
-        super(GUIType.SIX_BY_NINE, Objects.requireNonNull(PluginConfig.RESUBMIT.TITLE.parse(player, lastFailed.getServer())), 10, 34);
+        super(GUIType.SIX_BY_NINE, Objects.requireNonNull(PluginConfig.RESUBMIT.TITLE.parseLine(player, lastFailed.getServer())), 10, 34);
         this.player = player;
         this.data = data;
         this.server = server;
@@ -70,7 +70,7 @@ public class ResubmitGUI extends AutoPagedGUI {
         getRequest().getContents().forEach((i, a) -> {
             PreparedItem item = PluginConfig.RESUBMIT.ITEMS.ANSWERS
                     .prepare(i, a.question())
-                    .insertLore("answers", ColorParser.parse(a.answers()));
+                    .insert("answers", ColorParser.parse(a.answers()));
             addItem(new GUIItem(item.get(player)));
         });
 

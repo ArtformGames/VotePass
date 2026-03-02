@@ -24,12 +24,12 @@ public class RequestsCommand extends SubCommand<MainCommand> {
 
         WhitelistedUserData user = Main.getInstance().getUserManager().getWhitelistData(player.getUniqueId());
         if (user == null) {
-            CommonMessages.LOAD_FAILED.send(player);
+            CommonMessages.LOAD_FAILED.sendTo(player);
             return null;
         }
 
         if (user.isAbstained()) {
-            PluginMessages.ABSTAIN.ABSTAINED.send(player);
+            PluginMessages.ABSTAIN.ABSTAINED.sendTo(player);
             return null;
         }
 

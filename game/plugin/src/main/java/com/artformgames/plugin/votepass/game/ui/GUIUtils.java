@@ -23,16 +23,16 @@ public class GUIUtils {
         int maxLine = PluginConfig.ANSWERS.MAX_LINES.getNotNull();
         PreparedItem item = itemConfig.prepare(answer.question(), answer.countWords());
 
-        item.insertLore("question", sortContent(
+        item.insert("question", sortContent(
                 answer.question(), PluginConfig.ANSWERS.LETTERS_PER_LINE.getNotNull()
         ));
         
         List<String> lore = GUIUtils.formatAnswersLore(answer);
         if (lore.size() > maxLine) {
-            item.insertLore("contents", lore.subList(0, maxLine), true);
-            item.insertLore("more-contents", PluginConfig.ANSWERS.EXTRA);
+            item.insert("contents", lore.subList(0, maxLine));
+            item.insert("more-contents", PluginConfig.ANSWERS.EXTRA);
         } else if (!lore.isEmpty()) {
-            item.insertLore("contents", lore, true);
+            item.insert("contents", lore);
         }
         return item.get(player);
     }

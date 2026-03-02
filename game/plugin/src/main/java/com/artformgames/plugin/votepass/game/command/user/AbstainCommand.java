@@ -27,7 +27,7 @@ public class AbstainCommand extends SubCommand<MainCommand> {
 
         WhitelistedUserData user = Main.getInstance().getUserManager().getWhitelistData(player.getUniqueId());
         if (user == null) {
-            CommonMessages.LOAD_FAILED.send(player);
+            CommonMessages.LOAD_FAILED.sendTo(player);
             return null;
         }
 
@@ -38,11 +38,11 @@ public class AbstainCommand extends SubCommand<MainCommand> {
             String aim = args[0];
             if (aim.equalsIgnoreCase("enable")) {
                 user.setAbstained(true);
-                PluginMessages.ABSTAIN.ABSTAINED.send(player);
+                PluginMessages.ABSTAIN.ABSTAINED.sendTo(player);
                 return null;
             } else if (aim.equalsIgnoreCase("disable")) {
                 user.setAbstained(false);
-                PluginMessages.ABSTAIN.PARTICIPATING.send(player);
+                PluginMessages.ABSTAIN.PARTICIPATING.sendTo(player);
                 return null;
             } else {
                 return getParent().noArgs(sender);

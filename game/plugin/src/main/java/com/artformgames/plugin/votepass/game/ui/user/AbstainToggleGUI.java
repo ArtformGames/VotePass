@@ -1,11 +1,10 @@
 package com.artformgames.plugin.votepass.game.ui.user;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.configuration.Configuration;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import com.artformgames.plugin.votepass.core.conf.TextMessages;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.api.whiteist.WhitelistedUserData;
-import com.artformgames.plugin.votepass.game.conf.PluginMessages;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.entity.Player;
 import xyz.upperlevel.spigot.book.BookUtil;
@@ -28,20 +27,20 @@ public class AbstainToggleGUI {
 
         List<BaseComponent[]> pages = new ArrayList<>();
         if (user.isAbstained()) {
-            pages.add(CONFIG.ENABLED.parseToLine(player));
+            pages.add(CONFIG.ENABLED.compileLine(player));
         } else {
-            pages.add(CONFIG.DISABLED.parseToLine(player));
+            pages.add(CONFIG.DISABLED.compileLine(player));
         }
 
-        pages.add(CONFIG.TOGGLE.parseToLine(player));
+        pages.add(CONFIG.TOGGLE.compileLine(player));
         builder.pages(pages);
 
         BookUtil.openPlayer(player, builder.build());
     }
 
-    public static final class CONFIG extends ConfigurationRoot {
+    public interface CONFIG extends Configuration {
 
-        public static final ConfiguredMessageList<BaseComponent[]> ENABLED = TextMessages.list()
+        ConfiguredMessage<BaseComponent[]> ENABLED = TextMessages.create()
                 .defaults(
                         "&8Your current status is",
                         "&e&labstaining all vote rights&8.",
@@ -51,7 +50,7 @@ public class AbstainToggleGUI {
                         " "
                 ).build();
 
-        public static final ConfiguredMessageList<BaseComponent[]> DISABLED = TextMessages.list()
+        ConfiguredMessage<BaseComponent[]> DISABLED = TextMessages.create()
                 .defaults(
                         "&8Your current status is",
                         "&a&lParticipating in voting&8.",
@@ -60,7 +59,7 @@ public class AbstainToggleGUI {
                         " ",
                         " "
                 ).build();
-        public static final ConfiguredMessageList<BaseComponent[]> TOGGLE = TextMessages.list()
+        ConfiguredMessage<BaseComponent[]> TOGGLE = TextMessages.create()
                 .defaults(
                         "You can choose whether to automatically waive all future requests.",
                         " ",

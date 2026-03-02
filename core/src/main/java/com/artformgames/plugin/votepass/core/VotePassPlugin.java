@@ -1,6 +1,6 @@
 package com.artformgames.plugin.votepass.core;
 
-import cc.carm.lib.configuration.core.Configuration;
+import cc.carm.lib.configuration.Configuration;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;

@@ -36,9 +36,9 @@ public class MainCommand extends VotePassCommand {
 
     @Override
     public Void noArgs(CommandSender sender) {
-        PluginMessages.COMMAND.USER.send(sender);
+        PluginMessages.COMMAND.USER.sendTo(sender);
         if (sender.hasPermission("votepass.admin")) {
-            PluginMessages.COMMAND.ADMIN.send(sender);
+            PluginMessages.COMMAND.ADMIN.sendTo(sender);
         }
         return null;
     }

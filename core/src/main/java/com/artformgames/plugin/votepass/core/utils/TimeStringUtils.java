@@ -64,7 +64,7 @@ public class TimeStringUtils {
         return l;
     }
 
-    public static @Nullable Duration parseDuration(String s) {
+    public static @Nullable Duration parseDuration(@Nullable String s) {
         long sec = parseSeconds(s);
         if (sec < 0) return null;
         return Duration.ofSeconds(sec);

@@ -1,11 +1,10 @@
 package com.artformgames.plugin.votepass.game.ui.vote;
 
-import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.Configuration;
 import cc.carm.lib.easyplugin.gui.GUIItem;
 import cc.carm.lib.easyplugin.gui.GUIType;
 import cc.carm.lib.easyplugin.gui.paged.AutoPagedGUI;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.api.data.request.RequestInformation;
 import com.artformgames.plugin.votepass.game.Main;
 import com.artformgames.plugin.votepass.game.conf.PluginConfig;
@@ -27,7 +26,7 @@ public class RequestListGUI extends AutoPagedGUI {
     private final GameUser user;
 
     public RequestListGUI(Player player) {
-        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parse(player), 10, 34);
+        super(GUIType.FIVE_BY_NINE, CONFIG.TITLE.parseLine(player), 10, 34);
         this.player = player;
         this.user = Main.getInstance().getUserManager().get(player.getUniqueId());
 
@@ -54,7 +53,7 @@ public class RequestListGUI extends AutoPagedGUI {
     protected GUIItem createIcon(@NotNull RequestInformation request) {
         RequestIconInfo iconInfo = RequestIconInfo.of(request);
         return new GUIItem(iconInfo.prepareIcon()
-                .insertLore("click-lore", CONFIG.ADDITIONAL_LORE.CLICK)
+                .insert("click-lore", CONFIG.ADDITIONAL_LORE.CLICK)
                 .get(player)) {
             @Override
             public void onClick(Player clicker, ClickType type) {
@@ -63,15 +62,15 @@ public class RequestListGUI extends AutoPagedGUI {
         };
     }
 
-    public static final class CONFIG extends ConfigurationRoot {
+    public interface CONFIG extends Configuration {
 
-        public static final ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
+        ConfiguredMessage<String> TITLE = ConfiguredMessage.asString()
                 .defaults("&a&lAll Requests")
                 .build();
 
-        public static final class ADDITIONAL_LORE extends ConfigurationRoot {
+        interface ADDITIONAL_LORE extends Configuration {
 
-            public static final ConfiguredMessageList<String> CLICK = ConfiguredMessageList.asStrings().defaults(
+            ConfiguredMessage<String> CLICK = ConfiguredMessage.asString().defaults(
                     "&a ▶ Click &8|&f View details"
             ).build();
 

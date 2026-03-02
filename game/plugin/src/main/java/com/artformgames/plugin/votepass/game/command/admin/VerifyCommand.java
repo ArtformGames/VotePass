@@ -25,7 +25,7 @@ public class VerifyCommand extends SubCommand<MainCommand> {
         Main.getInstance().getScheduler().runAsync(() -> {
             long s1 = System.currentTimeMillis();
 
-            PluginMessages.VERIFY.START.send(sender);
+            PluginMessages.VERIFY.START.sendTo(sender);
             VoteManager voteManager = Main.getInstance().getVoteManager();
 
             Set<RequestInformation> approved = new HashSet<>();

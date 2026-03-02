@@ -50,7 +50,7 @@ public class RequestingGUI extends AutoPagedGUI {
     public RequestingGUI(@NotNull Player player, @NotNull LobbyUserData data, @NotNull PendingRequest pendingRequest) {
         super(
                 GUIType.SIX_BY_NINE,
-                Objects.requireNonNull(PluginConfig.ANSWERING.TITLE.parse(player, pendingRequest.getSettings().name())),
+                Objects.requireNonNull(PluginConfig.ANSWERING.TITLE.parseLine(player, pendingRequest.getSettings().name())),
                 10, 34
         );
         this.player = player;
@@ -98,7 +98,7 @@ public class RequestingGUI extends AutoPagedGUI {
         boolean isAnswered = getPendingRequest().isAnswered(id);
         ConfiguredItem configuredItem = isAnswered ? PluginConfig.ANSWERING.ITEMS.FINISHED : PluginConfig.ANSWERING.ITEMS.REQUIRED;
         PreparedItem item = configuredItem.prepare(question.title());
-        item.insertLore("description", ColorParser.parse(question.description()));
+        item.insert("description", ColorParser.parse(question.description()));
 
         return new GUIItem(item.get(player)) {
             @Override
@@ -109,7 +109,7 @@ public class RequestingGUI extends AutoPagedGUI {
                 if (request == null) return;
                 int slot = PluginConfig.ANSWERING.BOOK_ITEM.SLOT.getNotNull();
 
-                PluginMessages.WRITING.send(player, slot, question.title());
+                PluginMessages.WRITING.sendTo(player, slot, question.title());
                 request.setEditingQuestion(id);
                 player.getInventory().setHeldItemSlot(slot);
 
@@ -129,12 +129,12 @@ public class RequestingGUI extends AutoPagedGUI {
 
                 RequestInformation existRequest = getData().getServerRequest(getSettings().id());
                 if (existRequest != null) {
-                    PluginMessages.PENDING.send(player, existRequest.getID(), getSettings().name());
+                    PluginMessages.PENDING.sendTo(player, existRequest.getID(), getSettings().name());
                     return;
                 }
 
                 if (getData().isPassed(getSettings().id())) {
-                    PluginMessages.WHITELISTED.send(player, getSettings().name());
+                    PluginMessages.WHITELISTED.sendTo(player, getSettings().name());
                     return;
                 }
 
@@ -142,13 +142,13 @@ public class RequestingGUI extends AutoPagedGUI {
                         .commit(getData().getKey(), getPendingRequest())
                         .thenCompose(request -> {
                             if (request == null) {
-                                PluginMessages.ERROR.send(player, getSettings().name());
+                                PluginMessages.ERROR.sendTo(player, getSettings().name());
                                 return CompletableFuture.completedFuture(null);
                             }
 
                             getData().addRequest(request);
                             getData().removePendingRequest();
-                            PluginMessages.POSTED.send(player, request.getID(), getSettings().name());
+                            PluginMessages.POSTED.sendTo(player, request.getID(), getSettings().name());
                             return Main.getInstance().callAsync(new RequestCreatedEvent(request));
                         });
             }
@@ -161,7 +161,7 @@ public class RequestingGUI extends AutoPagedGUI {
             public void onClick(Player clicker, ClickType type) {
                 getPlayer().closeInventory();
 
-                PluginMessages.CANCELLED.send(player, getSettings().name());
+                PluginMessages.CANCELLED.sendTo(player, getSettings().name());
                 getData().removePendingRequest();
             }
         };
@@ -173,7 +173,7 @@ public class RequestingGUI extends AutoPagedGUI {
 
     public ItemStack generateAnswerBook(@Nullable List<String> existingPages) {
         ItemStackFactory factory = new ItemStackFactory(Material.WRITABLE_BOOK);
-        Optional.ofNullable(PluginConfig.ANSWERING.BOOK_ITEM.NAME.parse(player)).ifPresent(factory::setDisplayName);
+        Optional.ofNullable(PluginConfig.ANSWERING.BOOK_ITEM.NAME.parseLine(player)).ifPresent(factory::setDisplayName);
         Optional.ofNullable(PluginConfig.ANSWERING.BOOK_ITEM.LORE.parse(player)).ifPresent(factory::setLore);
 
         if (existingPages != null) {

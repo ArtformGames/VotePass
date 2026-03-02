@@ -18,7 +18,7 @@ public class SyncCommand extends SubCommand<MainCommand> {
     public Void execute(JavaPlugin plugin, CommandSender sender, String[] args) throws Exception {
         Main.getInstance().getScheduler().runAsync(() -> {
             long s1 = System.currentTimeMillis();
-            PluginMessages.SYNC.START.send(sender);
+            PluginMessages.SYNC.START.sendTo(sender);
             int synced = Main.getInstance().getVoteManager().sync();
             PluginMessages.SYNC.SUCCESS.prepare(synced, System.currentTimeMillis() - s1).to(sender);
         });

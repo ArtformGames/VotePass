@@ -44,7 +44,7 @@ public class CommentListener implements Listener {
 
         int max = PluginConfig.COMMENT.MAX.getNotNull();
         if (content.length() > PluginConfig.COMMENT.MAX.getNotNull()) {
-            PluginMessages.COMMENT.TOO_LONG.send(player, max);
+            PluginMessages.COMMENT.TOO_LONG.sendTo(player, max);
             startComment(player, vote); // Retry
             return;
         }

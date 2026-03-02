@@ -2,7 +2,6 @@ package com.artformgames.plugin.votepass.core.command;
 
 import cc.carm.lib.easyplugin.command.CommandHandler;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
-import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,7 +13,7 @@ public abstract class VotePassCommand extends CommandHandler {
         super(plugin);
     }
 
-    public Void onlyPlayer(CommandSender sender){
+    public Void onlyPlayer(CommandSender sender) {
         return sendMessage(sender, CommonMessages.ONLY_PLAYER);
     }
 
@@ -24,12 +23,7 @@ public abstract class VotePassCommand extends CommandHandler {
     }
 
     public Void sendMessage(CommandSender sender, ConfiguredMessage<?> message, Object... values) {
-        message.send(sender, values);
-        return null;
-    }
-
-    public Void sendMessage(CommandSender sender, ConfiguredMessageList<?> message, Object... values) {
-        message.send(sender, values);
+        message.sendTo(sender, values);
         return null;
     }
 
