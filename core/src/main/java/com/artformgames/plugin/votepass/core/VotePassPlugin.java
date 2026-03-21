@@ -1,9 +1,10 @@
 package com.artformgames.plugin.votepass.core;
 
 import cc.carm.lib.configuration.Configuration;
+import cc.carm.lib.configuration.source.ConfigurationHolder;
+import cc.carm.lib.configuration.source.yaml.YAMLConfigFactory;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
-import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import com.artformgames.plugin.votepass.core.conf.CommonConfig;
 import com.artformgames.plugin.votepass.core.conf.CommonMessages;
 import com.artformgames.plugin.votepass.core.user.AbstractUserManager;
@@ -11,9 +12,12 @@ import com.artformgames.plugin.votepass.core.utils.GHUpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+
 public abstract class VotePassPlugin extends EasyPlugin {
 
-    MineConfiguration configuration;
+    ConfigurationHolder<?> configHolder;
+    ConfigurationHolder<?> messageHolder;
 
     protected VotePassPlugin() {
         super(EasyPluginMessageProvider.EN_US);
@@ -23,9 +27,13 @@ public abstract class VotePassPlugin extends EasyPlugin {
 
     public void initializeConfigs(@NotNull Class<? extends Configuration> configRoot,
                                   @NotNull Class<? extends Configuration> messageRoot) {
-        this.configuration = new MineConfiguration(this, CommonConfig.class, CommonMessages.class);
-        this.configuration.initializeConfig(configRoot);
-        this.configuration.initializeMessage(messageRoot);
+        this.configHolder = YAMLConfigFactory.from(new File(getDataFolder(), "config.yml")).build();
+        this.configHolder.initialize(configRoot);
+        this.configHolder.initialize(CommonConfig.class);
+
+        this.messageHolder = YAMLConfigFactory.from(new File(getDataFolder(), "messages.yml")).build();
+        this.messageHolder.initialize(messageRoot);
+        this.messageHolder.initialize(CommonMessages.class);
     }
 
     public void loadMetrics() {
@@ -49,8 +57,14 @@ public abstract class VotePassPlugin extends EasyPlugin {
         return CommonConfig.DEBUG.getNotNull();
     }
 
-    public MineConfiguration getConfiguration() {
-        return configuration;
+    public void reload() throws Exception {
+        this.configHolder.reload();
+        this.messageHolder.reload();
+    }
+
+    public void save() throws Exception {
+        this.configHolder.save();
+        this.messageHolder.save();
     }
 
 }

@@ -21,7 +21,7 @@ public class ReloadCommand extends SubCommand<MainCommand> {
             CommonMessages.RELOAD.START.sendTo(sender);
             long s1 = System.currentTimeMillis();
 
-            Main.getInstance().getConfiguration().reload();
+            Main.getInstance().reload();
             Main.getInstance().getServersManager().reloadSettings();
 
             CommonMessages.RELOAD.SUCCESS.sendTo(sender, System.currentTimeMillis() - s1);

@@ -51,7 +51,7 @@ public class SettingsManager implements ServerSettingsManager {
         }
 
         try {
-            Main.getInstance().getConfiguration().save();
+            Main.getInstance().save();
         } catch (Exception ignored) {
         }
     }
