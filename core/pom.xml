@@ -40,6 +40,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.github.cryptomorin</groupId>
+            <artifactId>XSeries</artifactId>
+            <version>13.6.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>cc.carm.lib</groupId>
             <artifactId>configured-yaml</artifactId>
             <version>${deps.configured.version}</version>
